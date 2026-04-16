@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -6,8 +8,9 @@
 
 :root {
   /* ─── Fonts ─── */
-  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body:
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-sans: var(--font-body);
   --font-mono: ui-monospace, Consolas, monospace;
 
@@ -20,16 +23,16 @@
   --color-accent: #7c6aff;
 
   /* ─── Someday PM brand palette (green-first) ─── */
-  --brand-bg: #233D2B;
-  --brand-bg-deep: #1B231B;
-  --brand-surface: #E7DCC9;
-  --brand-surface-soft: #F3E7CF;
-  --brand-accent-yellow: #F2E79C;
-  --brand-accent-mustard: #D6A32A;
+  --brand-bg: #233d2b;
+  --brand-bg-deep: #1b231b;
+  --brand-surface: #e7dcc9;
+  --brand-surface-soft: #f3e7cf;
+  --brand-accent-yellow: #f2e79c;
+  --brand-accent-mustard: #d6a32a;
   --brand-dark: #202733;
-  --brand-text: #F3E7CF;
-  --brand-text-muted: #D7CFB8;
-  --brand-text-dark-muted: #5F5A4F;
+  --brand-text: #f3e7cf;
+  --brand-text-muted: #d7cfb8;
+  --brand-text-dark-muted: #5f5a4f;
   --brand-border: rgba(243, 231, 207, 0.12);
   --brand-border-light: rgba(243, 231, 207, 0.18);
 
@@ -57,4 +60,80 @@ a {
 button {
   font-family: inherit;
   cursor: pointer;
+}
+
+/* ─── Project card (dashboard grid) ─── */
+.project-card {
+  background: linear-gradient(180deg, #f4ead6 0%, #eee1ca 100%);
+  color: #202733;
+  border-radius: 26px;
+  padding: 18px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.18),
+    0 2px 0 rgba(255, 255, 255, 0.18) inset;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 38%);
+  pointer-events: none;
+}
+
+.project-card:hover {
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.24),
+    0 2px 0 rgba(255, 255, 255, 0.22) inset;
+  transform: translateY(-2px);
+}
+
+.card-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  background: rgba(214, 163, 42, 0.16);
+  color: #7b5a06;
+  padding: 6px 11px;
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #d6a32a;
+  flex-shrink: 0;
+}
+
+/* ─── Lower panels (dashboard) ─── */
+.lower-panel {
+  border-radius: 22px;
+  padding: 18px;
+  background: rgba(244, 234, 214, 0.06);
+  border: 1px solid rgba(244, 234, 214, 0.08);
+  color: var(--brand-text);
+}
+
+.mini-row {
+  background: rgba(244, 234, 214, 0.05);
+  border: 1px solid rgba(244, 234, 214, 0.06);
+  border-radius: 14px;
+  padding: 11px 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
 }

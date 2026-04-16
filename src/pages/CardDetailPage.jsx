@@ -177,8 +177,21 @@ export default function CardDetailPage() {
   }
 
   return (
-    <div style={{ padding: '48px 32px', maxWidth: '640px', margin: '0 auto' }}>
-      <Link to="/" style={backLinkStyle}>← Back</Link>
+    <div style={{ padding: '48px 32px' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', gap: 24 }}>
+        <aside style={{ width: 240, flexShrink: 0 }}>
+          <nav style={{ position: 'sticky', top: 24, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <a href="#overview" style={{ padding: '8px 10px', borderRadius: 8, textDecoration: 'none', color: 'var(--color-text)' }}>Overview</a>
+            <a href="#cards" style={{ padding: '8px 10px', borderRadius: 8, textDecoration: 'none', color: 'var(--color-text)' }}>Cards</a>
+            <a href="#todo" style={{ padding: '8px 10px', borderRadius: 8, textDecoration: 'none', color: 'var(--color-text)' }}>To-Do</a>
+            <a href="#brainstorm" style={{ padding: '8px 10px', borderRadius: 8, textDecoration: 'none', color: 'var(--color-text)' }}>Brainstorm</a>
+            <a href="#background" style={{ padding: '8px 10px', borderRadius: 8, textDecoration: 'none', color: 'var(--color-text)' }}>Background</a>
+            <a href="#files" style={{ padding: '8px 10px', borderRadius: 8, textDecoration: 'none', color: 'var(--color-text)' }}>Files</a>
+          </nav>
+        </aside>
+
+        <div style={{ flex: 1, maxWidth: '640px' }}>
+          <Link to="/" style={backLinkStyle}>← Back</Link>
 
       {/* Card header — view or edit mode */}
       {editMode ? (
@@ -311,7 +324,7 @@ export default function CardDetailPage() {
       )}
 
       {/* Divider */}
-      <hr style={{ border: 'none', borderTop: '1px solid var(--color-border)', marginBottom: '24px' }} />
+      <hr id="cards" style={{ border: 'none', borderTop: '1px solid var(--color-border)', marginBottom: '24px' }} />
 
       {/* Child cards section */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
@@ -483,7 +496,7 @@ export default function CardDetailPage() {
       )}
 
       {/* Attachments section */}
-      <hr style={{ border: 'none', borderTop: '1px solid var(--color-border)', margin: '32px 0 24px' }} />
+      <hr id="files" style={{ border: 'none', borderTop: '1px solid var(--color-border)', margin: '32px 0 24px' }} />
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
         <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Attachments</h2>
@@ -591,6 +604,30 @@ export default function CardDetailPage() {
         </div>
       )}
 
+      {/* Scaffold: To-Do section */}
+      <section id="todo" style={{ marginTop: '32px', marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px' }}>To‑Do</h3>
+        <div style={{ padding: '14px', border: '1px solid var(--color-border)', borderRadius: 8, background: 'var(--color-surface)' }}>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: 14 }}>Lightweight checklist — quick add coming soon.</p>
+        </div>
+      </section>
+
+      {/* Scaffold: Brainstorm section */}
+      <section id="brainstorm" style={{ marginTop: '32px', marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px' }}>Brainstorm</h3>
+        <div style={{ padding: '14px', border: '1px solid var(--color-border)', borderRadius: 8, background: 'var(--color-surface)' }}>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: 14 }}>Quick idea capture. Ideas can be scored 1–10 later.</p>
+        </div>
+      </section>
+
+      {/* Scaffold: Background section */}
+      <section id="background" style={{ marginTop: '32px', marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '15px', fontWeight: 600, marginBottom: '8px' }}>Background</h3>
+        <div style={{ padding: '14px', border: '1px solid var(--color-border)', borderRadius: 8, background: 'var(--color-surface)' }}>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: 14 }}>Project reference notes, links, and context (scaffold).</p>
+        </div>
+      </section>
+
       {/* Delete project */}
       <div style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid var(--color-border)' }}>
         <button
@@ -609,6 +646,8 @@ export default function CardDetailPage() {
         </button>
       </div>
     </div>
+  </div>
+</div>
   )
 }
 
