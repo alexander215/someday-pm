@@ -1,38 +1,33 @@
-import { createBrowserRouter } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import CardDetailPage from "../pages/CardDetailPage";
-import ChildCardDetailPage from "../pages/ChildCardDetailPage";
-import BetaPage from "../pages/BetaPage";
-import RequireAuth from "../features/auth/RequireAuth";
-import AppShell from "../components/AppShell";
+import { createBrowserRouter } from 'react-router-dom'
+import HomePage from '../pages/HomePage'
+import CardDetailPage from '../pages/CardDetailPage'
+import ChildCardDetailPage from '../pages/ChildCardDetailPage'
+import BetaPage from '../pages/BetaPage'
+import RequireAuth from '../features/auth/RequireAuth'
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <HomePage />,
   },
   {
-    path: "/beta",
+    path: '/beta',
     element: <BetaPage />,
   },
   {
-    path: "/card/:cardId",
+    path: '/card/:cardId',
     element: (
       <RequireAuth>
-        <AppShell>
-          <CardDetailPage />
-        </AppShell>
+        <CardDetailPage />
       </RequireAuth>
     ),
   },
   {
-    path: "/card/:cardId/item/:childCardId",
+    path: '/card/:cardId/item/:childCardId',
     element: (
       <RequireAuth>
-        <AppShell>
-          <ChildCardDetailPage />
-        </AppShell>
+        <ChildCardDetailPage />
       </RequireAuth>
     ),
   },
-]);
+])

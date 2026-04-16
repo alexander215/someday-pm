@@ -207,17 +207,18 @@ export default function CardDetailPage() {
   }
 
   return (
-    <div style={{ padding: "48px 32px" }}>
-      <div
-        style={{
-          maxWidth: "1100px",
-          margin: "0 auto",
-          display: "flex",
-          gap: 24,
-        }}
-      >
-        <aside style={{ width: 240, flexShrink: 0 }}>
-          <nav
+    <div style={{ padding: '48px 32px', maxWidth: '640px', margin: '0 auto' }}>
+      <Link to="/" style={backLinkStyle}>← Back</Link>
+
+      {/* Card header — view or edit mode */}
+      {editMode ? (
+        <div style={{ marginBottom: '24px' }}>
+          <input
+            autoFocus
+            type="text"
+            value={editTitle}
+            onChange={e => setEditTitle(e.target.value)}
+            placeholder="Project title"
             style={{
               position: "sticky",
               top: 24,
@@ -257,10 +258,126 @@ export default function CardDetailPage() {
                 color: "var(--color-text)",
               }}
             >
-              To-Do
-            </a>
-            <a
-              href="#brainstorm"
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <h1 style={{ fontSize: '24px', fontWeight: 600, letterSpacing: '-0.3px', marginRight: '16px' }}>
+              {card.title}
+            </h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginTop: '4px' }}>
+              <span
+                style={{
+                  fontSize: '11px',
+                  padding: '3px 10px',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '12px',
+                  color: 'var(--color-text-muted)',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {card.category}
+              </span>
+              <button
+                onClick={startEdit}
+                style={{
+                  background: 'none',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '6px',
+                  color: 'var(--color-text-muted)',
+                  fontSize: '12px',
+                  padding: '3px 10px',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '24px' }}>
+            {card.deliverable_due_date && (
+              <p style={{ fontSize: '13px', color: 'var(--color-text-muted)' }}>
+                Due: {card.deliverable_due_date}
+              </p>
+            )}
+            {card.notes && (
+              <p style={{ fontSize: '14px', color: 'var(--color-text-muted)', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                {card.notes}
+              </p>
+            )}
+          </div>
+        </>
+      )}
+
+      {error && (
+        <p style={{ color: '#f87171', fontSize: '13px', marginBottom: '16px' }}>{error}</p>
+      )}
+
+      {/* Divider */}
+      <hr style={{ border: 'none', borderTop: '1px solid var(--color-border)', marginBottom: '24px' }} />
+
+      {/* Child cards section */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Tasks</h2>
+        {!showCreate && (
+          <button
+            onClick={() => setShowCreate(true)}
+            style={{
+              padding: '5px 12px',
+              background: 'var(--color-accent)',
+              border: 'none',
+              borderRadius: '6px',
+              color: '#fff',
+              fontSize: '12px',
+              fontWeight: 500,
+              cursor: 'pointer',
+            }}
+          >
+            + Add task
+          </button>
+        )}
+      </div>
+
+      {/* Inline create child form */}
+      {showCreate && (
+        <form
+          onSubmit={handleCreateChild}
+          style={{
+            marginBottom: '16px',
+            padding: '14px',
+            border: '1px solid var(--color-border)',
+            borderRadius: '8px',
+            background: 'var(--color-surface)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+          }}
+        >
+          <input
+            autoFocus
+            type="text"
+            placeholder="Task title"
+            value={newTitle}
+            onChange={e => setNewTitle(e.target.value)}
+            style={inputStyle}
+          />
+          <select
+            value={newCategory}
+            onChange={e => setNewCategory(e.target.value)}
+            style={inputStyle}
+          >
+            {CHILD_CATEGORIES.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              type="submit"
+              disabled={creating || !newTitle.trim()}
               style={{
                 padding: "8px 10px",
                 borderRadius: 8,
@@ -393,118 +510,36 @@ export default function CardDetailPage() {
                 </button>
               </div>
             </div>
-          ) : (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
-                  marginBottom: "8px",
-                }}
-              >
-                <h1
-                  style={{
-                    fontSize: "24px",
-                    fontWeight: 600,
-                    letterSpacing: "-0.3px",
-                    marginRight: "16px",
-                  }}
-                >
-                  {card.title}
-                </h1>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    flexShrink: 0,
-                    marginTop: "4px",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      padding: "3px 10px",
-                      border: "1px solid var(--color-border)",
-                      borderRadius: "12px",
-                      color: "var(--color-text-muted)",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {card.category}
-                  </span>
-                  <button
-                    onClick={startEdit}
-                    style={{
-                      background: "none",
-                      border: "1px solid var(--color-border)",
-                      borderRadius: "6px",
-                      color: "var(--color-text-muted)",
-                      fontSize: "12px",
-                      padding: "3px 10px",
-                      cursor: "pointer",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Edit
-                  </button>
-                </div>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "4px",
-                  marginBottom: "24px",
-                }}
-              >
-                {card.deliverable_due_date && (
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      color: "var(--color-text-muted)",
-                    }}
-                  >
-                    Due: {card.deliverable_due_date}
-                  </p>
-                )}
-                {card.notes && (
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      color: "var(--color-text-muted)",
-                      lineHeight: 1.6,
-                      whiteSpace: "pre-wrap",
-                    }}
-                  >
-                    {card.notes}
-                  </p>
-                )}
-              </div>
-            </>
-          )}
+          ))}
+        </div>
+      )}
 
-          {error && (
-            <p
-              style={{
-                color: "#f87171",
-                fontSize: "13px",
-                marginBottom: "16px",
-              }}
-            >
-              {error}
-            </p>
-          )}
+      {/* Attachments section */}
+      <hr style={{ border: 'none', borderTop: '1px solid var(--color-border)', margin: '32px 0 24px' }} />
 
-          {/* Divider */}
-          <hr
-            id="cards"
-            style={{
-              border: "none",
-              borderTop: "1px solid var(--color-border)",
-              marginBottom: "24px",
-            }}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+        <h2 style={{ fontSize: '15px', fontWeight: 600 }}>Attachments</h2>
+        <label
+          style={{
+            padding: '5px 12px',
+            background: uploading ? 'transparent' : 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+            borderRadius: '6px',
+            color: uploading ? 'var(--color-text-muted)' : 'var(--color-text)',
+            fontSize: '12px',
+            fontWeight: 500,
+            cursor: uploading ? 'not-allowed' : 'pointer',
+          }}
+        >
+          {uploading ? 'Uploading…' : '+ Attach files'}
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept={ACCEPT_ATTR}
+            onChange={handleUpload}
+            disabled={uploading}
+            style={{ display: 'none' }}
           />
 
           {/* Child cards section */}
@@ -699,254 +734,25 @@ export default function CardDetailPage() {
             </div>
           )}
 
-          {/* Attachments section */}
-          <hr
-            id="files"
-            style={{
-              border: "none",
-              borderTop: "1px solid var(--color-border)",
-              margin: "32px 0 24px",
-            }}
-          />
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "16px",
-            }}
-          >
-            <h2 style={{ fontSize: "15px", fontWeight: 600 }}>Attachments</h2>
-            <label
-              style={{
-                padding: "5px 12px",
-                background: uploading ? "transparent" : "var(--color-surface)",
-                border: "1px solid var(--color-border)",
-                borderRadius: "6px",
-                color: uploading
-                  ? "var(--color-text-muted)"
-                  : "var(--color-text)",
-                fontSize: "12px",
-                fontWeight: 500,
-                cursor: uploading ? "not-allowed" : "pointer",
-              }}
-            >
-              {uploading ? "Uploading…" : "+ Attach files"}
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept={ACCEPT_ATTR}
-                onChange={handleUpload}
-                disabled={uploading}
-                style={{ display: "none" }}
-              />
-            </label>
-          </div>
-
-          {fileError && (
-            <p
-              style={{
-                color: "#f87171",
-                fontSize: "13px",
-                marginBottom: "12px",
-              }}
-            >
-              {fileError}
-            </p>
-          )}
-
-          {files.length === 0 ? (
-            <div
-              style={{
-                padding: "24px",
-                border: "1px dashed var(--color-border)",
-                borderRadius: "8px",
-                color: "var(--color-text-muted)",
-                fontSize: "14px",
-                textAlign: "center",
-              }}
-            >
-              No attachments yet.
-            </div>
-          ) : (
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "6px" }}
-            >
-              {files.map((file) => (
-                <div
-                  key={file.id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "10px 14px",
-                    border: "1px solid var(--color-border)",
-                    borderRadius: "8px",
-                    background: "var(--color-surface)",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "2px",
-                      minWidth: 0,
-                    }}
-                  >
-                    <button
-                      onClick={() =>
-                        handleDownload(file.storage_path, file.file_name)
-                      }
-                      style={{
-                        background: "none",
-                        border: "none",
-                        padding: 0,
-                        textAlign: "left",
-                        cursor: "pointer",
-                        color: "var(--color-accent)",
-                        fontSize: "13px",
-                        fontWeight: 500,
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        maxWidth: "380px",
-                      }}
-                      title={file.file_name}
-                    >
-                      {file.file_name}
-                    </button>
-                    <span
-                      style={{
-                        fontSize: "11px",
-                        color: "var(--color-text-muted)",
-                      }}
-                    >
-                      {formatBytes(file.file_size)}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => handleDeleteFile(file.id)}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "var(--color-text-muted)",
-                      cursor: "pointer",
-                      fontSize: "16px",
-                      lineHeight: 1,
-                      padding: "0 2px",
-                      flexShrink: 0,
-                      marginLeft: "12px",
-                    }}
-                    title="Remove attachment"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Scaffold: To-Do section */}
-          <section
-            id="todo"
-            style={{ marginTop: "32px", marginBottom: "24px" }}
-          >
-            <h3
-              style={{ fontSize: "15px", fontWeight: 600, marginBottom: "8px" }}
-            >
-              To‑Do
-            </h3>
-            <div
-              style={{
-                padding: "14px",
-                border: "1px solid var(--color-border)",
-                borderRadius: 8,
-                background: "var(--color-surface)",
-              }}
-            >
-              <p style={{ color: "var(--color-text-muted)", fontSize: 14 }}>
-                Lightweight checklist — quick add coming soon.
-              </p>
-            </div>
-          </section>
-
-          {/* Scaffold: Brainstorm section */}
-          <section
-            id="brainstorm"
-            style={{ marginTop: "32px", marginBottom: "24px" }}
-          >
-            <h3
-              style={{ fontSize: "15px", fontWeight: 600, marginBottom: "8px" }}
-            >
-              Brainstorm
-            </h3>
-            <div
-              style={{
-                padding: "14px",
-                border: "1px solid var(--color-border)",
-                borderRadius: 8,
-                background: "var(--color-surface)",
-              }}
-            >
-              <p style={{ color: "var(--color-text-muted)", fontSize: 14 }}>
-                Quick idea capture. Ideas can be scored 1–10 later.
-              </p>
-            </div>
-          </section>
-
-          {/* Scaffold: Background section */}
-          <section
-            id="background"
-            style={{ marginTop: "32px", marginBottom: "24px" }}
-          >
-            <h3
-              style={{ fontSize: "15px", fontWeight: 600, marginBottom: "8px" }}
-            >
-              Background
-            </h3>
-            <div
-              style={{
-                padding: "14px",
-                border: "1px solid var(--color-border)",
-                borderRadius: 8,
-                background: "var(--color-surface)",
-              }}
-            >
-              <p style={{ color: "var(--color-text-muted)", fontSize: 14 }}>
-                Project reference notes, links, and context (scaffold).
-              </p>
-            </div>
-          </section>
-
-          {/* Delete project */}
-          <div
-            style={{
-              marginTop: "48px",
-              paddingTop: "24px",
-              borderTop: "1px solid var(--color-border)",
-            }}
-          >
-            <button
-              onClick={handleDeleteCard}
-              style={{
-                padding: "6px 14px",
-                background: "transparent",
-                border: "1px solid var(--color-border)",
-                borderRadius: "6px",
-                color: "var(--color-text-muted)",
-                fontSize: "13px",
-                cursor: "pointer",
-              }}
-            >
-              Delete Project
-            </button>
-          </div>
-        </div>
+      {/* Delete project */}
+      <div style={{ marginTop: '48px', paddingTop: '24px', borderTop: '1px solid var(--color-border)' }}>
+        <button
+          onClick={handleDeleteCard}
+          style={{
+            padding: '6px 14px',
+            background: 'transparent',
+            border: '1px solid var(--color-border)',
+            borderRadius: '6px',
+            color: 'var(--color-text-muted)',
+            fontSize: '13px',
+            cursor: 'pointer',
+          }}
+        >
+          Delete project
+        </button>
       </div>
     </div>
-  );
+  )
 }
 
 const backLinkStyle = {
