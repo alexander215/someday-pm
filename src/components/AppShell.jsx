@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import ProfileModal from "./ProfileModal";
+import HowToUseModal from "./HowToUseModal";
 import useAuth from "../features/auth/useAuth";
 
 // CSS variable overrides scoped to the logged-in shell.
@@ -20,6 +21,7 @@ const shellVars = {
 export default function AppShell({ children }) {
   const { user, signOut } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
+  const [showHowToUse, setShowHowToUse] = useState(false);
 
   return (
     <div
@@ -77,6 +79,23 @@ export default function AppShell({ children }) {
 
           {/* Right side — search, actions, avatar */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <button
+              onClick={() => setShowHowToUse(true)}
+              title="How to use SomedayPM"
+              style={{
+                padding: "6px 12px",
+                borderRadius: 7,
+                background: "transparent",
+                border: "1px solid var(--brand-border-light)",
+                color: "var(--brand-text-muted)",
+                fontSize: 12,
+                fontWeight: 500,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              ? How to use
+            </button>
             <input
               placeholder="Search projects"
               style={{
@@ -159,6 +178,10 @@ export default function AppShell({ children }) {
           onClose={() => setShowProfile(false)}
           onSignOut={signOut}
         />
+      )}
+
+      {showHowToUse && (
+        <HowToUseModal onClose={() => setShowHowToUse(false)} />
       )}
     </div>
   );

@@ -954,6 +954,143 @@ const btnGhost = {
   textDecoration: "none",
 };
 
+function FirstRunGuide({ onCreateProject }) {
+  const steps = [
+    {
+      n: "1",
+      title: "Create your first project",
+      body: "Give it a name and a type. That's all it takes to get started.",
+      done: false,
+    },
+    {
+      n: "2",
+      title: "Add to-dos and tasks",
+      body: "Break the project into steps. Check things off as you go.",
+      done: false,
+    },
+    {
+      n: "3",
+      title: "Attach notes and files",
+      body: "Keep everything in one place — context, links, and references.",
+      done: false,
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        border: "1.5px dashed rgba(243,231,207,0.18)",
+        borderRadius: "16px",
+        padding: "36px 32px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "28px",
+      }}
+    >
+      <div>
+        <p
+          style={{
+            fontSize: "13px",
+            fontWeight: 600,
+            letterSpacing: "0.6px",
+            textTransform: "uppercase",
+            color: "var(--brand-accent-yellow)",
+            marginBottom: "10px",
+          }}
+        >
+          Getting started
+        </p>
+        <h3
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(1.4rem, 3vw, 2rem)",
+            letterSpacing: "-0.04em",
+            lineHeight: 1.05,
+            color: "var(--brand-text)",
+            margin: 0,
+          }}
+        >
+          Your first project
+          <br />
+          is one click away.
+        </h3>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+        {steps.map(({ n, title, body }) => (
+          <div
+            key={n}
+            style={{
+              display: "flex",
+              gap: "16px",
+              alignItems: "flex-start",
+            }}
+          >
+            <div
+              style={{
+                width: "26px",
+                height: "26px",
+                borderRadius: "50%",
+                border: "1.5px solid rgba(242,231,156,0.4)",
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "11px",
+                fontWeight: 700,
+                color: "var(--brand-accent-yellow)",
+                marginTop: "1px",
+              }}
+            >
+              {n}
+            </div>
+            <div>
+              <p
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "var(--brand-text)",
+                  margin: "0 0 3px",
+                }}
+              >
+                {title}
+              </p>
+              <p
+                style={{
+                  fontSize: "13px",
+                  color: "rgba(243,231,207,0.6)",
+                  margin: 0,
+                  lineHeight: 1.6,
+                }}
+              >
+                {body}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div>
+        <button
+          onClick={onCreateProject}
+          style={{
+            padding: "10px 22px",
+            background: "var(--brand-accent-yellow)",
+            border: "none",
+            borderRadius: "10px",
+            color: "var(--brand-dark)",
+            fontSize: "14px",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          + Create your first project
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Dashboard({ user }) {
   const [cards, setCards] = useState([]);
   const [cardsLoading, setCardsLoading] = useState(true);
@@ -1152,23 +1289,7 @@ function Dashboard({ user }) {
           Loading projects…
         </p>
       ) : cards.length === 0 ? (
-        <div
-          style={{
-            padding: "48px 24px",
-            border: "1.5px dashed rgba(243,231,207,0.18)",
-            borderRadius: "12px",
-            color: "var(--brand-text-muted)",
-            fontSize: "14px",
-            textAlign: "center",
-            lineHeight: 1.7,
-          }}
-        >
-          No projects yet.
-          <br />
-          <span style={{ fontSize: "13px", opacity: 0.6 }}>
-            Use the button above to create your first one.
-          </span>
-        </div>
+        <FirstRunGuide onCreateProject={() => setShowCreate(true)} />
       ) : (
         <div
           style={{
