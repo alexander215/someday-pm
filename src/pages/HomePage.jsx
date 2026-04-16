@@ -40,7 +40,7 @@ function MarketingPage({ signInWithGoogle }) {
         padding: '20px 40px',
         borderBottom: '1px solid var(--brand-border-light)',
         position: 'sticky', top: 0, zIndex: 10,
-        background: 'rgba(111, 123, 87, 0.94)',
+        background: 'rgba(35, 61, 43, 0.94)',
         backdropFilter: 'blur(10px)',
       }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '20px', color: 'var(--brand-surface)', letterSpacing: '-0.2px' }}>
@@ -104,7 +104,7 @@ function MarketingPage({ signInWithGoogle }) {
               <div key={label} style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', borderLeft: '2px solid var(--brand-accent-yellow)', paddingLeft: '20px' }}>
                 <div>
                   <p style={{ fontSize: '16px', fontWeight: 600, color: 'var(--brand-text-muted)', marginBottom: '6px' }}>{label}</p>
-                  <p style={{ fontSize: '15px', lineHeight: 1.75, color: 'rgba(216, 221, 204, 0.65)' }}>{text}</p>
+                  <p style={{ fontSize: '15px', lineHeight: 1.75, color: 'rgba(243, 231, 207, 0.75)' }}>{text}</p>
                 </div>
               </div>
             ))}
@@ -117,7 +117,7 @@ function MarketingPage({ signInWithGoogle }) {
 
       {/* ── Promise / What's different ── */}
       <section style={{ background: 'var(--brand-surface)', padding: '80px 40px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'clamp(24px, 4vw, 38px)', marginBottom: '16px', color: 'var(--brand-dark)' }}>
             All the good parts of PM,<br />none of the stress
           </h2>
@@ -142,7 +142,7 @@ function MarketingPage({ signInWithGoogle }) {
                 body: 'Whether you have 20 minutes or a full Sunday, pick up right where you left off. Someday PM waits for you.',
               },
             ].map(({ accent, label, body }) => (
-              <div key={label} style={{ background: 'var(--brand-surface-soft)', border: '1px solid rgba(35,38,31,0.1)', borderRadius: '12px', padding: '28px 24px' }}>
+              <div key={label} style={{ background: 'var(--brand-surface-soft)', border: '1px solid var(--brand-border-light)', borderRadius: '12px', padding: '28px 24px' }}>
                 <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: accent, marginBottom: '18px' }} />
                 <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '10px', color: 'var(--brand-dark)' }}>{label}</h3>
                 <p style={{ fontSize: '14px', color: 'var(--brand-text-dark-muted)', lineHeight: 1.75 }}>{body}</p>
@@ -177,7 +177,7 @@ function MarketingPage({ signInWithGoogle }) {
               },
             ].map(({ n, title, body }) => (
               <div key={n} style={{ display: 'flex', gap: '28px', alignItems: 'flex-start' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: '24px', fontWeight: 700, color: 'var(--brand-accent-yellow)', flexShrink: 0, lineHeight: 1.1, minWidth: '44px', opacity: 0.9 }}>{n}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '24px', fontWeight: 700, color: 'var(--brand-accent-yellow)', flexShrink: 0, lineHeight: 1.1, minWidth: '44px', opacity: 0.95 }}>{n}</span>
                 <div style={{ borderTop: '1px solid var(--brand-border-light)', paddingTop: '4px', flex: 1 }}>
                   <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '8px', color: 'var(--brand-surface-soft)' }}>{title}</h3>
                   <p style={{ fontSize: '14px', color: 'var(--brand-text-muted)', lineHeight: 1.8 }}>{body}</p>
@@ -244,17 +244,17 @@ function MockupProjectList() {
   const projects = ['Brand Redesign', 'Podcast Side Hustle', 'Travel Blog', 'iOS App']
   const categories = ['Design', 'Content', 'Writing', 'Dev']
   return (
-    <div style={{ background: 'var(--brand-surface-soft)', border: '1px solid rgba(35,38,31,0.1)', borderRadius: '16px', padding: '22px', boxShadow: '0 12px 40px rgba(35,38,31,0.15)', width: '100%', maxWidth: '320px' }}>
+    <div style={{ background: 'var(--brand-surface-soft)', border: '1px solid var(--brand-border-light)', borderRadius: '16px', padding: '22px', boxShadow: '0 12px 40px rgba(32,39,51,0.15)', width: '100%', maxWidth: '320px' }}>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--brand-dark)', marginBottom: '16px', letterSpacing: '-0.2px' }}>My Projects</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {projects.map((p, i) => (
-          <div key={p} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--brand-surface)', borderRadius: '8px', border: '1px solid rgba(35,38,31,0.08)' }}>
+          <div key={p} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--brand-surface)', borderRadius: '8px', border: '1px solid var(--brand-border-light)' }}>
             <span style={{ fontSize: '13px', fontWeight: 500, color: 'var(--brand-dark)' }}>{p}</span>
-            <span style={{ fontSize: '10px', padding: '2px 8px', background: i === 0 ? 'var(--brand-accent-yellow)' : 'transparent', border: '1px solid rgba(35,38,31,0.12)', borderRadius: '99px', color: 'var(--brand-text-dark-muted)', whiteSpace: 'nowrap' }}>{categories[i]}</span>
+            <span style={{ fontSize: '10px', padding: '2px 8px', background: i === 0 ? 'var(--brand-accent-yellow)' : 'transparent', border: '1px solid var(--brand-border-light)', borderRadius: '99px', color: 'var(--brand-text-dark-muted)', whiteSpace: 'nowrap' }}>{categories[i]}</span>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: '10px', padding: '8px 12px', borderRadius: '8px', border: '1.5px dashed rgba(35,38,31,0.2)', color: 'var(--brand-text-dark-muted)', fontSize: '12px', textAlign: 'center' }}>
+      <div style={{ marginTop: '10px', padding: '8px 12px', borderRadius: '8px', border: '1.5px dashed var(--brand-border-light)', color: 'var(--brand-text-dark-muted)', fontSize: '12px', textAlign: 'center' }}>
         + New project
       </div>
     </div>
@@ -263,17 +263,17 @@ function MockupProjectList() {
 
 function MockupCardDetail() {
   return (
-    <div style={{ background: 'var(--brand-surface-soft)', border: '1px solid rgba(35,38,31,0.1)', borderRadius: '16px', padding: '22px', boxShadow: '0 12px 40px rgba(35,38,31,0.12)', width: '100%', maxWidth: '320px' }}>
+    <div style={{ background: 'var(--brand-surface-soft)', border: '1px solid var(--brand-border-light)', borderRadius: '16px', padding: '22px', boxShadow: '0 12px 40px rgba(32,39,51,0.12)', width: '100%', maxWidth: '320px' }}>
       <div style={{ fontSize: '11px', color: 'var(--brand-bg)', marginBottom: '12px', fontWeight: 500 }}>← My Projects</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--brand-dark)', marginBottom: '6px', borderBottom: '1px solid rgba(35,38,31,0.1)', paddingBottom: '10px' }}>Brand Redesign</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--brand-dark)', marginBottom: '6px', borderBottom: '1px solid var(--brand-border-light)', paddingBottom: '10px' }}>Brand Redesign</div>
       <div style={{ display: 'flex', gap: '8px', marginTop: '10px', marginBottom: '16px' }}>
         <span style={{ fontSize: '11px', padding: '3px 10px', background: 'var(--brand-accent-yellow)', borderRadius: '99px', color: 'var(--brand-dark)', fontWeight: 600 }}>Design</span>
-        <span style={{ fontSize: '11px', padding: '3px 10px', background: 'rgba(111,123,87,0.14)', borderRadius: '99px', color: 'var(--brand-bg)', fontWeight: 600 }}>In progress</span>
+        <span style={{ fontSize: '11px', padding: '3px 10px', background: 'rgba(35,61,43,0.14)', borderRadius: '99px', color: 'var(--brand-bg)', fontWeight: 600 }}>In progress</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {['Mood board', 'Color palette', 'Logo concepts', 'Type system'].map((t, i) => (
-          <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 10px', border: '1px solid rgba(35,38,31,0.08)', borderRadius: '7px', background: 'var(--brand-surface)' }}>
-            <div style={{ width: '12px', height: '12px', borderRadius: '3px', border: '1.5px solid', borderColor: i < 2 ? 'var(--brand-bg)' : 'rgba(35,38,31,0.2)', background: i < 2 ? 'var(--brand-bg)' : 'transparent', flexShrink: 0 }} />
+          <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 10px', border: '1px solid var(--brand-border-light)', borderRadius: '7px', background: 'var(--brand-surface)' }}>
+            <div style={{ width: '12px', height: '12px', borderRadius: '3px', border: '1.5px solid', borderColor: i < 2 ? 'var(--brand-bg)' : 'var(--brand-border-light)', background: i < 2 ? 'var(--brand-bg)' : 'transparent', flexShrink: 0 }} />
             <span style={{ fontSize: '12px', color: i < 2 ? 'var(--brand-text-dark-muted)' : 'var(--brand-dark)', textDecoration: i < 2 ? 'line-through' : 'none' }}>{t}</span>
           </div>
         ))}
@@ -284,20 +284,20 @@ function MockupCardDetail() {
 
 function MockupChildCard() {
   return (
-    <div style={{ background: 'var(--brand-surface-soft)', border: '1px solid rgba(35,38,31,0.1)', borderRadius: '16px', padding: '22px', boxShadow: '0 12px 40px rgba(35,38,31,0.12)', width: '100%', maxWidth: '320px' }}>
+    <div style={{ background: 'var(--brand-surface-soft)', border: '1px solid var(--brand-border-light)', borderRadius: '16px', padding: '22px', boxShadow: '0 12px 40px rgba(32,39,51,0.12)', width: '100%', maxWidth: '320px' }}>
       <div style={{ fontSize: '11px', color: 'var(--brand-bg)', marginBottom: '12px', fontWeight: 500 }}>← Brand Redesign</div>
       <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--brand-dark)', borderBottom: '1px solid rgba(35,38,31,0.1)', paddingBottom: '10px', marginBottom: '14px' }}>Color palette</div>
       <div style={{ fontSize: '12px', color: 'var(--brand-text-dark-muted)', lineHeight: 1.75, marginBottom: '14px', background: 'var(--brand-surface)', padding: '10px 12px', borderRadius: '8px' }}>
         Muted green and warm cream for the base. Yellow accent for moments that matter. Calm but not boring.
       </div>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-        {['#6F7B57', '#F4F1E6', '#D9D97A', '#566347'].map(c => (
-          <div key={c} style={{ width: '26px', height: '26px', borderRadius: '50%', background: c, border: '1.5px solid rgba(35,38,31,0.12)' }} title={c} />
+        {['#233D2B', '#E7DCC9', '#F2E79C', '#D6A32A'].map(c => (
+          <div key={c} style={{ width: '26px', height: '26px', borderRadius: '50%', background: c, border: '1.5px solid var(--brand-border-light)' }} title={c} />
         ))}
       </div>
       <div style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
         <div style={{ flex: 1, padding: '7px 10px', background: 'var(--brand-accent-yellow)', borderRadius: '7px', fontSize: '12px', fontWeight: 600, color: 'var(--brand-dark)', textAlign: 'center' }}>Save</div>
-        <div style={{ padding: '7px 10px', background: 'transparent', border: '1px solid rgba(35,38,31,0.12)', borderRadius: '7px', fontSize: '12px', color: 'var(--brand-text-dark-muted)', textAlign: 'center' }}>Delete</div>
+        <div style={{ padding: '7px 10px', background: 'transparent', border: '1px solid var(--brand-border-light)', borderRadius: '7px', fontSize: '12px', color: 'var(--brand-text-dark-muted)', textAlign: 'center' }}>Delete</div>
       </div>
     </div>
   )

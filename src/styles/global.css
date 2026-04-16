@@ -20,18 +20,18 @@
   --color-accent: #7c6aff;
 
   /* ─── Someday PM brand palette (green-first) ─── */
-  --brand-bg: #6F7B57;
-  --brand-bg-deep: #566347;
-  --brand-surface: #F4F1E6;
-  --brand-surface-soft: #FBF8F0;
-  --brand-accent-yellow: #D9D97A;
-  --brand-dark: #23261F;
-  --brand-text: #F4F1E6;
-  --brand-text-muted: #D8DDCC;
-  --brand-text-dark: #23261F;
-  --brand-text-dark-muted: #5E6656;
-  --brand-border: rgba(35, 38, 31, 0.14);
-  --brand-border-light: rgba(244, 241, 230, 0.2);
+  --brand-bg: #233D2B;
+  --brand-bg-deep: #1B231B;
+  --brand-surface: #E7DCC9;
+  --brand-surface-soft: #F3E7CF;
+  --brand-accent-yellow: #F2E79C;
+  --brand-accent-mustard: #D6A32A;
+  --brand-dark: #202733;
+  --brand-text: #F3E7CF;
+  --brand-text-muted: #D7CFB8;
+  --brand-text-dark-muted: #5F5A4F;
+  --brand-border: rgba(243, 231, 207, 0.12);
+  --brand-border-light: rgba(243, 231, 207, 0.18);
 
   font-family: var(--font-body);
   font-size: 16px;
