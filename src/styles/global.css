@@ -5,9 +5,13 @@
 }
 
 :root {
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* ─── Fonts ─── */
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: var(--font-body);
   --font-mono: ui-monospace, Consolas, monospace;
 
+  /* ─── Dashboard (dark) palette — unchanged ─── */
   --color-bg: #0f0f0f;
   --color-surface: #1a1a1a;
   --color-border: #2a2a2a;
@@ -15,7 +19,21 @@
   --color-text-muted: #888;
   --color-accent: #7c6aff;
 
-  font-family: var(--font-sans);
+  /* ─── Someday PM brand palette (green-first) ─── */
+  --brand-bg: #6F7B57;
+  --brand-bg-deep: #566347;
+  --brand-surface: #F4F1E6;
+  --brand-surface-soft: #FBF8F0;
+  --brand-accent-yellow: #D9D97A;
+  --brand-dark: #23261F;
+  --brand-text: #F4F1E6;
+  --brand-text-muted: #D8DDCC;
+  --brand-text-dark: #23261F;
+  --brand-text-dark-muted: #5E6656;
+  --brand-border: rgba(35, 38, 31, 0.14);
+  --brand-border-light: rgba(244, 241, 230, 0.2);
+
+  font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-text);
