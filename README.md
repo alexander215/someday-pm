@@ -1,16 +1,68 @@
-# React + Vite
+# someday-pm
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+someday-pm is a hackathon MVP for a private side-project management app.
 
-Currently, two official plugins are available:
+The app is intended to help a user organize top-level side projects and one level of nested sub-cards, with private per-user access, Google auth, file uploads, and drag-to-reorder interactions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Planned stack
 
-## React Compiler
+- React
+- Vite
+- React Router
+- Supabase
+  - Auth
+  - Postgres
+  - Storage
+  - Row Level Security
+- Framer Motion / Motion
+- Vercel
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Core MVP goals
 
-## Expanding the ESLint configuration
+- Public landing page when logged out
+- Dashboard when logged in
+- Google auth
+- User-specific private cards only
+- Top-level project cards
+- Nested child cards, limited to one additional level
+- Drag-and-drop reorder
+- File uploads
+- Smooth motion and transitions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Local setup
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Create a local environment file
+
+```bash
+cp .env.example .env
+```
+
+3. Add your Supabase values to `.env`
+
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+```
+
+4. Run the development server
+
+```bash
+npm run dev
+```
+
+## Notes
+
+- `.env` should not be committed.
+- `.env.example` is the committed template.
+- This project uses Vite, so client-exposed environment variables must begin with `VITE_`.
+- Google auth, database schema, and storage configuration will be added during implementation.
+
+## Status
+
+Initial scaffold in progress.
