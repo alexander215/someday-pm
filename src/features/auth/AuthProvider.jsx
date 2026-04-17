@@ -27,9 +27,11 @@ export default function AuthProvider({ children }) {
   }, [])
 
   function signInWithGoogle() {
+    const siteUrl = import.meta.env.VITE_SITE_URL ?? window.location.origin
+    const redirectTo = siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`
     return supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin },
+      options: { redirectTo },
     })
   }
 
