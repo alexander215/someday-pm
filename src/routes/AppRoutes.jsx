@@ -4,6 +4,8 @@ import CardDetailPage from "../pages/CardDetailPage";
 import ChildCardDetailPage from "../pages/ChildCardDetailPage";
 import BetaPage from "../pages/BetaPage";
 import AdminPage from "../pages/AdminPage";
+import ProfileSettingsPage from "../pages/ProfileSettingsPage";
+import PublicProfilePage from "../pages/PublicProfilePage";
 import RequireAuth from "../features/auth/RequireAuth";
 import AppShell from "../components/AppShell";
 
@@ -15,6 +17,20 @@ export const router = createBrowserRouter([
   {
     path: "/beta",
     element: <BetaPage />,
+  },
+  {
+    path: "/u/:handle",
+    element: <PublicProfilePage />,
+  },
+  {
+    path: "/profile/settings",
+    element: (
+      <RequireAuth>
+        <AppShell>
+          <ProfileSettingsPage />
+        </AppShell>
+      </RequireAuth>
+    ),
   },
   {
     path: "/card/:cardId",

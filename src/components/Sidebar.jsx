@@ -10,7 +10,7 @@ export default function Sidebar({ onOpenProfile, isOpen = false, onClose }) {
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function navItemStyle(path) {
-    const active = path === "/" ? pathname === "/" : pathname.startsWith(path);
+    const active = path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(path + "/");
     return {
       display: "flex",
       alignItems: "center",
@@ -146,13 +146,10 @@ export default function Sidebar({ onOpenProfile, isOpen = false, onClose }) {
             Projects
           </Link>
 
-          <button
-            onClick={onOpenProfile}
-            style={navItemStyle("/profile")}
-          >
+          <Link to="/profile/settings" style={navItemStyle("/profile/settings")}>
             <NavIcon d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
             Profile
-          </button>
+          </Link>
         </nav>
 
         {/* ── Workspace badge ── */}

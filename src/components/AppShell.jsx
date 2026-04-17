@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import ProfileModal from "./ProfileModal";
 import HowToUseModal from "./HowToUseModal";
@@ -25,6 +25,8 @@ export default function AppShell({ children }) {
   const { user, signOut } = useAuth();
   const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const pageTitle = pathname.startsWith("/profile") ? "Profile" : "Projects";
   const [showProfile, setShowProfile] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -95,7 +97,7 @@ export default function AppShell({ children }) {
                 color: "var(--brand-text)",
               }}
             >
-              Projects
+              {pageTitle}
             </span>
           </div>
 
