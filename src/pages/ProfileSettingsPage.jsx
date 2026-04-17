@@ -12,16 +12,16 @@ import {
 const HANDLE_RE = /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/;
 
 function labelStyle() {
-  return { fontSize: 12, fontWeight: 600, color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6, display: "block" };
+  return { fontSize: 11, fontWeight: 700, color: "var(--brand-text-dark-muted)", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 6, display: "block" };
 }
 function inputStyle(extra = {}) {
   return {
     width: "100%",
     padding: "9px 12px",
     borderRadius: 8,
-    border: "1px solid var(--color-border)",
-    background: "rgba(243,231,207,0.06)",
-    color: "var(--color-text)",
+    border: "1px solid rgba(183,165,134,0.28)",
+    background: "var(--brand-surface)",
+    color: "var(--brand-dark)",
     fontSize: 14,
     outline: "none",
     boxSizing: "border-box",
@@ -76,16 +76,16 @@ function ProfileSection({ user, onSaved }) {
   }
 
   return (
-    <section style={{ background: "var(--color-surface)", borderRadius: 14, border: "1px solid var(--color-border)", padding: "24px 28px", display: "flex", flexDirection: "column", gap: 20 }}>
+    <section style={{ background: "var(--brand-surface-soft)", borderRadius: 14, border: "1px solid rgba(183,165,134,0.28)", padding: "24px 28px", display: "flex", flexDirection: "column", gap: 20, boxShadow: "0 4px 20px rgba(27,35,27,0.14)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "var(--color-text)", fontFamily: "var(--font-display)" }}>Public profile</h2>
-          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--color-text-muted)" }}>
-            Your profile page at <code style={{ background: "rgba(243,231,207,0.1)", padding: "1px 6px", borderRadius: 4, fontSize: 12 }}>/u/{form.handle || "your-handle"}</code>
+          <h2 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "var(--brand-dark)", fontFamily: "var(--font-display)" }}>Public profile</h2>
+          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--brand-text-dark-muted)" }}>
+            Your profile page at <code style={{ background: "rgba(24,24,15,0.07)", padding: "1px 6px", borderRadius: 4, fontSize: 12 }}>/u/{form.handle || "your-handle"}</code>
           </p>
         </div>
         <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", userSelect: "none" }}>
-          <span style={{ fontSize: 13, color: form.is_public ? "var(--color-accent)" : "var(--color-text-muted)", fontWeight: 600 }}>
+          <span style={{ fontSize: 13, color: form.is_public ? "var(--brand-bg)" : "var(--brand-text-dark-muted)", fontWeight: 600 }}>
             {form.is_public ? "Profile is public" : "Profile is private"}
           </span>
           <Toggle checked={form.is_public} onChange={(v) => setForm((f) => ({ ...f, is_public: v }))} />
@@ -94,7 +94,7 @@ function ProfileSection({ user, onSaved }) {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         <div style={fieldStyle()}>
-          <label style={labelStyle()}>Handle <span style={{ color: "var(--color-text-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>— your URL: /u/handle</span></label>
+          <label style={labelStyle()}>Handle <span style={{ color: "var(--brand-text-dark-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>— your URL: /u/handle</span></label>
           <input
             value={form.handle}
             onChange={(e) => setForm((f) => ({ ...f, handle: e.target.value.toLowerCase() }))}
@@ -109,7 +109,7 @@ function ProfileSection({ user, onSaved }) {
       </div>
 
       <div style={fieldStyle()}>
-        <label style={labelStyle()}>Bio <span style={{ color: "var(--color-text-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>{form.bio.length}/500</span></label>
+        <label style={labelStyle()}>Bio <span style={{ color: "var(--brand-text-dark-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>{form.bio.length}/500</span></label>
         <textarea
           value={form.bio}
           onChange={(e) => setForm((f) => ({ ...f, bio: e.target.value.slice(0, 500) }))}
@@ -120,7 +120,7 @@ function ProfileSection({ user, onSaved }) {
       </div>
 
       <div style={fieldStyle()}>
-        <label style={labelStyle()}>Contact info <span style={{ color: "var(--color-text-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>{form.contact_info.length}/200</span></label>
+        <label style={labelStyle()}>Contact info <span style={{ color: "var(--brand-text-dark-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>{form.contact_info.length}/200</span></label>
         <input
           value={form.contact_info}
           onChange={(e) => setForm((f) => ({ ...f, contact_info: e.target.value.slice(0, 200) }))}
@@ -138,7 +138,7 @@ function ProfileSection({ user, onSaved }) {
             href={`/u/${profile.handle}`}
             target="_blank"
             rel="noreferrer"
-            style={{ fontSize: 13, color: "var(--color-accent)", textDecoration: "none", padding: "8px 14px", border: "1px solid rgba(242,231,156,0.3)", borderRadius: 8 }}
+            style={{ fontSize: 13, color: "var(--brand-bg)", textDecoration: "none", padding: "8px 14px", border: "1px solid rgba(28,45,32,0.22)", borderRadius: 8 }}
           >
             View public profile ↗
           </a>
@@ -199,24 +199,24 @@ function CardMetaRow({ card, meta, userId, onSaved }) {
   }
 
   return (
-    <div style={{ border: "1px solid var(--color-border)", borderRadius: 12, overflow: "hidden" }}>
+    <div style={{ background: "var(--brand-surface-soft)", border: "1px solid rgba(183,165,134,0.28)", borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 12px rgba(27,35,27,0.10)" }}>
       {/* Card header row — always visible */}
       <div
-        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", cursor: "pointer", background: open ? "rgba(243,231,207,0.04)" : "transparent" }}
+        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 18px", cursor: "pointer", background: open ? "rgba(183,165,134,0.08)" : "transparent" }}
         onClick={() => setOpen((o) => !o)}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 16, color: open ? "var(--color-accent)" : "var(--color-text-muted)" }}>{open ? "▾" : "▸"}</span>
+          <span style={{ fontSize: 14, color: open ? "var(--brand-bg)" : "var(--brand-text-dark-muted)" }}>{open ? "▾" : "▸"}</span>
           <div>
-            <span style={{ fontSize: 14, fontWeight: 600, color: "var(--color-text)" }}>{card.title}</span>
-            <span style={{ marginLeft: 10, fontSize: 11, color: "var(--color-text-muted)", background: "rgba(243,231,207,0.08)", padding: "2px 8px", borderRadius: 99 }}>{card.category}</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: "var(--brand-dark)" }}>{card.title}</span>
+            <span style={{ marginLeft: 10, fontSize: 10, color: "var(--brand-text-dark-muted)", background: "rgba(24,24,15,0.06)", padding: "2px 8px", borderRadius: 99, fontWeight: 600, letterSpacing: "0.3px" }}>{card.category}</span>
           </div>
         </div>
         <label
           style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}
           onClick={(e) => e.stopPropagation()}
         >
-          <span style={{ fontSize: 12, color: form.is_public ? "var(--color-accent)" : "var(--color-text-muted)" }}>
+          <span style={{ fontSize: 12, color: form.is_public ? "var(--brand-bg)" : "var(--brand-text-dark-muted)" }}>
             {form.is_public ? "Public" : "Private"}
           </span>
           <Toggle checked={form.is_public} onChange={(v) => { setForm((f) => ({ ...f, is_public: v })); setOpen(true); }} />
@@ -225,7 +225,7 @@ function CardMetaRow({ card, meta, userId, onSaved }) {
 
       {/* Expanded form */}
       {open && (
-        <div style={{ padding: "0 18px 18px", borderTop: "1px solid var(--color-border)", display: "flex", flexDirection: "column", gap: 16, paddingTop: 18 }}>
+        <div style={{ padding: "0 18px 18px", borderTop: "1px solid rgba(183,165,134,0.18)", display: "flex", flexDirection: "column", gap: 16, paddingTop: 18 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             <div style={fieldStyle()}>
               <label style={labelStyle()}>Public title</label>
@@ -234,7 +234,7 @@ function CardMetaRow({ card, meta, userId, onSaved }) {
           </div>
 
           <div style={fieldStyle()}>
-            <label style={labelStyle()}>Public description <span style={{ color: "var(--color-text-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>{form.public_description.length}/500</span></label>
+            <label style={labelStyle()}>Public description <span style={{ color: "var(--brand-text-dark-muted)", fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>{form.public_description.length}/500</span></label>
             <textarea
               value={form.public_description}
               onChange={(e) => setForm((f) => ({ ...f, public_description: e.target.value.slice(0, 500) }))}
@@ -256,7 +256,7 @@ function CardMetaRow({ card, meta, userId, onSaved }) {
           <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", userSelect: "none" }}>
               <Toggle checked={form.looking_for_collaborators} onChange={(v) => setForm((f) => ({ ...f, looking_for_collaborators: v }))} />
-              <span style={{ fontSize: 13, color: "var(--color-text)" }}>Looking for collaborators</span>
+              <span style={{ fontSize: 13, color: "var(--brand-dark)" }}>Looking for collaborators</span>
             </label>
             {form.looking_for_collaborators && (
               <input

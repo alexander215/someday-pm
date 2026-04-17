@@ -1,33 +1,107 @@
 import { Link } from 'react-router-dom'
 
+const C = {
+  canvas:  '#f7f5f0',
+  forest:  '#1c2d20',
+  inset:   '#ede5d2',
+  ink:     '#18180f',
+  muted:   '#6b6454',
+  soft:    '#8a7e6e',
+  yellow:  '#f2e79c',
+}
+
 export default function BetaPage() {
   return (
-    <div style={{ background: 'var(--brand-bg)', color: 'var(--brand-text)', fontFamily: 'var(--font-body)', minHeight: '100vh' }}>
+    <div style={{
+      background: C.canvas,
+      color: C.ink,
+      fontFamily: 'var(--font-body)',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
 
-      {/* Nav */}
+      {/* Nav — dark forest glass, matching landing page */}
       <nav style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '20px 40px',
-        borderBottom: '1px solid var(--brand-border-light)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '18px 40px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10,
+        background: 'rgba(20,34,22,0.88)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <Link to="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '20px', color: 'var(--brand-surface)', textDecoration: 'none', letterSpacing: '-0.2px' }}>
+        <Link to="/" style={{
+          fontFamily: 'var(--font-display)',
+          fontWeight: 800,
+          fontSize: '18px',
+          color: '#f3e7cf',
+          textDecoration: 'none',
+          letterSpacing: '-0.3px',
+        }}>
           SomedayPM
+        </Link>
+        <Link to="/" style={{
+          display: 'inline-block',
+          padding: '7px 16px',
+          background: 'transparent',
+          color: 'rgba(243,231,207,0.75)',
+          fontFamily: 'var(--font-body)',
+          fontSize: '14px',
+          fontWeight: 500,
+          borderRadius: '8px',
+          border: '1px solid rgba(243,231,207,0.2)',
+          textDecoration: 'none',
+        }}>
+          ← Home
         </Link>
       </nav>
 
       {/* Content */}
-      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '72px 40px' }}>
-        <div style={{ background: 'var(--brand-surface-soft)', borderRadius: '20px', padding: '48px', border: '1px solid rgba(35,38,31,0.08)', boxShadow: '0 20px 60px rgba(35,38,31,0.14)' }}>
-          <div style={{ display: 'inline-block', background: 'var(--brand-accent-yellow)', color: 'var(--brand-dark)', fontSize: '11px', fontWeight: 600, padding: '4px 12px', borderRadius: '99px', marginBottom: '28px', letterSpacing: '0.7px', textTransform: 'uppercase' }}>
+      <div style={{ flex: 1, maxWidth: '680px', margin: '0 auto', padding: '72px 40px' }}>
+        <div style={{
+          background: C.inset,
+          borderRadius: '20px',
+          padding: '52px 48px',
+          border: '1px solid rgba(24,24,15,0.07)',
+          boxShadow: '0 8px 32px rgba(24,24,15,0.06)',
+        }}>
+          {/* Yellow pill */}
+          <div style={{
+            display: 'inline-block',
+            background: C.yellow,
+            color: C.forest,
+            fontSize: '11px',
+            fontWeight: 700,
+            padding: '4px 12px',
+            borderRadius: '99px',
+            marginBottom: '28px',
+            letterSpacing: '0.9px',
+            textTransform: 'uppercase',
+          }}>
             Private beta
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'clamp(26px, 4vw, 38px)', lineHeight: 1.15, marginBottom: '20px', color: 'var(--brand-dark)' }}>
+
+          <h1 style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+            fontSize: 'clamp(26px, 4vw, 38px)',
+            lineHeight: 1.1,
+            marginBottom: '20px',
+            color: C.ink,
+            letterSpacing: '-0.03em',
+          }}>
             Request beta access<br />to SomedayPM
           </h1>
-          <p style={{ fontSize: '16px', color: 'var(--brand-text-dark-muted)', lineHeight: 1.85, marginBottom: '16px' }}>
+
+          <p style={{ fontSize: '16px', color: C.muted, lineHeight: 1.85, marginBottom: '16px' }}>
             SomedayPM is currently in private beta — a small, focused group while we shape the experience around real side-project workflows.
           </p>
-          <p style={{ fontSize: '16px', color: 'var(--brand-text-dark-muted)', lineHeight: 1.85, marginBottom: '40px' }}>
+          <p style={{ fontSize: '16px', color: C.muted, lineHeight: 1.85, marginBottom: '40px' }}>
             If you'd like early access, send me a message on LinkedIn. Tell me a bit about how you manage your side projects today — what's working, what's frustrating, and what you're building.
           </p>
 
@@ -40,11 +114,11 @@ export default function BetaPage() {
               alignItems: 'center',
               gap: '10px',
               padding: '13px 26px',
-              background: 'var(--brand-accent-yellow)',
-              color: 'var(--brand-dark)',
+              background: C.yellow,
+              color: C.forest,
               fontFamily: 'var(--font-body)',
               fontSize: '15px',
-              fontWeight: 600,
+              fontWeight: 700,
               borderRadius: '10px',
               textDecoration: 'none',
               letterSpacing: '0.1px',
@@ -54,17 +128,42 @@ export default function BetaPage() {
             Message me on LinkedIn
           </a>
 
-          <p style={{ marginTop: '40px', fontSize: '14px', color: 'var(--brand-text-dark-muted)', lineHeight: 1.75, borderLeft: '2px solid var(--brand-bg)', paddingLeft: '16px' }}>
+          <p style={{
+            marginTop: '40px',
+            fontSize: '14px',
+            color: C.muted,
+            lineHeight: 1.75,
+            borderLeft: `2px solid ${C.forest}`,
+            paddingLeft: '16px',
+          }}>
             No forms. No waitlist email blasts. Just a real conversation about what would make this useful for you.
           </p>
-
-          <div style={{ marginTop: '40px' }}>
-            <Link to="/" style={{ fontSize: '14px', color: 'var(--brand-bg)', textDecoration: 'none', fontWeight: 500 }}>
-              ← Back to SomedayPM
-            </Link>
-          </div>
         </div>
       </div>
+
+      {/* Footer — matching landing page */}
+      <footer style={{
+        padding: '28px 40px',
+        borderTop: '1px solid rgba(24,24,15,0.07)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '12px',
+        background: C.canvas,
+      }}>
+        <span style={{
+          fontFamily: 'var(--font-display)',
+          fontWeight: 700,
+          color: C.forest,
+          fontSize: '15px',
+        }}>
+          SomedayPM
+        </span>
+        <span style={{ fontSize: '13px', color: C.soft }}>
+          Built for the ideas you'll get to someday.
+        </span>
+      </footer>
     </div>
   )
 }
