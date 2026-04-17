@@ -16,6 +16,7 @@ export default function AdminPage() {
   const [reports, setReports] = useState([])
   const [dataLoading, setDataLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [activeTab, setActiveTab] = useState('inbox') // 'inbox' | 'complete'
 
   // Redirect non-admins away — belt-and-suspenders on top of RLS.
   useEffect(() => {
@@ -37,16 +38,41 @@ export default function AdminPage() {
       .finally(() => setDataLoading(false))
   }, [isAdmin, adminLoading])
 
+  async function handleToggleComplete(report) {
+    const nowComplete = !report.is_complete
+    const patch = nowComplete
+      ? { is_complete: true, completed_at: new Date().toISOString() }
+      : { is_complete: false, completed_at: null }
+
+    const { error } = await supabase
+      .from('feedback_reports')
+      .update(patch)
+      .eq('id', report.id)
+
+    if (error) return // silently ignore — user will see no change
+
+    setReports((prev) =>
+      prev.map((r) => (r.id === report.id ? { ...r, ...patch } : r))
+    )
+  }
+
   if (adminLoading || (!isAdmin && adminLoading)) {
     return <PageShell><LoadingText>Checking access…</LoadingText></PageShell>
   }
 
   if (!isAdmin) return null // navigating away
 
+  const inbox    = reports.filter((r) => !r.is_complete)
+  const complete = reports
+    .filter((r) => r.is_complete)
+    .sort((a, b) => new Date(b.completed_at ?? b.created_at) - new Date(a.completed_at ?? a.created_at))
+
+  const activeList = activeTab === 'inbox' ? inbox : complete
+
   return (
     <PageShell>
       {/* Header */}
-      <div style={{ marginBottom: 28 }}>
+      <div style={{ marginBottom: 24 }}>
         <span
           style={{
             display: 'inline-block',
@@ -81,6 +107,51 @@ export default function AdminPage() {
         </p>
       </div>
 
+      {/* Tabs */}
+      <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
+        {['inbox', 'complete'].map((tab) => {
+          const count = tab === 'inbox' ? inbox.length : complete.length
+          const active = activeTab === tab
+          return (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              style={{
+                padding: '6px 14px',
+                borderRadius: 7,
+                border: active
+                  ? '1px solid rgba(242,231,156,0.4)'
+                  : '1px solid rgba(183,165,134,0.2)',
+                background: active ? 'rgba(242,231,156,0.1)' : 'transparent',
+                color: active ? 'var(--brand-text)' : 'rgba(244,234,214,.5)',
+                fontSize: 13,
+                fontWeight: active ? 600 : 400,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 7,
+              }}
+            >
+              {tab === 'inbox' ? 'Inbox' : 'Complete'}
+              <span
+                style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  background: active ? 'rgba(242,231,156,0.15)' : 'rgba(183,165,134,0.1)',
+                  color: active ? 'var(--brand-text)' : 'rgba(244,234,214,.4)',
+                  borderRadius: 99,
+                  padding: '1px 7px',
+                  minWidth: 20,
+                  textAlign: 'center',
+                }}
+              >
+                {count}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
       {/* Body */}
       {error && (
         <p style={{ color: '#b45309', fontSize: 14 }}>Failed to load: {error}</p>
@@ -90,16 +161,20 @@ export default function AdminPage() {
         <LoadingText>Loading feedback…</LoadingText>
       )}
 
-      {!dataLoading && !error && reports.length === 0 && (
+      {!dataLoading && !error && activeList.length === 0 && (
         <p style={{ color: 'rgba(244,234,214,.5)', fontSize: 14 }}>
-          No feedback yet.
+          {activeTab === 'inbox' ? 'No open feedback.' : 'Nothing completed yet.'}
         </p>
       )}
 
-      {!dataLoading && reports.length > 0 && (
+      {!dataLoading && activeList.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          {reports.map((r) => (
-            <FeedbackRow key={r.id} report={r} />
+          {activeList.map((r) => (
+            <FeedbackRow
+              key={r.id}
+              report={r}
+              onToggleComplete={() => handleToggleComplete(r)}
+            />
           ))}
         </div>
       )}
@@ -107,9 +182,10 @@ export default function AdminPage() {
   )
 }
 
-function FeedbackRow({ report }) {
+function FeedbackRow({ report, onToggleComplete }) {
   const [attachUrl, setAttachUrl] = useState(null)
   const [attachLoading, setAttachLoading] = useState(false)
+  const [toggling, setToggling] = useState(false)
 
   async function handleViewAttachment() {
     if (attachUrl) { window.open(attachUrl, '_blank'); return }
@@ -121,6 +197,12 @@ function FeedbackRow({ report }) {
     if (error || !data?.signedUrl) return
     setAttachUrl(data.signedUrl)
     window.open(data.signedUrl, '_blank')
+  }
+
+  async function handleCheck() {
+    setToggling(true)
+    await onToggleComplete()
+    setToggling(false)
   }
 
   const typeStyle = TYPE_COLORS[report.type] ?? TYPE_COLORS.Question
@@ -137,82 +219,120 @@ function FeedbackRow({ report }) {
         borderRadius: 12,
         padding: '18px 20px',
         display: 'flex',
-        flexDirection: 'column',
-        gap: 10,
+        gap: 14,
+        opacity: report.is_complete ? 0.65 : 1,
+        transition: 'opacity 0.15s',
       }}
     >
-      {/* Top row: type badge + date */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-        <span
+      {/* Checkbox */}
+      <div style={{ paddingTop: 2, flexShrink: 0 }}>
+        <button
+          onClick={handleCheck}
+          disabled={toggling}
+          title={report.is_complete ? 'Move back to Inbox' : 'Mark complete'}
           style={{
-            display: 'inline-block',
-            padding: '3px 10px',
-            borderRadius: 99,
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: '0.4px',
-            background: typeStyle.bg,
-            color: typeStyle.text,
+            width: 20,
+            height: 20,
+            borderRadius: 5,
+            border: report.is_complete
+              ? '1.5px solid rgba(183,165,134,0.5)'
+              : '1.5px solid rgba(183,165,134,0.4)',
+            background: report.is_complete
+              ? 'rgba(183,165,134,0.15)'
+              : 'transparent',
+            cursor: toggling ? 'default' : 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 0,
+            flexShrink: 0,
+            opacity: toggling ? 0.5 : 1,
+            transition: 'opacity 0.1s',
           }}
         >
-          {report.type}
-        </span>
-        <span style={{ fontSize: 12, color: 'var(--brand-text-dark-muted)', whiteSpace: 'nowrap' }}>
-          {date}
-        </span>
+          {report.is_complete && (
+            <svg width="11" height="9" viewBox="0 0 11 9" fill="none">
+              <path d="M1 4.5L4 7.5L10 1" stroke="rgba(183,165,134,0.8)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+        </button>
       </div>
 
-      {/* Message */}
-      <p
-        style={{
-          margin: 0,
-          fontSize: 14,
-          color: 'var(--brand-dark)',
-          lineHeight: 1.65,
-          whiteSpace: 'pre-wrap',
-        }}
-      >
-        {report.message}
-      </p>
+      {/* Content */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+        {/* Top row: type badge + date */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+          <span
+            style={{
+              display: 'inline-block',
+              padding: '3px 10px',
+              borderRadius: 99,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: '0.4px',
+              background: typeStyle.bg,
+              color: typeStyle.text,
+            }}
+          >
+            {report.type}
+          </span>
+          <span style={{ fontSize: 12, color: 'var(--brand-text-dark-muted)', whiteSpace: 'nowrap' }}>
+            {date}
+          </span>
+        </div>
 
-      {/* Metadata row */}
-      <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 2 }}>
-        {report.email && (
-          <MetaItem label="From" value={report.email} />
-        )}
-        {report.page_url && (
-          <MetaItem label="Page" value={
-            <a
-              href={report.page_url}
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: 'var(--brand-bg)', textDecoration: 'none', fontWeight: 500 }}
-            >
-              {report.page_url.replace(/^https?:\/\/[^/]+/, '') || '/'}
-            </a>
-          } />
-        )}
-        {report.attachment_path && (
-          <MetaItem label="Attachment" value={
-            <button
-              onClick={handleViewAttachment}
-              disabled={attachLoading}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                color: 'var(--brand-bg)',
-                fontSize: 12,
-                fontWeight: 500,
-                cursor: 'pointer',
-                textDecoration: 'underline',
-                opacity: attachLoading ? 0.6 : 1,
-              }}
-            >
-              {attachLoading ? 'Loading…' : 'View file'}
-            </button>
-          } />
-        )}
+        {/* Message */}
+        <p
+          style={{
+            margin: 0,
+            fontSize: 14,
+            color: 'var(--brand-dark)',
+            lineHeight: 1.65,
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          {report.message}
+        </p>
+
+        {/* Metadata row */}
+        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 2 }}>
+          {report.email && (
+            <MetaItem label="From" value={report.email} />
+          )}
+          {report.page_url && (
+            <MetaItem label="Page" value={
+              <a
+                href={report.page_url}
+                target="_blank"
+                rel="noreferrer"
+                style={{ color: 'var(--brand-bg)', textDecoration: 'none', fontWeight: 500 }}
+              >
+                {report.page_url.replace(/^https?:\/\/[^/]+/, '') || '/'}
+              </a>
+            } />
+          )}
+          {report.attachment_path && (
+            <MetaItem label="Attachment" value={
+              <button
+                onClick={handleViewAttachment}
+                disabled={attachLoading}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  color: 'var(--brand-bg)',
+                  fontSize: 12,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                  opacity: attachLoading ? 0.6 : 1,
+                }}
+              >
+                {attachLoading ? 'Loading…' : 'View file'}
+              </button>
+            } />
+          )}
+        </div>
       </div>
     </div>
   )

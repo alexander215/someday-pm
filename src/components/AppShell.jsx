@@ -119,7 +119,7 @@ export default function AppShell({ children }) {
                 whiteSpace: "nowrap",
               }}
             >
-              ? How to use
+              How to use?
             </button>
             <button
               onClick={() => setShowFeedback(true)}
