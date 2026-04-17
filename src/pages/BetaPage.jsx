@@ -11,7 +11,7 @@ export default function BetaPage() {
         borderBottom: '1px solid var(--brand-border-light)',
       }}>
         <Link to="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '20px', color: 'var(--brand-surface)', textDecoration: 'none', letterSpacing: '-0.2px' }}>
-          Someday PM
+          SomedayPM
         </Link>
       </nav>
 
@@ -22,10 +22,10 @@ export default function BetaPage() {
             Private beta
           </div>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'clamp(26px, 4vw, 38px)', lineHeight: 1.15, marginBottom: '20px', color: 'var(--brand-dark)' }}>
-            Request beta access<br />to Someday PM
+            Request beta access<br />to SomedayPM
           </h1>
           <p style={{ fontSize: '16px', color: 'var(--brand-text-dark-muted)', lineHeight: 1.85, marginBottom: '16px' }}>
-            Someday PM is currently in private beta — a small, focused group while we shape the experience around real side-project workflows.
+            SomedayPM is currently in private beta — a small, focused group while we shape the experience around real side-project workflows.
           </p>
           <p style={{ fontSize: '16px', color: 'var(--brand-text-dark-muted)', lineHeight: 1.85, marginBottom: '40px' }}>
             If you'd like early access, send me a message on LinkedIn. Tell me a bit about how you manage your side projects today — what's working, what's frustrating, and what you're building.
@@ -60,7 +60,7 @@ export default function BetaPage() {
 
           <div style={{ marginTop: '40px' }}>
             <Link to="/" style={{ fontSize: '14px', color: 'var(--brand-bg)', textDecoration: 'none', fontWeight: 500 }}>
-              ← Back to Someday PM
+              ← Back to SomedayPM
             </Link>
           </div>
         </div>

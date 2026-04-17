@@ -75,7 +75,7 @@ function MarketingPage({ signInWithGoogle }) {
             letterSpacing: "-0.2px",
           }}
         >
-          Someday PM
+          SomedayPM
         </span>
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <button
@@ -155,7 +155,7 @@ function MarketingPage({ signInWithGoogle }) {
               opacity: 0.75,
             }}
           >
-            Side projects start with a spark. Someday PM gives them just enough
+            Side projects start with a spark. SomedayPM gives them just enough
             structure to stay alive, without turning them into a second job.
           </p>
           <div
@@ -285,7 +285,7 @@ function MarketingPage({ signInWithGoogle }) {
               lineHeight: 1.7,
             }}
           >
-            Someday PM keeps everything together without turning your hobby into
+            SomedayPM keeps everything together without turning your hobby into
             a second job.
           </p>
         </div>
@@ -342,7 +342,7 @@ function MarketingPage({ signInWithGoogle }) {
               {
                 accent: "var(--brand-bg-deep)",
                 label: "Built for side-energy",
-                body: "Whether you have 20 minutes or a full Sunday, pick up right where you left off. Someday PM waits for you.",
+                body: "Whether you have 20 minutes or a full Sunday, pick up right where you left off. SomedayPM waits for you.",
               },
             ].map(({ accent, label, body }) => (
               <div
@@ -419,7 +419,7 @@ function MarketingPage({ signInWithGoogle }) {
               {
                 n: "03",
                 title: "Return whenever you're ready",
-                body: "No pressure. Someday PM remembers exactly where you left off. Come back in an hour or a month — it'll be there.",
+                body: "No pressure. SomedayPM remembers exactly where you left off. Come back in an hour or a month — it'll be there.",
               },
             ].map(({ n, title, body }) => (
               <div
@@ -544,7 +544,7 @@ function MarketingPage({ signInWithGoogle }) {
               lineHeight: 1.15,
             }}
           >
-            Help shape Someday PM
+            Help shape SomedayPM
           </h2>
           <p
             style={{
@@ -603,7 +603,7 @@ function MarketingPage({ signInWithGoogle }) {
             fontSize: "15px",
           }}
         >
-          Someday PM
+          SomedayPM
         </span>
         <span style={{ fontSize: "13px", color: "var(--brand-text-muted)" }}>
           Built for the ideas you'll get to someday.
