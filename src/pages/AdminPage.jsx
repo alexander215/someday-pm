@@ -309,7 +309,7 @@ function FeedbackRow({ report, onOpen, onToggleComplete }) {
           <span style={{
             fontSize: 8,
             fontWeight: 700,
-            color: checkStatus === 'error' ? '#b45309' : 'rgba(183,165,134,0.65)',
+            color: checkStatus === 'error' ? '#b45309' : 'rgba(62,48,34,0.45)',
             lineHeight: 1,
           }}>
             {checkStatus === 'saving' ? '…' : checkStatus === 'saved' ? '✓' : '!'}
@@ -340,8 +340,8 @@ function FeedbackRow({ report, onOpen, onToggleComplete }) {
         style={{
           flex: 1,
           fontSize: 14,
-          color: 'var(--brand-text)',
-          opacity: 0.8,
+          color: 'var(--brand-dark)',
+          opacity: 1,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
@@ -368,13 +368,13 @@ function FeedbackRow({ report, onOpen, onToggleComplete }) {
       )}
 
       {/* Date */}
-      <span style={{ fontSize: 11, color: 'rgba(244,234,214,.4)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+      <span style={{ fontSize: 11, color: 'rgba(62,48,34,0.45)', whiteSpace: 'nowrap', flexShrink: 0 }}>
         {shortDate}
       </span>
 
       {/* Chevron */}
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0, opacity: 0.28 }}>
-        <path d="M4.5 2.5L8 6L4.5 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}>
+        <path d="M4.5 2.5L8 6L4.5 9.5" stroke="rgba(62,48,34,0.3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </div>
   )
