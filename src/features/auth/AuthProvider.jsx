@@ -26,13 +26,15 @@ export default function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  function signInWithGoogle() {
-    const siteUrl = import.meta.env.VITE_SITE_URL ?? window.location.origin
-    const redirectTo = siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`
-    return supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo },
+  function sendOtp(email) {
+    return supabase.auth.signInWithOtp({
+      email,
+      options: { shouldCreateUser: false },
     })
+  }
+
+  function verifyOtp(email, token) {
+    return supabase.auth.verifyOtp({ email, token, type: 'email' })
   }
 
   function signOut() {
@@ -43,7 +45,8 @@ export default function AuthProvider({ children }) {
     session,
     user: session?.user ?? null,
     loading,
-    signInWithGoogle,
+    sendOtp,
+    verifyOtp,
     signOut,
   }
 
