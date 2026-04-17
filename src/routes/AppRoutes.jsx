@@ -3,6 +3,7 @@ import HomePage from "../pages/HomePage";
 import CardDetailPage from "../pages/CardDetailPage";
 import ChildCardDetailPage from "../pages/ChildCardDetailPage";
 import BetaPage from "../pages/BetaPage";
+import AdminPage from "../pages/AdminPage";
 import RequireAuth from "../features/auth/RequireAuth";
 import AppShell from "../components/AppShell";
 
@@ -21,6 +22,16 @@ export const router = createBrowserRouter([
       <RequireAuth>
         <AppShell>
           <CardDetailPage />
+        </AppShell>
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <RequireAuth>
+        <AppShell>
+          <AdminPage />
         </AppShell>
       </RequireAuth>
     ),

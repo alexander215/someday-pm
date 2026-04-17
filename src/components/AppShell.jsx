@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import ProfileModal from "./ProfileModal";
 import HowToUseModal from "./HowToUseModal";
 import FeedbackModal from "../features/feedback/FeedbackModal";
 import useAuth from "../features/auth/useAuth";
+import useIsAdmin from "../features/admin/useIsAdmin";
 
 // CSS variable overrides scoped to the logged-in shell.
 // All child pages use --color-* vars; overriding them here
@@ -21,6 +23,8 @@ const shellVars = {
 
 export default function AppShell({ children }) {
   const { user, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
+  const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -81,6 +85,25 @@ export default function AppShell({ children }) {
 
           {/* Right side — search, actions, avatar */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {isAdmin && (
+              <button
+                onClick={() => navigate('/admin')}
+                title="Admin"
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: 7,
+                  background: "rgba(242,231,156,0.12)",
+                  border: "1px solid rgba(242,231,156,0.28)",
+                  color: "var(--brand-accent-yellow)",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Admin
+              </button>
+            )}
             <button
               onClick={() => setShowHowToUse(true)}
               title="How to use SomedayPM"
@@ -104,11 +127,11 @@ export default function AppShell({ children }) {
               style={{
                 padding: "6px 12px",
                 borderRadius: 7,
-                background: "transparent",
-                border: "1px solid var(--brand-border-light)",
-                color: "var(--brand-text-muted)",
+                background: "#F37433",
+                border: "1px solid #F37433",
+                color: "#fff",
                 fontSize: 12,
-                fontWeight: 500,
+                fontWeight: 600,
                 cursor: "pointer",
                 whiteSpace: "nowrap",
               }}
