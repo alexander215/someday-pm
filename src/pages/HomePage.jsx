@@ -49,37 +49,75 @@ function MarketingPage({ onSignIn }) {
     document.getElementById("vibe")?.scrollIntoView({ behavior: "smooth" });
   }
 
+  // Design tokens
+  const C = {
+    canvas:     "#f7f5f0",
+    white:      "#ffffff",
+    forest:     "#1c2d20",
+    forestDeep: "#152119",
+    inset:      "#ede5d2",
+    ink:        "#18180f",
+    muted:      "#6b6454",
+    soft:       "#8a7e6e",
+    yellow:     "#f2e79c",
+    mustard:    "#c49b28",
+  };
+
+  const pill = (dark = false) => ({
+    display: "inline-flex",
+    alignItems: "center",
+    background: dark ? "rgba(243,231,207,0.12)" : C.yellow,
+    color: dark ? "rgba(243,231,207,0.75)" : C.forest,
+    fontSize: "10px",
+    fontWeight: 700,
+    padding: "4px 12px",
+    borderRadius: "99px",
+    marginBottom: "24px",
+    letterSpacing: "0.9px",
+    textTransform: "uppercase",
+  });
+
+  const sectionH2 = {
+    fontFamily: "var(--font-display)",
+    fontWeight: 800,
+    fontSize: "clamp(30px, 4.5vw, 54px)",
+    lineHeight: 1.05,
+    letterSpacing: "-0.03em",
+    marginBottom: "20px",
+  };
+
   return (
     <div
       style={{
-        background: "var(--brand-bg)",
-        color: "var(--brand-text)",
+        background: C.canvas,
+        color: C.ink,
         fontFamily: "var(--font-body)",
         minHeight: "100vh",
       }}
     >
-      {/* ── Nav ── */}
+      {/* ── Nav — dark forest glass, anchors brand across all scroll positions ── */}
       <nav
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "20px 40px",
-          borderBottom: "1px solid var(--brand-border-light)",
+          padding: "18px 40px",
           position: "sticky",
           top: 0,
           zIndex: 10,
-          background: "rgba(35, 61, 43, 0.94)",
-          backdropFilter: "blur(10px)",
+          background: "rgba(20,34,22,0.88)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
         <span
           style={{
             fontFamily: "var(--font-display)",
-            fontWeight: 700,
-            fontSize: "20px",
-            color: "var(--brand-surface)",
-            letterSpacing: "-0.2px",
+            fontWeight: 800,
+            fontSize: "18px",
+            color: "#f3e7cf",
+            letterSpacing: "-0.3px",
           }}
         >
           SomedayPM
@@ -87,7 +125,7 @@ function MarketingPage({ onSignIn }) {
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <button
             onClick={onSignIn}
-            style={{ ...btnGhost, fontSize: "14px", padding: "7px 16px" }}
+            style={{ ...btnGhostDark, fontSize: "14px", padding: "7px 16px" }}
           >
             Sign in
           </button>
@@ -97,143 +135,142 @@ function MarketingPage({ onSignIn }) {
         </div>
       </nav>
 
-      {/* ── Hero ── */}
+      {/* ── Hero — deep forest green, brand-defining ── */}
       <section
         style={{
-          maxWidth: "1100px",
-          margin: "0 auto",
-          padding: "80px 40px 72px",
-          display: "flex",
-          gap: "64px",
-          alignItems: "center",
-          flexWrap: "wrap",
+          background: `linear-gradient(160deg, ${C.forest} 0%, ${C.forestDeep} 100%)`,
         }}
       >
-        <div style={{ flex: "1 1 400px", maxWidth: "560px" }}>
-          <div
-            style={{
-              display: "inline-block",
-              background: "var(--brand-accent-yellow)",
-              color: "var(--brand-dark)",
-              fontSize: "11px",
-              fontWeight: 600,
-              padding: "4px 12px",
-              borderRadius: "99px",
-              marginBottom: "28px",
-              letterSpacing: "0.7px",
-              textTransform: "uppercase",
-            }}
-          >
-            Private beta
-          </div>
-          <h1
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "clamp(38px, 6vw, 64px)",
-              lineHeight: 1.05,
-              marginBottom: "22px",
-              color: "var(--brand-surface-soft)",
-              letterSpacing: "-0.5px",
-            }}
-          >
-            Project Management
-            <br />
-            for Side Projects
-          </h1>
-          <p
-            style={{
-              fontSize: "18px",
-              color: "var(--brand-text-muted)",
-              fontWeight: 400,
-              marginBottom: "16px",
-              lineHeight: 1.6,
-            }}
-          >
-            A calm, focused tool for keeping your ideas moving — without the
-            pressure of work tools.
-          </p>
-          <p
-            style={{
-              fontSize: "15px",
-              color: "var(--brand-text-muted)",
-              lineHeight: 1.9,
-              marginBottom: "40px",
-              opacity: 0.75,
-            }}
-          >
-            Side projects start with a spark. SomedayPM gives them just enough
-            structure to stay alive, without turning them into a second job.
-          </p>
-          <div
-            style={{
-              display: "flex",
-              gap: "14px",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            <Link
-              to="/beta"
-              style={{ ...btnPrimary, fontSize: "15px", padding: "12px 26px" }}
-            >
-              Request beta access
-            </Link>
-            <a
-              href="#vibe"
-              onClick={scrollToVibe}
-              style={{
-                fontSize: "15px",
-                color: "var(--brand-text-muted)",
-                fontWeight: 500,
-                textDecoration: "none",
-                borderBottom: "1px solid var(--brand-border-light)",
-                paddingBottom: "1px",
-              }}
-            >
-              View the vibe ↓
-            </a>
-          </div>
-        </div>
-
-        {/* Hero mockup placeholder */}
-        {/* TODO: Replace this placeholder with a real product screenshot once the app UI is polished */}
         <div
           style={{
-            flex: "1 1 300px",
+            maxWidth: "1120px",
+            margin: "0 auto",
+            padding: "96px 40px 88px",
             display: "flex",
-            justifyContent: "center",
+            gap: "72px",
+            alignItems: "center",
+            flexWrap: "wrap",
           }}
         >
-          <MockupProjectList />
+          <div style={{ flex: "1 1 420px", maxWidth: "560px" }}>
+            <div style={pill(true)}>Private beta</div>
+
+            <h1
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontSize: "clamp(48px, 7vw, 86px)",
+                lineHeight: 1.0,
+                marginBottom: "26px",
+                letterSpacing: "-0.04em",
+              }}
+            >
+              <span style={{ color: "#f3e7cf" }}>Project Management</span>
+              <br />
+              <span style={{ color: C.yellow }}>for Side Projects</span>
+            </h1>
+
+            <p
+              style={{
+                fontSize: "18px",
+                color: "rgba(243,231,207,0.7)",
+                fontWeight: 400,
+                marginBottom: "14px",
+                lineHeight: 1.65,
+                maxWidth: "440px",
+              }}
+            >
+              A calm, focused tool for keeping your ideas moving — without the
+              pressure of work tools.
+            </p>
+            <p
+              style={{
+                fontSize: "15px",
+                color: "rgba(243,231,207,0.5)",
+                lineHeight: 1.9,
+                marginBottom: "44px",
+                maxWidth: "420px",
+              }}
+            >
+              Side projects start with a spark. SomedayPM gives them just enough
+              structure to stay alive, without turning them into a second job.
+            </p>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "14px",
+                flexWrap: "wrap",
+                alignItems: "center",
+              }}
+            >
+              <Link
+                to="/beta"
+                style={{ ...btnPrimary, fontSize: "15px", padding: "12px 26px" }}
+              >
+                Request beta access
+              </Link>
+              <a
+                href="#vibe"
+                onClick={scrollToVibe}
+                style={{
+                  fontSize: "15px",
+                  color: "rgba(243,231,207,0.55)",
+                  fontWeight: 500,
+                  textDecoration: "none",
+                  borderBottom: "1px solid rgba(243,231,207,0.22)",
+                  paddingBottom: "1px",
+                }}
+              >
+                View the vibe ↓
+              </a>
+            </div>
+          </div>
+
+          {/* Hero mockup — glass panel floating on dark green */}
+          {/* TODO: Replace this placeholder with a real product screenshot once the app UI is polished */}
+          <div
+            style={{
+              flex: "1 1 300px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                background: "rgba(255,255,255,0.07)",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+                borderRadius: "22px",
+                border: "1.5px solid rgba(255,255,255,0.24)",
+                boxShadow:
+                  "0 28px 72px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.14) inset",
+                padding: "8px",
+              }}
+            >
+              <MockupProjectList />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── Problem / Why ── */}
-      <section
-        style={{ background: "var(--brand-bg-deep)", padding: "80px 40px" }}
-      >
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "clamp(26px, 4vw, 42px)",
-              marginBottom: "52px",
-              lineHeight: 1.15,
-              color: "var(--brand-accent-yellow)",
-            }}
-          >
-            Side projects shouldn't feel like
+      {/* ── Problem / Why — white bg, yellow pill, two-column items ── */}
+      <section style={{ background: C.white, padding: "88px 40px" }}>
+        <div style={{ maxWidth: "960px", margin: "0 auto" }}>
+          <div style={pill()}>The problem</div>
+
+          <h2 style={{ ...sectionH2, marginBottom: "52px" }}>
+            <span style={{ color: C.ink }}>Side projects shouldn't feel like</span>
             <br />
-            status meetings
+            <span style={{ color: C.forest }}>status meetings</span>
           </h2>
+
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "32px",
-              marginBottom: "48px",
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "32px 56px",
+              marginBottom: "56px",
             }}
           >
             {[
@@ -253,43 +290,42 @@ function MarketingPage({ onSignIn }) {
               <div
                 key={label}
                 style={{
-                  display: "flex",
-                  gap: "24px",
-                  alignItems: "flex-start",
-                  borderLeft: "2px solid var(--brand-accent-yellow)",
                   paddingLeft: "20px",
+                  borderLeft: `2px solid ${C.mustard}`,
                 }}
               >
-                <div>
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: 600,
-                      color: "var(--brand-text-muted)",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    {label}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "15px",
-                      lineHeight: 1.75,
-                      color: "rgba(243, 231, 207, 0.75)",
-                    }}
-                  >
-                    {text}
-                  </p>
-                </div>
+                <p
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    color: C.ink,
+                    marginBottom: "8px",
+                  }}
+                >
+                  {label}
+                </p>
+                <p
+                  style={{
+                    fontSize: "15px",
+                    lineHeight: 1.75,
+                    color: C.muted,
+                  }}
+                >
+                  {text}
+                </p>
               </div>
             ))}
           </div>
+
           <p
             style={{
               fontSize: "17px",
               fontWeight: 500,
-              color: "var(--brand-surface)",
+              color: C.ink,
               lineHeight: 1.7,
+              maxWidth: "540px",
+              paddingTop: "28px",
+              borderTop: "1px solid rgba(24,24,15,0.08)",
             }}
           >
             SomedayPM keeps everything together without turning your hobby into
@@ -298,28 +334,18 @@ function MarketingPage({ onSignIn }) {
         </div>
       </section>
 
-      {/* ── Promise / What's different ── */}
-      <section
-        style={{ background: "var(--brand-surface)", padding: "80px 40px" }}
-      >
+      {/* ── Promise / What's different — canvas bg, tonal cards ── */}
+      <section style={{ background: C.canvas, padding: "88px 40px" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "clamp(24px, 4vw, 38px)",
-              marginBottom: "16px",
-              color: "var(--brand-dark)",
-            }}
-          >
-            All the good parts of PM,
+          <h2 style={{ ...sectionH2 }}>
+            <span style={{ color: C.ink }}>All the good parts of PM,</span>
             <br />
-            none of the stress
+            <span style={{ color: C.forest }}>none of the stress</span>
           </h2>
           <p
             style={{
               fontSize: "16px",
-              color: "var(--brand-text-dark-muted)",
+              color: C.muted,
               marginBottom: "52px",
               maxWidth: "520px",
               lineHeight: 1.8,
@@ -332,22 +358,22 @@ function MarketingPage({ onSignIn }) {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "20px",
+              gap: "16px",
             }}
           >
             {[
               {
-                accent: "var(--brand-bg)",
+                accent: C.forest,
                 label: "Gentle structure",
                 body: "Capture what's on your mind, break it into steps, and check in when you're ready. No sprints, no standups.",
               },
               {
-                accent: "var(--brand-accent-yellow)",
+                accent: C.mustard,
                 label: "Positive language",
                 body: 'No "overdue" banners. No red flags. Just a calm view of where things stand and what\'s next.',
               },
               {
-                accent: "var(--brand-bg-deep)",
+                accent: C.forestDeep,
                 label: "Built for side-energy",
                 body: "Whether you have 20 minutes or a full Sunday, pick up right where you left off. SomedayPM waits for you.",
               },
@@ -355,10 +381,10 @@ function MarketingPage({ onSignIn }) {
               <div
                 key={label}
                 style={{
-                  background: "var(--brand-surface-soft)",
-                  border: "1px solid var(--brand-border-light)",
-                  borderRadius: "12px",
+                  background: "#f0ece3",
+                  borderRadius: "16px",
                   padding: "28px 24px",
+                  boxShadow: "0 2px 12px rgba(24,24,15,0.04)",
                 }}
               >
                 <div
@@ -375,7 +401,7 @@ function MarketingPage({ onSignIn }) {
                     fontSize: "16px",
                     fontWeight: 700,
                     marginBottom: "10px",
-                    color: "var(--brand-dark)",
+                    color: C.ink,
                   }}
                 >
                   {label}
@@ -383,7 +409,7 @@ function MarketingPage({ onSignIn }) {
                 <p
                   style={{
                     fontSize: "14px",
-                    color: "var(--brand-text-dark-muted)",
+                    color: C.muted,
                     lineHeight: 1.75,
                   }}
                 >
@@ -395,19 +421,18 @@ function MarketingPage({ onSignIn }) {
         </div>
       </section>
 
-      {/* ── How it works ── */}
-      <section style={{ background: "var(--brand-bg)", padding: "80px 40px" }}>
+      {/* ── How it works — deep forest, strong contrast moment ── */}
+      <section style={{ background: C.forest, padding: "88px 40px" }}>
         <div style={{ maxWidth: "860px", margin: "0 auto" }}>
           <h2
             style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "clamp(24px, 4vw, 38px)",
+              ...sectionH2,
               marginBottom: "56px",
-              color: "var(--brand-surface-soft)",
             }}
           >
-            Built for the way you actually work
+            <span style={{ color: "#f3e7cf" }}>Built for the way</span>
+            <br />
+            <span style={{ color: C.yellow }}>you actually work</span>
           </h2>
           <div
             style={{ display: "flex", flexDirection: "column", gap: "36px" }}
@@ -442,7 +467,7 @@ function MarketingPage({ onSignIn }) {
                     fontFamily: "var(--font-display)",
                     fontSize: "24px",
                     fontWeight: 700,
-                    color: "var(--brand-accent-yellow)",
+                    color: C.yellow,
                     flexShrink: 0,
                     lineHeight: 1.1,
                     minWidth: "44px",
@@ -453,7 +478,7 @@ function MarketingPage({ onSignIn }) {
                 </span>
                 <div
                   style={{
-                    borderTop: "1px solid var(--brand-border-light)",
+                    borderTop: "1px solid rgba(255,255,255,0.12)",
                     paddingTop: "4px",
                     flex: 1,
                   }}
@@ -463,7 +488,7 @@ function MarketingPage({ onSignIn }) {
                       fontSize: "16px",
                       fontWeight: 600,
                       marginBottom: "8px",
-                      color: "var(--brand-surface-soft)",
+                      color: "#f3e7cf",
                     }}
                   >
                     {title}
@@ -471,7 +496,7 @@ function MarketingPage({ onSignIn }) {
                   <p
                     style={{
                       fontSize: "14px",
-                      color: "var(--brand-text-muted)",
+                      color: "rgba(243,231,207,0.6)",
                       lineHeight: 1.8,
                     }}
                   >
@@ -484,29 +509,23 @@ function MarketingPage({ onSignIn }) {
         </div>
       </section>
 
-      {/* ── How it feels (Vibe) ── */}
+      {/* ── How it feels (Vibe) — white bg, yellow pill ── */}
       <section
         id="vibe"
-        style={{ background: "var(--brand-surface)", padding: "80px 40px" }}
+        style={{ background: C.white, padding: "88px 40px" }}
       >
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "clamp(24px, 4vw, 38px)",
-              marginBottom: "20px",
-              color: "var(--brand-dark)",
-            }}
-          >
-            Feels more like packaging
+          <div style={pill()}>The look and feel</div>
+
+          <h2 style={{ ...sectionH2 }}>
+            <span style={{ color: C.ink }}>Feels more like packaging</span>
             <br />
-            than a dashboard
+            <span style={{ color: C.forest }}>than a dashboard</span>
           </h2>
           <p
             style={{
               fontSize: "16px",
-              color: "var(--brand-text-dark-muted)",
+              color: C.muted,
               maxWidth: "520px",
               lineHeight: 1.8,
               marginBottom: "52px",
@@ -532,60 +551,68 @@ function MarketingPage({ onSignIn }) {
         </div>
       </section>
 
-      {/* ── Closing CTA ── */}
-      <section
-        style={{
-          background: "var(--brand-bg-deep)",
-          padding: "88px 40px",
-          textAlign: "center",
-        }}
-      >
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <h2
+      {/* ── Closing CTA — white bg, full-width cream panel, editorial two-column ── */}
+      <section style={{ background: C.white, padding: "88px 40px" }}>
+        <div style={{ maxWidth: "960px", margin: "0 auto" }}>
+          <div
             style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              fontSize: "clamp(26px, 4vw, 44px)",
-              marginBottom: "18px",
-              color: "var(--brand-surface-soft)",
-              lineHeight: 1.15,
+              background: C.inset,
+              borderRadius: "20px",
+              padding: "56px 52px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "48px",
+              flexWrap: "wrap",
             }}
           >
-            Help shape SomedayPM
-          </h2>
-          <p
-            style={{
-              fontSize: "17px",
-              color: "var(--brand-text-muted)",
-              lineHeight: 1.8,
-              marginBottom: "40px",
-            }}
-          >
-            We're building this for people who take their side projects
-            seriously — even when life doesn't make it easy. If that's you, we'd
-            love to have you in the beta.
-          </p>
-          <Link
-            to="/beta"
-            style={{
-              ...btnPrimary,
-              fontSize: "15px",
-              padding: "13px 30px",
-              display: "inline-block",
-            }}
-          >
-            Request beta access
-          </Link>
-          <p
-            style={{
-              marginTop: "24px",
-              fontSize: "13px",
-              color: "var(--brand-text-muted)",
-              opacity: 0.6,
-            }}
-          >
-            Small beta. Real feedback. No spam.
-          </p>
+            <div style={{ flex: "1 1 360px", maxWidth: "500px" }}>
+              <h2
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: "clamp(26px, 3.5vw, 42px)",
+                  marginBottom: "16px",
+                  color: C.ink,
+                  lineHeight: 1.05,
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                Help shape SomedayPM
+              </h2>
+              <p
+                style={{
+                  fontSize: "16px",
+                  color: C.muted,
+                  lineHeight: 1.8,
+                  margin: 0,
+                }}
+              >
+                We're building this for people who take their side projects
+                seriously — even when life doesn't make it easy. If that's you, we'd
+                love to have you in the beta.
+              </p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: "10px",
+                flexShrink: 0,
+              }}
+            >
+              <Link
+                to="/beta"
+                style={{ ...btnPrimary, fontSize: "15px", padding: "13px 30px" }}
+              >
+                Request beta access
+              </Link>
+              <p style={{ fontSize: "12px", color: C.soft, margin: 0 }}>
+                Small beta. Real feedback. No spam.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -593,26 +620,26 @@ function MarketingPage({ onSignIn }) {
       <footer
         style={{
           padding: "28px 40px",
-          borderTop: "1px solid var(--brand-border-light)",
+          borderTop: "1px solid rgba(24,24,15,0.07)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           flexWrap: "wrap",
           gap: "12px",
-          background: "var(--brand-bg)",
+          background: C.canvas,
         }}
       >
         <span
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
-            color: "var(--brand-surface)",
+            color: "#1c2d20",
             fontSize: "15px",
           }}
         >
           SomedayPM
         </span>
-        <span style={{ fontSize: "13px", color: "var(--brand-text-muted)" }}>
+        <span style={{ fontSize: "13px", color: "#8a7e6e" }}>
           Built for the ideas you'll get to someday.
         </span>
       </footer>
@@ -621,7 +648,7 @@ function MarketingPage({ onSignIn }) {
 }
 
 // ─────────────────────────────────────────────
-// Stylized mockup placeholders
+// Stylized mockup placeholders — updated for light canvas
 // TODO: Replace these with real product screenshots once the app UI is polished
 // ─────────────────────────────────────────────
 
@@ -636,11 +663,11 @@ function MockupProjectList() {
   return (
     <div
       style={{
-        background: "var(--brand-surface-soft)",
-        border: "1px solid var(--brand-border-light)",
+        background: "#f0ece3",
         borderRadius: "16px",
         padding: "22px",
-        boxShadow: "0 12px 40px rgba(32,39,51,0.15)",
+        boxShadow:
+          "0 8px 32px rgba(24,24,15,0.09), 0 1px 0 rgba(255,255,255,0.8) inset",
         width: "100%",
         maxWidth: "320px",
       }}
@@ -650,7 +677,7 @@ function MockupProjectList() {
           fontFamily: "var(--font-display)",
           fontWeight: 700,
           fontSize: "15px",
-          color: "var(--brand-dark)",
+          color: "#18180f",
           marginBottom: "16px",
           letterSpacing: "-0.2px",
         }}
@@ -666,16 +693,16 @@ function MockupProjectList() {
               alignItems: "center",
               justifyContent: "space-between",
               padding: "10px 12px",
-              background: "var(--brand-surface)",
+              background: "#e8deca",
               borderRadius: "8px",
-              border: "1px solid var(--brand-border-light)",
+              border: "1px solid rgba(24,24,15,0.06)",
             }}
           >
             <span
               style={{
                 fontSize: "13px",
                 fontWeight: 500,
-                color: "var(--brand-dark)",
+                color: "#18180f",
               }}
             >
               {p}
@@ -685,10 +712,11 @@ function MockupProjectList() {
                 fontSize: "10px",
                 padding: "2px 8px",
                 background:
-                  i === 0 ? "var(--brand-accent-yellow)" : "transparent",
-                border: "1px solid var(--brand-border-light)",
+                  i === 0 ? "#f2e79c" : "rgba(24,24,15,0.06)",
+                border: "1px solid rgba(24,24,15,0.06)",
                 borderRadius: "99px",
-                color: "var(--brand-text-dark-muted)",
+                color: i === 0 ? "#1c2d20" : "#6b6454",
+                fontWeight: i === 0 ? 700 : 500,
                 whiteSpace: "nowrap",
               }}
             >
@@ -702,8 +730,8 @@ function MockupProjectList() {
           marginTop: "10px",
           padding: "8px 12px",
           borderRadius: "8px",
-          border: "1.5px dashed var(--brand-border-light)",
-          color: "var(--brand-text-dark-muted)",
+          border: "1.5px dashed rgba(24,24,15,0.14)",
+          color: "#8a7e6e",
           fontSize: "12px",
           textAlign: "center",
         }}
@@ -718,11 +746,11 @@ function MockupCardDetail() {
   return (
     <div
       style={{
-        background: "var(--brand-surface-soft)",
-        border: "1px solid var(--brand-border-light)",
+        background: "#f0ece3",
         borderRadius: "16px",
         padding: "22px",
-        boxShadow: "0 12px 40px rgba(32,39,51,0.12)",
+        boxShadow:
+          "0 8px 32px rgba(24,24,15,0.08), 0 1px 0 rgba(255,255,255,0.8) inset",
         width: "100%",
         maxWidth: "320px",
       }}
@@ -730,7 +758,7 @@ function MockupCardDetail() {
       <div
         style={{
           fontSize: "11px",
-          color: "var(--brand-bg)",
+          color: "#8a7e6e",
           marginBottom: "12px",
           fontWeight: 500,
         }}
@@ -742,9 +770,9 @@ function MockupCardDetail() {
           fontFamily: "var(--font-display)",
           fontWeight: 700,
           fontSize: "16px",
-          color: "var(--brand-dark)",
+          color: "#18180f",
           marginBottom: "6px",
-          borderBottom: "1px solid var(--brand-border-light)",
+          borderBottom: "1px solid rgba(24,24,15,0.08)",
           paddingBottom: "10px",
         }}
       >
@@ -762,10 +790,10 @@ function MockupCardDetail() {
           style={{
             fontSize: "11px",
             padding: "3px 10px",
-            background: "var(--brand-accent-yellow)",
+            background: "#f2e79c",
             borderRadius: "99px",
-            color: "var(--brand-dark)",
-            fontWeight: 600,
+            color: "#1c2d20",
+            fontWeight: 700,
           }}
         >
           Design
@@ -774,9 +802,9 @@ function MockupCardDetail() {
           style={{
             fontSize: "11px",
             padding: "3px 10px",
-            background: "rgba(35,61,43,0.14)",
+            background: "rgba(28,45,32,0.10)",
             borderRadius: "99px",
-            color: "var(--brand-bg)",
+            color: "#1c2d20",
             fontWeight: 600,
           }}
         >
@@ -793,9 +821,9 @@ function MockupCardDetail() {
                 alignItems: "center",
                 gap: "10px",
                 padding: "8px 10px",
-                border: "1px solid var(--brand-border-light)",
+                border: "1px solid rgba(24,24,15,0.07)",
                 borderRadius: "7px",
-                background: "var(--brand-surface)",
+                background: "#e8deca",
               }}
             >
               <div
@@ -805,8 +833,8 @@ function MockupCardDetail() {
                   borderRadius: "3px",
                   border: "1.5px solid",
                   borderColor:
-                    i < 2 ? "var(--brand-bg)" : "var(--brand-border-light)",
-                  background: i < 2 ? "var(--brand-bg)" : "transparent",
+                    i < 2 ? "#1c2d20" : "rgba(24,24,15,0.25)",
+                  background: i < 2 ? "#1c2d20" : "transparent",
                   flexShrink: 0,
                 }}
               />
@@ -814,9 +842,7 @@ function MockupCardDetail() {
                 style={{
                   fontSize: "12px",
                   color:
-                    i < 2
-                      ? "var(--brand-text-dark-muted)"
-                      : "var(--brand-dark)",
+                    i < 2 ? "#8a7e6e" : "#18180f",
                   textDecoration: i < 2 ? "line-through" : "none",
                 }}
               >
@@ -834,11 +860,11 @@ function MockupChildCard() {
   return (
     <div
       style={{
-        background: "var(--brand-surface-soft)",
-        border: "1px solid var(--brand-border-light)",
+        background: "#f0ece3",
         borderRadius: "16px",
         padding: "22px",
-        boxShadow: "0 12px 40px rgba(32,39,51,0.12)",
+        boxShadow:
+          "0 8px 32px rgba(24,24,15,0.08), 0 1px 0 rgba(255,255,255,0.8) inset",
         width: "100%",
         maxWidth: "320px",
       }}
@@ -846,7 +872,7 @@ function MockupChildCard() {
       <div
         style={{
           fontSize: "11px",
-          color: "var(--brand-bg)",
+          color: "#8a7e6e",
           marginBottom: "12px",
           fontWeight: 500,
         }}
@@ -858,8 +884,8 @@ function MockupChildCard() {
           fontFamily: "var(--font-display)",
           fontWeight: 700,
           fontSize: "15px",
-          color: "var(--brand-dark)",
-          borderBottom: "1px solid rgba(35,38,31,0.1)",
+          color: "#18180f",
+          borderBottom: "1px solid rgba(24,24,15,0.08)",
           paddingBottom: "10px",
           marginBottom: "14px",
         }}
@@ -869,10 +895,10 @@ function MockupChildCard() {
       <div
         style={{
           fontSize: "12px",
-          color: "var(--brand-text-dark-muted)",
+          color: "#6b6454",
           lineHeight: 1.75,
           marginBottom: "14px",
-          background: "var(--brand-surface)",
+          background: "#e8deca",
           padding: "10px 12px",
           borderRadius: "8px",
         }}
@@ -881,7 +907,7 @@ function MockupChildCard() {
         matter. Calm but not boring.
       </div>
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-        {["#233D2B", "#E7DCC9", "#F2E79C", "#D6A32A"].map((c) => (
+        {["#1c2d20", "#ede5d2", "#f2e79c", "#c49b28"].map((c) => (
           <div
             key={c}
             style={{
@@ -889,7 +915,7 @@ function MockupChildCard() {
               height: "26px",
               borderRadius: "50%",
               background: c,
-              border: "1.5px solid var(--brand-border-light)",
+              border: "1.5px solid rgba(24,24,15,0.1)",
             }}
             title={c}
           />
@@ -900,11 +926,11 @@ function MockupChildCard() {
           style={{
             flex: 1,
             padding: "7px 10px",
-            background: "var(--brand-accent-yellow)",
+            background: "#f2e79c",
             borderRadius: "7px",
             fontSize: "12px",
-            fontWeight: 600,
-            color: "var(--brand-dark)",
+            fontWeight: 700,
+            color: "#1c2d20",
             textAlign: "center",
           }}
         >
@@ -914,10 +940,10 @@ function MockupChildCard() {
           style={{
             padding: "7px 10px",
             background: "transparent",
-            border: "1px solid var(--brand-border-light)",
+            border: "1px solid rgba(24,24,15,0.14)",
             borderRadius: "7px",
             fontSize: "12px",
-            color: "var(--brand-text-dark-muted)",
+            color: "#6b6454",
             textAlign: "center",
           }}
         >
@@ -929,17 +955,17 @@ function MockupChildCard() {
 }
 
 // ─────────────────────────────────────────────
-// Shared button styles
+// Shared button styles — tuned for light canvas
 // ─────────────────────────────────────────────
 
 const btnPrimary = {
   display: "inline-block",
   padding: "10px 22px",
-  background: "var(--brand-accent-yellow)",
-  color: "var(--brand-dark)",
+  background: "#f2e79c",
+  color: "#1c2d20",
   fontFamily: "var(--font-body)",
   fontSize: "14px",
-  fontWeight: 600,
+  fontWeight: 700,
   borderRadius: "8px",
   textDecoration: "none",
   border: "none",
@@ -951,12 +977,26 @@ const btnGhost = {
   display: "inline-block",
   padding: "8px 18px",
   background: "transparent",
-  color: "var(--brand-text-muted)",
+  color: "#6b6454",
   fontFamily: "var(--font-body)",
   fontSize: "14px",
   fontWeight: 500,
   borderRadius: "8px",
-  border: "1px solid var(--brand-border-light)",
+  border: "1px solid rgba(24,24,15,0.18)",
+  cursor: "pointer",
+  textDecoration: "none",
+};
+
+const btnGhostDark = {
+  display: "inline-block",
+  padding: "8px 18px",
+  background: "transparent",
+  color: "rgba(243,231,207,0.75)",
+  fontFamily: "var(--font-body)",
+  fontSize: "14px",
+  fontWeight: 500,
+  borderRadius: "8px",
+  border: "1px solid rgba(243,231,207,0.2)",
   cursor: "pointer",
   textDecoration: "none",
 };
@@ -1446,4 +1486,3 @@ const inputStyle = {
   width: "100%",
   boxSizing: "border-box",
 };
-

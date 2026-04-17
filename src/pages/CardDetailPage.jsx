@@ -431,11 +431,31 @@ export default function CardDetailPage() {
         ) : (
           <>
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "8px" }}>
-              <h1 style={{ fontSize: "24px", fontWeight: 600, letterSpacing: "-0.3px", marginRight: "16px" }}>
+              <h1 style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(20px, 3vw, 28px)",
+                fontWeight: 800,
+                letterSpacing: "-0.04em",
+                lineHeight: 1.05,
+                color: "var(--color-text)",
+                marginRight: "16px",
+                margin: 0,
+              }}>
                 {card.title}
               </h1>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0, marginTop: "4px" }}>
-                <span style={{ fontSize: "11px", padding: "3px 10px", border: "1px solid var(--color-border)", borderRadius: "12px", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>
+                <span style={{
+                  fontSize: "10px",
+                  padding: "3px 10px",
+                  background: "rgba(243,231,207,0.1)",
+                  border: "1px solid rgba(243,231,207,0.18)",
+                  borderRadius: "99px",
+                  color: "rgba(243,231,207,0.65)",
+                  fontWeight: 600,
+                  letterSpacing: "0.5px",
+                  textTransform: "uppercase",
+                  whiteSpace: "nowrap",
+                }}>
                   {card.category}
                 </span>
                 <button

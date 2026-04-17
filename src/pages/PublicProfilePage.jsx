@@ -2,6 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProfileByHandle, getPublicCardMetaForUser } from "../lib/profiles";
 
+const C = {
+  canvas:     '#f7f5f0',
+  white:      '#ffffff',
+  forest:     '#1c2d20',
+  forestDeep: '#152119',
+  inset:      '#ede5d2',
+  ink:        '#18180f',
+  muted:      '#6b6454',
+  soft:       '#8a7e6e',
+  yellow:     '#f2e79c',
+  mustard:    '#c49b28',
+}
+
 function ExternalLinkIcon() {
   return (
     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.6, flexShrink: 0 }}>
@@ -18,30 +31,40 @@ function PublicProjectCard({ meta }) {
 
   return (
     <div style={{
-      background: "var(--brand-surface)",
-      border: "1px solid rgba(183,165,134,0.25)",
-      borderRadius: 14,
-      padding: "20px 22px",
+      background: C.inset,
+      border: "1px solid rgba(24,24,15,0.07)",
+      borderRadius: 16,
+      padding: "22px 24px",
       display: "flex",
       flexDirection: "column",
       gap: 12,
-      transition: "box-shadow 0.15s",
+      boxShadow: "0 4px 20px rgba(24,24,15,0.06), 0 1px 0 rgba(255,255,255,0.7) inset",
+      transition: "box-shadow 0.15s, transform 0.15s",
     }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-        <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "var(--brand-dark)", fontFamily: "var(--font-display)", lineHeight: 1.3 }}>
+        <h3 style={{
+          margin: 0,
+          fontSize: 16,
+          fontWeight: 700,
+          color: C.ink,
+          fontFamily: "var(--font-display)",
+          lineHeight: 1.25,
+          letterSpacing: "-0.02em",
+        }}>
           {title}
         </h3>
         {meta.looking_for_collaborators && (
           <span style={{
             fontSize: 11,
-            fontWeight: 600,
-            color: "#5b8a5b",
-            background: "rgba(91,138,91,0.12)",
-            border: "1px solid rgba(91,138,91,0.25)",
+            fontWeight: 700,
+            color: C.forest,
+            background: "rgba(28,45,32,0.10)",
+            border: "1px solid rgba(28,45,32,0.15)",
             padding: "3px 10px",
             borderRadius: 99,
             whiteSpace: "nowrap",
             flexShrink: 0,
+            letterSpacing: "0.3px",
           }}>
             Open to collabs
           </span>
@@ -49,19 +72,19 @@ function PublicProjectCard({ meta }) {
       </div>
 
       {meta.public_description && (
-        <p style={{ margin: 0, fontSize: 13, color: "var(--brand-text-dark-muted)", lineHeight: 1.6 }}>
+        <p style={{ margin: 0, fontSize: 13, color: C.muted, lineHeight: 1.65 }}>
           {meta.public_description}
         </p>
       )}
 
       {meta.looking_for_collaborators && meta.collaborator_type && (
-        <p style={{ margin: 0, fontSize: 12, color: "#5b8a5b", fontStyle: "italic" }}>
+        <p style={{ margin: 0, fontSize: 12, color: C.muted, fontStyle: "italic" }}>
           Looking for: {meta.collaborator_type}
         </p>
       )}
 
       {links.length > 0 && (
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 2 }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 2 }}>
           {links.map((url, i) => {
             let label = url;
             try { label = new URL(url).hostname.replace(/^www\./, ""); } catch { /* raw text */ }
@@ -76,9 +99,9 @@ function PublicProjectCard({ meta }) {
                   alignItems: "center",
                   gap: 5,
                   fontSize: 12,
-                  color: "var(--brand-bg)",
-                  background: "rgba(35,61,43,0.08)",
-                  border: "1px solid rgba(35,61,43,0.15)",
+                  color: C.forest,
+                  background: "rgba(28,45,32,0.08)",
+                  border: "1px solid rgba(28,45,32,0.14)",
                   padding: "4px 10px",
                   borderRadius: 99,
                   textDecoration: "none",
@@ -126,97 +149,186 @@ export default function PublicProfilePage() {
     : handle?.[0]?.toUpperCase() ?? "?";
 
   return (
-    <div style={{ minHeight: "100dvh", background: "linear-gradient(180deg, #1d2d21 0%, #18251b 100%)", color: "var(--brand-text)" }}>
-      {/* Top nav */}
-      <div style={{ borderBottom: "1px solid var(--brand-border)", padding: "0 24px", height: 52, display: "flex", alignItems: "center", justifyContent: "space-between", maxWidth: 900, margin: "0 auto" }}>
-        <Link to="/" style={{ textDecoration: "none", fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--brand-surface-soft)", letterSpacing: "-0.04em" }}>
+    <div style={{ minHeight: "100dvh", background: C.canvas, color: C.ink, fontFamily: "var(--font-body)" }}>
+
+      {/* Nav — dark forest glass, matching landing page */}
+      <nav style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "18px 40px",
+        position: "sticky",
+        top: 0,
+        zIndex: 10,
+        background: "rgba(20,34,22,0.88)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
+      }}>
+        <Link to="/" style={{
+          textDecoration: "none",
+          fontFamily: "var(--font-display)",
+          fontWeight: 800,
+          fontSize: 18,
+          color: "#f3e7cf",
+          letterSpacing: "-0.3px",
+        }}>
           SomedayPM
         </Link>
-      </div>
+      </nav>
 
-      <main style={{ maxWidth: 900, margin: "0 auto", padding: "48px 24px 80px" }}>
-        {loading && (
-          <p style={{ color: "var(--brand-text-muted)", fontSize: 15 }}>Loading…</p>
-        )}
+      {/* Loading */}
+      {loading && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "64px 40px" }}>
+          <p style={{ color: C.muted, fontSize: 15 }}>Loading…</p>
+        </div>
+      )}
 
-        {!loading && notFound && (
-          <div style={{ textAlign: "center", paddingTop: 80 }}>
-            <p style={{ fontSize: 48, marginBottom: 16 }}>🌱</p>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--brand-text)", margin: "0 0 8px", fontFamily: "var(--font-display)" }}>
-              Profile not found
-            </h1>
-            <p style={{ fontSize: 14, color: "var(--brand-text-muted)" }}>
-              This profile is private or doesn't exist.
-            </p>
-          </div>
-        )}
+      {/* Not found */}
+      {!loading && notFound && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "80px 40px", textAlign: "center" }}>
+          <p style={{ fontSize: 48, marginBottom: 16 }}>🌱</p>
+          <h1 style={{
+            fontSize: 22,
+            fontWeight: 800,
+            color: C.ink,
+            margin: "0 0 8px",
+            fontFamily: "var(--font-display)",
+            letterSpacing: "-0.03em",
+          }}>
+            Profile not found
+          </h1>
+          <p style={{ fontSize: 14, color: C.muted }}>
+            This profile is private or doesn't exist.
+          </p>
+        </div>
+      )}
 
-        {!loading && profile && (
-          <>
-            {/* Profile header */}
-            <div style={{ display: "flex", gap: 28, alignItems: "flex-start", marginBottom: 48, flexWrap: "wrap" }}>
+      {/* Profile — dark green hero strip + white body */}
+      {!loading && profile && (
+        <>
+          {/* Profile header — deep forest, brand anchor */}
+          <div style={{
+            background: `linear-gradient(160deg, ${C.forest} 0%, ${C.forestDeep} 100%)`,
+            padding: "52px 40px 56px",
+          }}>
+            <div style={{
+              maxWidth: 900,
+              margin: "0 auto",
+              display: "flex",
+              gap: 28,
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+            }}>
               {/* Avatar */}
               <div style={{
-                width: 88,
-                height: 88,
+                width: 80,
+                height: 80,
                 borderRadius: "50%",
                 background: "rgba(242,231,156,0.12)",
-                border: "2px solid rgba(242,231,156,0.2)",
+                border: "1.5px solid rgba(242,231,156,0.25)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexShrink: 0,
               }}>
-                <span style={{ fontSize: 28, fontWeight: 700, color: "var(--brand-accent-yellow)", fontFamily: "var(--font-display)" }}>
+                <span style={{
+                  fontSize: 26,
+                  fontWeight: 800,
+                  color: C.yellow,
+                  fontFamily: "var(--font-display)",
+                  letterSpacing: "-0.02em",
+                }}>
                   {initials}
                 </span>
               </div>
 
               <div style={{ flex: 1, minWidth: 200 }}>
-                <h1 style={{ margin: "0 0 4px", fontSize: 28, fontWeight: 700, color: "var(--brand-surface-soft)", fontFamily: "var(--font-display)", letterSpacing: "-0.03em" }}>
+                <h1 style={{
+                  margin: "0 0 4px",
+                  fontSize: "clamp(22px, 3vw, 30px)",
+                  fontWeight: 800,
+                  color: "#f3e7cf",
+                  fontFamily: "var(--font-display)",
+                  letterSpacing: "-0.03em",
+                  lineHeight: 1.05,
+                }}>
                   {profile.display_name || `@${profile.handle}`}
                 </h1>
-                <p style={{ margin: "0 0 12px", fontSize: 14, color: "var(--brand-text-muted)" }}>
+                <p style={{ margin: "0 0 12px", fontSize: 14, color: "rgba(243,231,207,0.5)" }}>
                   @{profile.handle}
                 </p>
                 {profile.bio && (
-                  <p style={{ margin: "0 0 12px", fontSize: 14, color: "var(--brand-text)", lineHeight: 1.65, maxWidth: 540 }}>
+                  <p style={{
+                    margin: "0 0 12px",
+                    fontSize: 14,
+                    color: "rgba(243,231,207,0.7)",
+                    lineHeight: 1.65,
+                    maxWidth: 540,
+                  }}>
                     {profile.bio}
                   </p>
                 )}
                 {profile.contact_info && (
-                  <p style={{ margin: 0, fontSize: 13, color: "var(--brand-text-muted)" }}>
+                  <p style={{ margin: 0, fontSize: 13, color: "rgba(243,231,207,0.48)" }}>
                     {profile.contact_info}
                   </p>
                 )}
               </div>
             </div>
+          </div>
 
-            {/* Projects */}
-            <div>
-              <h2 style={{ margin: "0 0 20px", fontSize: 15, fontWeight: 700, color: "var(--brand-text-muted)", textTransform: "uppercase", letterSpacing: "0.8px" }}>
-                Projects · {projects.length}
-              </h2>
+          {/* Projects — white/canvas body */}
+          <main style={{ maxWidth: 900, margin: "0 auto", padding: "48px 40px 80px" }}>
+            <h2 style={{
+              margin: "0 0 22px",
+              fontSize: 12,
+              fontWeight: 700,
+              color: C.muted,
+              textTransform: "uppercase",
+              letterSpacing: "0.9px",
+            }}>
+              Projects · {projects.length}
+            </h2>
 
-              {projects.length === 0 ? (
-                <p style={{ fontSize: 14, color: "var(--brand-text-muted)", marginTop: 8 }}>
-                  No public projects yet.
-                </p>
-              ) : (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
-                  {projects.map((meta) => (
-                    <PublicProjectCard key={meta.id} meta={meta} />
-                  ))}
-                </div>
-              )}
-            </div>
-          </>
-        )}
-      </main>
+            {projects.length === 0 ? (
+              <p style={{ fontSize: 14, color: C.muted }}>No public projects yet.</p>
+            ) : (
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                gap: 16,
+              }}>
+                {projects.map((meta) => (
+                  <PublicProjectCard key={meta.id} meta={meta} />
+                ))}
+              </div>
+            )}
+          </main>
+        </>
+      )}
 
-      <footer style={{ borderTop: "1px solid var(--brand-border)", padding: "20px 24px", textAlign: "center" }}>
-        <Link to="/" style={{ fontSize: 12, color: "var(--brand-text-muted)", textDecoration: "none" }}>
-          Built on SomedayPM
+      {/* Footer — matching landing page */}
+      <footer style={{
+        borderTop: "1px solid rgba(24,24,15,0.07)",
+        padding: "28px 40px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: "12px",
+        background: C.canvas,
+      }}>
+        <span style={{
+          fontFamily: "var(--font-display)",
+          fontWeight: 700,
+          color: C.forest,
+          fontSize: "15px",
+        }}>
+          SomedayPM
+        </span>
+        <Link to="/" style={{ fontSize: "12px", color: C.soft, textDecoration: "none" }}>
+          Built for the ideas you'll get to someday.
         </Link>
       </footer>
     </div>
