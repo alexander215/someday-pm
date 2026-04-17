@@ -262,16 +262,16 @@ function FeedbackRow({ report, isLast, onOpen, onToggleComplete }) {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: 12,
-        padding: '10px 16px',
+        gap: 14,
+        padding: '14px 20px',
         background: 'var(--brand-surface-soft)',
         borderBottom: isLast ? 'none' : '1px solid rgba(183,165,134,0.15)',
         cursor: 'pointer',
         opacity: report.is_complete ? 0.65 : 1,
-        transition: 'opacity 0.15s, background 0.1s',
+        transition: 'opacity 0.15s, background 0.12s',
         userSelect: 'none',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(183,165,134,0.07)' }}
+      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(244,234,214,0.09)' }}
       onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--brand-surface-soft)' }}
     >
       {/* Checkbox + tiny status */}
@@ -338,9 +338,9 @@ function FeedbackRow({ report, isLast, onOpen, onToggleComplete }) {
       <span
         style={{
           flex: 1,
-          fontSize: 13,
+          fontSize: 14,
           color: 'var(--brand-text)',
-          opacity: 0.75,
+          opacity: 0.8,
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
