@@ -2,6 +2,7 @@ import { useState } from "react";
 import Sidebar from "./Sidebar";
 import ProfileModal from "./ProfileModal";
 import HowToUseModal from "./HowToUseModal";
+import FeedbackModal from "../features/feedback/FeedbackModal";
 import useAuth from "../features/auth/useAuth";
 
 // CSS variable overrides scoped to the logged-in shell.
@@ -22,6 +23,7 @@ export default function AppShell({ children }) {
   const { user, signOut } = useAuth();
   const [showProfile, setShowProfile] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   return (
     <div
@@ -95,6 +97,23 @@ export default function AppShell({ children }) {
               }}
             >
               ? How to use
+            </button>
+            <button
+              onClick={() => setShowFeedback(true)}
+              title="Send feedback"
+              style={{
+                padding: "6px 12px",
+                borderRadius: 7,
+                background: "transparent",
+                border: "1px solid var(--brand-border-light)",
+                color: "var(--brand-text-muted)",
+                fontSize: 12,
+                fontWeight: 500,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Send feedback
             </button>
             <input
               placeholder="Search projects"
@@ -182,6 +201,10 @@ export default function AppShell({ children }) {
 
       {showHowToUse && (
         <HowToUseModal onClose={() => setShowHowToUse(false)} />
+      )}
+
+      {showFeedback && (
+        <FeedbackModal onClose={() => setShowFeedback(false)} />
       )}
     </div>
   );
