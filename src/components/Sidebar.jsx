@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function Sidebar({ onOpenProfile }) {
+export default function Sidebar({ onOpenProfile, isOpen = false, onClose }) {
   const { pathname } = useLocation();
+
+  // Close drawer on route change (e.g. after tapping a nav link on mobile)
+  useEffect(() => {
+    onClose?.();
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function navItemStyle(path) {
     const active = path === "/" ? pathname === "/" : pathname.startsWith(path);
@@ -28,122 +34,162 @@ export default function Sidebar({ onOpenProfile }) {
   }
 
   return (
-    <aside
-      style={{
-        width: 250,
-        flexShrink: 0,
-        background: "linear-gradient(180deg, rgba(0,0,0,.06), rgba(255,255,255,.01))",
-        borderRight: "1px solid var(--brand-border)",
-        display: "flex",
-        flexDirection: "column",
-        overflowY: "auto",
-      }}
-    >
-      {/* ── Brand area ── */}
+    <>
+      {/* Backdrop — visible on mobile when drawer is open */}
       <div
-        style={{
-          padding: "18px 16px 16px",
-          borderBottom: "1px solid var(--brand-border)",
-        }}
-      >
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <div
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 700,
-              color: "var(--brand-surface-soft)",
-              fontSize: 32,
-              lineHeight: 0.9,
-              letterSpacing: "-0.05em",
-            }}
-          >
-            Someday<br />PM
-          </div>
-          <div
-            style={{
-              fontSize: 13,
-              color: "rgba(244,234,214,.72)",
-              marginTop: 8,
-            }}
-          >
-            Personal workspace
-          </div>
-        </Link>
-      </div>
+        className={`sidebar-backdrop${isOpen ? " is-open" : ""}`}
+        onClick={onClose}
+        aria-hidden="true"
+      />
 
-      {/* ── Navigation ── */}
-      <nav
+      <aside
+        className={`sidebar-root${isOpen ? " is-open" : ""}`}
         style={{
-          flex: 1,
-          padding: "14px 10px",
+          width: 250,
+          flexShrink: 0,
+          background: "linear-gradient(180deg, rgba(0,0,0,.06), rgba(255,255,255,.01))",
+          borderRight: "1px solid var(--brand-border)",
           display: "flex",
           flexDirection: "column",
-          gap: 2,
+          overflowY: "auto",
+          backgroundColor: "#1d2d21",
         }}
       >
+        {/* ── Brand area ── */}
         <div
           style={{
-            fontSize: 10,
-            fontWeight: 600,
-            color: "var(--brand-text-muted)",
-            padding: "0 6px",
-            marginBottom: 6,
-            letterSpacing: "0.8px",
-            textTransform: "uppercase",
-            opacity: 0.7,
+            padding: "18px 16px 16px",
+            borderBottom: "1px solid var(--brand-border)",
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
           }}
         >
-          Main
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                color: "var(--brand-surface-soft)",
+                fontSize: 32,
+                lineHeight: 0.9,
+                letterSpacing: "-0.05em",
+              }}
+            >
+              Someday<br />PM
+            </div>
+            <div
+              style={{
+                fontSize: 13,
+                color: "rgba(244,234,214,.72)",
+                marginTop: 8,
+              }}
+            >
+              Personal workspace
+            </div>
+          </Link>
+
+          {/* Close button — only visible on mobile via CSS */}
+          <button
+            className="sidebar-close-btn"
+            onClick={onClose}
+            aria-label="Close menu"
+            style={{
+              display: "none",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 30,
+              height: 30,
+              borderRadius: 8,
+              background: "transparent",
+              border: "1px solid var(--brand-border-light)",
+              color: "var(--brand-text-muted)",
+              cursor: "pointer",
+              flexShrink: 0,
+              padding: 0,
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
-        <Link to="/" style={navItemStyle("/")}>
-          <NavIcon d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-          Projects
-        </Link>
-
-        <button
-          onClick={onOpenProfile}
-          style={navItemStyle("/profile")}
-        >
-          <NavIcon d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
-          Profile
-        </button>
-      </nav>
-
-      {/* ── Workspace badge ── */}
-      <div
-        style={{
-          padding: "12px 16px",
-          borderTop: "1px solid var(--brand-border)",
-        }}
-      >
-        <span
+        {/* ── Navigation ── */}
+        <nav
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "4px 10px",
-            background: "rgba(242,231,156,0.10)",
-            border: "1px solid rgba(242,231,156,0.18)",
-            borderRadius: 99,
-            color: "var(--brand-accent-yellow)",
-            fontSize: 11,
-            fontWeight: 500,
+            flex: 1,
+            padding: "14px 10px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <div
+            style={{
+              fontSize: 10,
+              fontWeight: 600,
+              color: "var(--brand-text-muted)",
+              padding: "0 6px",
+              marginBottom: 6,
+              letterSpacing: "0.8px",
+              textTransform: "uppercase",
+              opacity: 0.7,
+            }}
+          >
+            Main
+          </div>
+
+          <Link to="/" style={navItemStyle("/")}>
+            <NavIcon d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            Projects
+          </Link>
+
+          <button
+            onClick={onOpenProfile}
+            style={navItemStyle("/profile")}
+          >
+            <NavIcon d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
+            Profile
+          </button>
+        </nav>
+
+        {/* ── Workspace badge ── */}
+        <div
+          style={{
+            padding: "12px 16px",
+            borderTop: "1px solid var(--brand-border)",
           }}
         >
           <span
             style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "var(--brand-accent-yellow)",
-              opacity: 0.8,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "4px 10px",
+              background: "rgba(242,231,156,0.10)",
+              border: "1px solid rgba(242,231,156,0.18)",
+              borderRadius: 99,
+              color: "var(--brand-accent-yellow)",
+              fontSize: 11,
+              fontWeight: 500,
             }}
-          />
-          Personal
-        </span>
-      </div>
-    </aside>
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: "var(--brand-accent-yellow)",
+                opacity: 0.8,
+              }}
+            />
+            Personal
+          </span>
+        </div>
+      </aside>
+    </>
   );
 }
 

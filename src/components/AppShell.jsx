@@ -28,6 +28,7 @@ export default function AppShell({ children }) {
   const [showProfile, setShowProfile] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div
@@ -44,7 +45,11 @@ export default function AppShell({ children }) {
       }}
     >
       {/* ── Sidebar ── */}
-      <Sidebar onOpenProfile={() => setShowProfile(true)} />
+      <Sidebar
+        onOpenProfile={() => setShowProfile(true)}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
       {/* ── Right column: topbar + main ── */}
       <div
@@ -69,8 +74,19 @@ export default function AppShell({ children }) {
             borderBottom: "1px solid var(--brand-border)",
           }}
         >
-          {/* Left side — page title */}
+          {/* Left side — hamburger (mobile) + page title */}
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <button
+              className="hamburger-btn"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open menu"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
             <span
               style={{
                 fontSize: "1.5rem",
