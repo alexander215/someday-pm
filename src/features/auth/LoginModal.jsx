@@ -99,7 +99,7 @@ export default function LoginModal({ onClose }) {
           <p style={{ fontSize: '14px', color: 'var(--brand-text-dark-muted)', margin: 0, lineHeight: 1.6 }}>
             {step === 'email'
               ? 'Sign in with your invited email address.'
-              : `Check your inbox — a 6-digit code was sent to ${email}`}
+              : `Check your inbox — an 8-digit code was sent to ${email}`}
           </p>
         </div>
 
@@ -133,9 +133,9 @@ export default function LoginModal({ onClose }) {
             <input
               type="text"
               inputMode="numeric"
-              placeholder="6-digit code"
+              placeholder="8-digit code"
               value={token}
-              onChange={(e) => setToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              onChange={(e) => setToken(e.target.value.replace(/\D/g, '').slice(0, 8))}
               required
               autoFocus
               disabled={loading}
@@ -144,8 +144,8 @@ export default function LoginModal({ onClose }) {
             {error && <p style={errorStyle}>{error}</p>}
             <button
               type="submit"
-              disabled={loading || token.length < 6}
-              style={{ ...btnPrimary, opacity: loading || token.length < 6 ? 0.6 : 1 }}
+              disabled={loading || token.length < 8}
+              style={{ ...btnPrimary, opacity: loading || token.length < 8 ? 0.6 : 1 }}
             >
               {loading ? 'Verifying…' : 'Verify code'}
             </button>
