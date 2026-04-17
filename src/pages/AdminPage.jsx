@@ -183,18 +183,11 @@ export default function AdminPage() {
       )}
 
       {!dataLoading && activeList.length > 0 && (
-        <div
-          style={{
-            border: '1px solid rgba(183,165,134,0.2)',
-            borderRadius: 12,
-            overflow: 'hidden',
-          }}
-        >
-          {activeList.map((r, i) => (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {activeList.map((r) => (
             <FeedbackRow
               key={r.id}
               report={r}
-              isLast={i === activeList.length - 1}
               onOpen={() => setSelectedId(r.id)}
               onToggleComplete={() => handleToggleComplete(r)}
             />
@@ -217,7 +210,7 @@ export default function AdminPage() {
 
 // ─── List row ─────────────────────────────────────────────────────────────────
 
-function FeedbackRow({ report, isLast, onOpen, onToggleComplete }) {
+function FeedbackRow({ report, onOpen, onToggleComplete }) {
   const [checkStatus, setCheckStatus] = useState('idle') // 'idle'|'saving'|'saved'|'error'
   const checkTimerRef = useRef(null)
   const [thumbUrl, setThumbUrl]       = useState(null)
@@ -263,16 +256,24 @@ function FeedbackRow({ report, isLast, onOpen, onToggleComplete }) {
         display: 'flex',
         alignItems: 'center',
         gap: 14,
-        padding: '14px 20px',
+        padding: '16px 20px',
         background: 'var(--brand-surface-soft)',
-        borderBottom: isLast ? 'none' : '1px solid rgba(183,165,134,0.15)',
+        border: '1px solid rgba(183,165,134,0.22)',
+        borderRadius: 12,
+        boxShadow: '0 1px 4px rgba(0,0,0,0.07)',
         cursor: 'pointer',
         opacity: report.is_complete ? 0.65 : 1,
-        transition: 'opacity 0.15s, background 0.12s',
+        transition: 'opacity 0.15s, border-color 0.12s, box-shadow 0.12s',
         userSelect: 'none',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(244,234,214,0.09)' }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--brand-surface-soft)' }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'rgba(183,165,134,0.42)'
+        e.currentTarget.style.boxShadow   = '0 2px 8px rgba(0,0,0,0.1)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'rgba(183,165,134,0.22)'
+        e.currentTarget.style.boxShadow   = '0 1px 4px rgba(0,0,0,0.07)'
+      }}
     >
       {/* Checkbox + tiny status */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flexShrink: 0 }}>
