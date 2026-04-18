@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import useAuth from "../features/auth/useAuth";
-import LoginModal from "../features/auth/LoginModal";
 import AppShell from "../components/AppShell";
 import PublicSiteLayout from "../components/layout/PublicSiteLayout";
 import AuthenticatedSiteLayout from "../components/layout/AuthenticatedSiteLayout";
@@ -13,7 +11,6 @@ import { C } from "../lib/brandTokens";
 export default function BlogPostPage() {
   const { slug } = useParams();
   const { user, loading } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
 
   const post = slug ? getPublishedPostBySlug(slug) : null;
 
@@ -27,12 +24,9 @@ export default function BlogPostPage() {
 
   if (!user) {
     return (
-      <>
-        <PublicSiteLayout onSignIn={() => setShowLogin(true)}>
-          <BlogPostPageContent variant="public" post={post} />
-        </PublicSiteLayout>
-        {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
-      </>
+      <PublicSiteLayout>
+        <BlogPostPageContent variant="public" post={post} />
+      </PublicSiteLayout>
     );
   }
 
@@ -46,8 +40,6 @@ export default function BlogPostPage() {
 }
 
 function NotFoundPost({ loggedIn }) {
-  const [showLogin, setShowLogin] = useState(false);
-
   const inner = (
     <div style={{ padding: "56px 40px 80px", maxWidth: "560px", margin: "0 auto" }}>
       <h1
@@ -92,12 +84,5 @@ function NotFoundPost({ loggedIn }) {
     );
   }
 
-  return (
-    <>
-      <PublicSiteLayout onSignIn={() => setShowLogin(true)}>
-        {inner}
-      </PublicSiteLayout>
-      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
-    </>
-  );
+  return <PublicSiteLayout>{inner}</PublicSiteLayout>;
 }

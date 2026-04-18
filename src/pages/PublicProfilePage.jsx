@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProfileByHandle, getPublicCardMetaForUser } from "../lib/profiles";
+import BrandEmptyState from "../components/BrandEmptyState";
 
 const C = {
   canvas:     '#f7f5f0',
@@ -186,21 +187,16 @@ export default function PublicProfilePage() {
 
       {/* Not found */}
       {!loading && notFound && (
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "80px 40px", textAlign: "center" }}>
-          <p style={{ fontSize: 48, marginBottom: 16 }}>🌱</p>
-          <h1 style={{
-            fontSize: 22,
-            fontWeight: 800,
-            color: C.ink,
-            margin: "0 0 8px",
-            fontFamily: "var(--font-display)",
-            letterSpacing: "-0.03em",
-          }}>
-            Profile not found
-          </h1>
-          <p style={{ fontSize: 14, color: C.muted }}>
-            This profile is private or doesn't exist.
-          </p>
+        <div style={{ maxWidth: 560, margin: "0 auto", padding: "64px 40px 80px" }}>
+          <BrandEmptyState
+            variant="marketing"
+            icon="🌱"
+            kicker="Public profile"
+            title="This profile isn’t available"
+            description="It may be private, removed, or the link might be mistyped. SomedayPM profiles are optional and invite-only."
+            primaryAction={{ label: "Back to home", to: "/" }}
+            secondaryAction={{ label: "Request beta access", to: "/beta" }}
+          />
         </div>
       )}
 
@@ -292,7 +288,15 @@ export default function PublicProfilePage() {
             </h2>
 
             {projects.length === 0 ? (
-              <p style={{ fontSize: 14, color: C.muted }}>No public projects yet.</p>
+              <BrandEmptyState
+                variant="marketing"
+                icon="◇"
+                kicker="Portfolio"
+                title="No public projects yet"
+                description="When this builder marks projects as public, they’ll show up here with links and a short description."
+                primaryAction={{ label: "Learn about SomedayPM", to: "/about" }}
+                secondaryAction={{ label: "Home", to: "/" }}
+              />
             ) : (
               <div style={{
                 display: "grid",

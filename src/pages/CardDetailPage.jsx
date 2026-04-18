@@ -31,6 +31,7 @@ import {
   updateBrainstormEntryScore,
   deleteBrainstormEntry,
 } from "../lib/brainstorm";
+import BrandEmptyState from "../components/BrandEmptyState";
 
 export default function CardDetailPage() {
   const { cardId } = useParams();
@@ -558,7 +559,12 @@ export default function CardDetailPage() {
 
               {/* Task list */}
               {children.length === 0 && !showCreate ? (
-                <div style={panelEmptyState}>No tasks yet.</div>
+                <BrandEmptyState
+                  variant="panel"
+                  title="No tasks yet"
+                  description="Break this project into steps — each task gets its own notes, files, and to-dos."
+                  primaryAction={{ label: "+ Add task", onClick: () => setShowCreate(true) }}
+                />
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                   {children.map((child) => (
@@ -611,7 +617,11 @@ export default function CardDetailPage() {
                 </form>
 
                 {todos.length === 0 ? (
-                  <div style={panelEmptyState}>No to-dos yet.</div>
+                  <BrandEmptyState
+                    variant="panel"
+                    title="No to-dos yet"
+                    description="Use the field above to capture quick checklist items for this project."
+                  />
                 ) : (
                   <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                     {todos.map((todo) => (
@@ -688,7 +698,11 @@ export default function CardDetailPage() {
 
               {/* Topic cards */}
               {brainstormCards.length === 0 ? (
-                <div style={panelEmptyState}>No brainstorm topics yet. Add a topic above to start capturing ideas.</div>
+                <BrandEmptyState
+                  variant="panel"
+                  title="No brainstorm topics yet"
+                  description="Add a topic above, then capture ideas underneath and score what feels strongest."
+                />
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {brainstormCards.map((bCard) => (
@@ -727,7 +741,11 @@ export default function CardDetailPage() {
                         </form>
 
                         {(!bCard.brainstorm_entries || bCard.brainstorm_entries.length === 0) ? (
-                          <p style={{ fontSize: 12, color: "var(--brand-text-dark-muted)", padding: "2px 0", margin: 0 }}>No ideas yet.</p>
+                          <BrandEmptyState
+                            variant="panel"
+                            title="No ideas in this topic yet"
+                            description="Use the field above to add a rough thought — you can score or delete it later."
+                          />
                         ) : (
                           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                             {bCard.brainstorm_entries.map((entry) => (
@@ -812,7 +830,15 @@ export default function CardDetailPage() {
           <div style={{ padding: "14px 16px" }}>
             {fileError && <p style={panelErrorText}>{fileError}</p>}
             {files.length === 0 ? (
-              <div style={panelEmptyState}>No attachments yet.</div>
+              <BrandEmptyState
+                variant="panel"
+                title="No attachments yet"
+                description="Drop references, briefs, or exports so everything lives with the project."
+                primaryAction={{
+                  label: "+ Attach files",
+                  onClick: () => fileInputRef.current?.click(),
+                }}
+              />
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                 {files.map((file) => (
@@ -1006,15 +1032,6 @@ const taskItemRow = {
   border: "1px solid rgba(183,165,134,0.22)",
   borderRadius: 8,
   background: "var(--brand-surface)",
-};
-
-const panelEmptyState = {
-  padding: "16px 12px",
-  border: "1px dashed rgba(183,165,134,0.3)",
-  borderRadius: 8,
-  color: "var(--brand-text-dark-muted)",
-  fontSize: 13,
-  textAlign: "center",
 };
 
 const panelErrorText = {

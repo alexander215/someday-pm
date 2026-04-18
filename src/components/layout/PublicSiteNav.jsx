@@ -13,10 +13,9 @@ const linkRest = {
 /**
  * Public site navigation — sticky forest glass bar.
  * @param {object} props
- * @param {() => void} [props.onSignIn]
- * @param {boolean} [props.showSignIn=true]
+ * @param {boolean} [props.showMemberLogin=true] — link to passwordless /login (invite-only)
  */
-export default function PublicSiteNav({ onSignIn, showSignIn = true }) {
+export default function PublicSiteNav({ showMemberLogin = true }) {
   return (
     <nav style={navBarStyle}>
       <div style={{ display: "flex", alignItems: "center", gap: "28px", flexWrap: "wrap" }}>
@@ -57,14 +56,10 @@ export default function PublicSiteNav({ onSignIn, showSignIn = true }) {
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }}>
-        {showSignIn && onSignIn && (
-          <button
-            type="button"
-            onClick={onSignIn}
-            style={{ ...btnGhostDark, fontSize: "14px", padding: "7px 16px" }}
-          >
-            Sign in
-          </button>
+        {showMemberLogin && (
+          <Link to="/login" style={{ ...btnGhostDark, fontSize: "14px", padding: "7px 16px" }}>
+            Member log in
+          </Link>
         )}
         <Link to="/beta" style={btnPrimary}>
           Request beta access

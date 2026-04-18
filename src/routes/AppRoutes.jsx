@@ -10,6 +10,7 @@ import AboutPage from "../pages/AboutPage";
 import ContactPage from "../pages/ContactPage";
 import BlogIndexPage from "../pages/BlogIndexPage";
 import BlogPostPage from "../pages/BlogPostPage";
+import LoginPage from "../pages/LoginPage";
 import RequireAuth from "../features/auth/RequireAuth";
 import AppShell from "../components/AppShell";
 
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
   {
     path: "/beta",

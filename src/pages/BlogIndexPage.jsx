@@ -1,6 +1,4 @@
-import { useState } from "react";
 import useAuth from "../features/auth/useAuth";
-import LoginModal from "../features/auth/LoginModal";
 import AppShell from "../components/AppShell";
 import PublicSiteLayout from "../components/layout/PublicSiteLayout";
 import AuthenticatedSiteLayout from "../components/layout/AuthenticatedSiteLayout";
@@ -10,7 +8,6 @@ import { getPublishedPosts } from "../lib/blog";
 
 export default function BlogIndexPage() {
   const { user, loading } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
   const posts = getPublishedPosts();
 
   if (loading) {
@@ -19,12 +16,9 @@ export default function BlogIndexPage() {
 
   if (!user) {
     return (
-      <>
-        <PublicSiteLayout onSignIn={() => setShowLogin(true)}>
-          <BlogIndexPageContent variant="public" posts={posts} />
-        </PublicSiteLayout>
-        {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
-      </>
+      <PublicSiteLayout>
+        <BlogIndexPageContent variant="public" posts={posts} />
+      </PublicSiteLayout>
     );
   }
 
