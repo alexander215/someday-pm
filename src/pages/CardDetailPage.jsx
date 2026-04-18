@@ -32,6 +32,7 @@ import {
   deleteBrainstormEntry,
 } from "../lib/brainstorm";
 import BrandEmptyState from "../components/BrandEmptyState";
+import { workspaceBoard } from "../lib/brandTokens";
 
 export default function CardDetailPage() {
   const { cardId } = useParams();
@@ -502,7 +503,7 @@ export default function CardDetailPage() {
               <h2 style={sectionCardTitle}>
                 Tasks
                 {children.length > 0 && (
-                  <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: "var(--brand-text-dark-muted)" }}>
+                  <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: workspaceBoard.textMuted }}>
                     {children.length}
                   </span>
                 )}
@@ -571,12 +572,12 @@ export default function CardDetailPage() {
                     <div key={child.id} style={taskItemRow}>
                       <Link
                         to={`/card/${cardId}/item/${child.id}`}
-                        style={{ fontSize: 13, color: "var(--brand-dark)", textDecoration: "none", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 500 }}
+                        style={{ fontSize: 13, color: workspaceBoard.text, textDecoration: "none", flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 500 }}
                       >
                         {child.title}
                       </Link>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, marginLeft: 8 }}>
-                        <span style={{ fontSize: 10, padding: "2px 8px", border: "1px solid rgba(183,165,134,0.28)", borderRadius: 99, color: "var(--brand-text-dark-muted)", whiteSpace: "nowrap" }}>
+                        <span style={{ fontSize: 10, padding: "2px 8px", border: "1px solid rgba(183,165,134,0.28)", borderRadius: 99, color: workspaceBoard.textMuted, whiteSpace: "nowrap" }}>
                           {child.category}
                         </span>
                         <button onClick={() => handleDeleteChild(child.id)} title="Delete task" style={panelIconBtn}>×</button>
@@ -591,7 +592,7 @@ export default function CardDetailPage() {
                 <h3 style={{ ...sectionCardTitle, marginBottom: 12, fontSize: 13 }}>
                   To‑Do
                   {todos.length > 0 && (
-                    <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: "var(--brand-text-dark-muted)" }}>
+                    <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: workspaceBoard.textMuted }}>
                       {todos.filter((t) => t.completed).length}/{todos.length}
                     </span>
                   )}
@@ -632,7 +633,7 @@ export default function CardDetailPage() {
                           padding: "8px 10px",
                           border: "1px solid rgba(183,165,134,0.2)",
                           borderRadius: 7,
-                          background: todo.completed ? "transparent" : "rgba(243,231,207,0.35)",
+                          background: todo.completed ? "transparent" : workspaceBoard.card,
                           opacity: todo.completed ? 0.6 : 1,
                         }}
                       >
@@ -650,7 +651,7 @@ export default function CardDetailPage() {
                         >
                           {todo.completed ? "✓" : ""}
                         </button>
-                        <span style={{ flex: 1, fontSize: 13, color: "var(--brand-dark)", textDecoration: todo.completed ? "line-through" : "none", lineHeight: 1.4 }}>
+                        <span style={{ flex: 1, fontSize: 13, color: workspaceBoard.text, textDecoration: todo.completed ? "line-through" : "none", lineHeight: 1.4 }}>
                           {todo.text}
                         </span>
                         <button onClick={() => handleDeleteTodo(todo.id)} title="Delete" style={panelIconBtn}>×</button>
@@ -668,7 +669,7 @@ export default function CardDetailPage() {
               <h2 style={sectionCardTitle}>
                 Brainstorm
                 {brainstormCards.length > 0 && (
-                  <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: "var(--brand-text-dark-muted)" }}>
+                  <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: workspaceBoard.textMuted }}>
                     {brainstormCards.length} topic{brainstormCards.length !== 1 ? "s" : ""}
                   </span>
                 )}
@@ -708,11 +709,11 @@ export default function CardDetailPage() {
                   {brainstormCards.map((bCard) => (
                     <div
                       key={bCard.id}
-                      style={{ border: "1px solid rgba(183,165,134,0.25)", borderRadius: 10, background: "var(--brand-surface)", overflow: "hidden" }}
+                      style={{ border: "1px solid rgba(183,165,134,0.25)", borderRadius: 10, background: workspaceBoard.card, overflow: "hidden" }}
                     >
                       {/* Topic header */}
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 12px", borderBottom: "1px solid rgba(183,165,134,0.2)" }}>
-                        <span style={{ fontSize: 13, fontWeight: 700, color: "var(--brand-dark)" }}>{bCard.title}</span>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: workspaceBoard.text }}>{bCard.title}</span>
                         <button onClick={() => handleDeleteBrainstormCard(bCard.id)} title="Delete topic" style={panelIconBtn}>×</button>
                       </div>
 
@@ -756,10 +757,10 @@ export default function CardDetailPage() {
                                   padding: "6px 10px",
                                   border: "1px solid rgba(183,165,134,0.2)",
                                   borderRadius: 6,
-                                  background: "var(--brand-surface-soft)",
+                                  background: workspaceBoard.nestedLine,
                                 }}
                               >
-                                <span style={{ flex: 1, fontSize: 12, color: "var(--brand-dark)", lineHeight: 1.4 }}>
+                                <span style={{ flex: 1, fontSize: 12, color: workspaceBoard.text, lineHeight: 1.4 }}>
                                   {entry.text}
                                 </span>
                                 <select
@@ -767,10 +768,10 @@ export default function CardDetailPage() {
                                   onChange={(e) => handleBrainstormEntryScore(entry, e.target.value)}
                                   title="Score 1–10"
                                   style={{
-                                    background: "var(--brand-surface)",
+                                    background: workspaceBoard.card,
                                     border: "1px solid rgba(183,165,134,0.3)",
                                     borderRadius: 4,
-                                    color: entry.score ? "var(--brand-dark)" : "var(--brand-text-dark-muted)",
+                                    color: entry.score ? workspaceBoard.text : workspaceBoard.textMuted,
                                     fontSize: 11, padding: "2px 4px", cursor: "pointer", flexShrink: 0,
                                   }}
                                 >
@@ -807,10 +808,10 @@ export default function CardDetailPage() {
             <label
               style={{
                 padding: "5px 12px",
-                background: uploading ? "transparent" : "var(--brand-surface)",
+                background: uploading ? "transparent" : workspaceBoard.card,
                 border: "1px solid rgba(183,165,134,0.3)",
                 borderRadius: 7,
-                color: uploading ? "var(--brand-text-dark-muted)" : "var(--brand-dark)",
+                color: uploading ? workspaceBoard.textMuted : workspaceBoard.text,
                 fontSize: 12, fontWeight: 500,
                 cursor: uploading ? "not-allowed" : "pointer",
               }}
@@ -855,7 +856,7 @@ export default function CardDetailPage() {
                       >
                         {file.file_name}
                       </button>
-                      <span style={{ fontSize: 11, color: "var(--brand-text-dark-muted)" }}>
+                      <span style={{ fontSize: 11, color: workspaceBoard.textMuted }}>
                         {formatBytes(file.file_size)}
                       </span>
                     </div>
@@ -880,7 +881,7 @@ export default function CardDetailPage() {
             <span
               style={{
                 fontSize: 11,
-                color: bgSaveStatus === "error" ? "#b45309" : "var(--brand-text-dark-muted)",
+                color: bgSaveStatus === "error" ? "#b45309" : workspaceBoard.textMuted,
                 minWidth: 60,
                 textAlign: "right",
               }}
@@ -889,7 +890,7 @@ export default function CardDetailPage() {
             </span>
           </div>
           <div style={{ padding: "14px 16px" }}>
-            <p style={{ fontSize: 12, color: "var(--brand-text-dark-muted)", margin: "0 0 10px" }}>
+            <p style={{ fontSize: 12, color: workspaceBoard.textMuted, margin: "0 0 10px" }}>
               Use this for context, links, constraints, and rough notes.
             </p>
             <textarea
@@ -948,10 +949,10 @@ const inputStyle = {
   boxSizing: "border-box",
 };
 
-// ── Cream panel tokens ──────────────────────────────────────────────────────
+// ── Workspace board panels (canvas shell + inset interactive — see workspaceBoard) ──
 
 const sectionCard = {
-  background: "var(--brand-surface-soft)",
+  background: workspaceBoard.canvas,
   border: "1px solid rgba(183,165,134,0.28)",
   borderRadius: 14,
   boxShadow: "0 4px 20px rgba(27,35,27,0.18)",
@@ -969,7 +970,7 @@ const sectionCardHeader = {
 const sectionCardTitle = {
   fontSize: 14,
   fontWeight: 700,
-  color: "var(--brand-dark)",
+  color: workspaceBoard.text,
   fontFamily: "var(--font-display)",
   margin: 0,
 };
@@ -977,10 +978,10 @@ const sectionCardTitle = {
 // Inputs inside cream panels
 const panelInputStyle = {
   padding: "7px 10px",
-  background: "var(--brand-surface)",
+  background: workspaceBoard.card,
   border: "1px solid rgba(183,165,134,0.28)",
   borderRadius: 7,
-  color: "var(--brand-dark)",
+  color: workspaceBoard.text,
   fontSize: 13,
   outline: "none",
   width: "100%",
@@ -1006,7 +1007,7 @@ const panelCancelBtn = {
   background: "transparent",
   border: "1px solid rgba(183,165,134,0.3)",
   borderRadius: 7,
-  color: "var(--brand-text-dark-muted)",
+  color: workspaceBoard.textMuted,
   fontSize: 12,
   cursor: "pointer",
 };
@@ -1015,7 +1016,7 @@ const panelCancelBtn = {
 const panelIconBtn = {
   background: "none",
   border: "none",
-  color: "rgba(100,80,60,0.4)",
+  color: "rgba(64, 52, 38, 0.55)",
   cursor: "pointer",
   fontSize: 16,
   lineHeight: 1,
@@ -1031,7 +1032,7 @@ const taskItemRow = {
   padding: "9px 12px",
   border: "1px solid rgba(183,165,134,0.22)",
   borderRadius: 8,
-  background: "var(--brand-surface)",
+  background: workspaceBoard.card,
 };
 
 const panelErrorText = {
