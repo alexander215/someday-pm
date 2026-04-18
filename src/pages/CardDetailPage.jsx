@@ -24,12 +24,9 @@ import {
   deleteTodo,
 } from "../lib/todos";
 import {
-  getBrainstormCardsForCard,
-  createBrainstormCard,
-  deleteBrainstormCard,
-  createBrainstormEntry,
-  updateBrainstormEntryScore,
-  deleteBrainstormEntry,
+  getBrainstormBoardsForCard,
+  createBrainstormBoard,
+  deleteBrainstormBoard,
 } from "../lib/brainstorm";
 import BrandEmptyState from "../components/BrandEmptyState";
 import { workspaceBoard } from "../lib/brandTokens";
@@ -69,10 +66,9 @@ export default function CardDetailPage() {
   const [todoError, setTodoError] = useState(null);
 
   // Brainstorm state
-  const [brainstormCards, setBrainstormCards] = useState([]);
+  const [brainstormBoards, setBrainstormBoards] = useState([]);
   const [brainstormNewTitle, setBrainstormNewTitle] = useState("");
-  const [brainstormAddingCard, setBrainstormAddingCard] = useState(false);
-  const [brainstormEntryInputs, setBrainstormEntryInputs] = useState({});
+  const [brainstormAddingBoard, setBrainstormAddingBoard] = useState(false);
   const [brainstormError, setBrainstormError] = useState(null);
 
   // Background notes state
@@ -86,14 +82,14 @@ export default function CardDetailPage() {
       getChildCards(cardId),
       listFilesForCard(cardId),
       getTodosForCard(cardId),
-      getBrainstormCardsForCard(cardId),
+      getBrainstormBoardsForCard(cardId),
     ])
       .then(([cardData, childData, filesData, todosData, brainstormData]) => {
         setCard(cardData);
         setChildren(childData);
         setFiles(filesData);
         setTodos(todosData);
-        setBrainstormCards(brainstormData);
+        setBrainstormBoards(brainstormData);
         setBgNotes(cardData.background_notes || "");
       })
       .catch((err) => setError(err.message))
@@ -251,82 +247,26 @@ export default function CardDetailPage() {
     }
   }
 
-  async function handleAddBrainstormCard(e) {
+  async function handleAddBrainstormBoard(e) {
     e.preventDefault();
     if (!brainstormNewTitle.trim()) return;
-    setBrainstormAddingCard(true);
+    setBrainstormAddingBoard(true);
     setBrainstormError(null);
     try {
-      const bCard = await createBrainstormCard({ cardId, title: brainstormNewTitle.trim() });
-      setBrainstormCards((prev) => [...prev, bCard]);
+      const board = await createBrainstormBoard({ cardId, title: brainstormNewTitle.trim() });
+      setBrainstormBoards((prev) => [...prev, board]);
       setBrainstormNewTitle("");
     } catch (err) {
       setBrainstormError(err.message);
     } finally {
-      setBrainstormAddingCard(false);
+      setBrainstormAddingBoard(false);
     }
   }
 
-  async function handleDeleteBrainstormCard(id) {
+  async function handleDeleteBrainstormBoard(id) {
     try {
-      await deleteBrainstormCard(id);
-      setBrainstormCards((prev) => prev.filter((c) => c.id !== id));
-    } catch (err) {
-      setBrainstormError(err.message);
-    }
-  }
-
-  async function handleAddBrainstormEntry(e, brainstormCardId) {
-    e.preventDefault();
-    const text = brainstormEntryInputs[brainstormCardId] || "";
-    if (!text.trim()) return;
-    setBrainstormError(null);
-    try {
-      const entry = await createBrainstormEntry({ brainstormCardId, text: text.trim() });
-      setBrainstormCards((prev) =>
-        prev.map((c) =>
-          c.id === brainstormCardId
-            ? { ...c, brainstorm_entries: [entry, ...(c.brainstorm_entries || [])] }
-            : c
-        )
-      );
-      setBrainstormEntryInputs((prev) => ({ ...prev, [brainstormCardId]: "" }));
-    } catch (err) {
-      setBrainstormError(err.message);
-    }
-  }
-
-  async function handleBrainstormEntryScore(entry, rawVal) {
-    const score = rawVal === "" ? null : parseInt(rawVal, 10);
-    try {
-      const updated = await updateBrainstormEntryScore(entry.id, score);
-      setBrainstormCards((prev) =>
-        prev.map((c) =>
-          c.id === entry.brainstorm_card_id
-            ? {
-                ...c,
-                brainstorm_entries: (c.brainstorm_entries || []).map((en) =>
-                  en.id === updated.id ? updated : en
-                ),
-              }
-            : c
-        )
-      );
-    } catch (err) {
-      setBrainstormError(err.message);
-    }
-  }
-
-  async function handleDeleteBrainstormEntry(brainstormCardId, entryId) {
-    try {
-      await deleteBrainstormEntry(entryId);
-      setBrainstormCards((prev) =>
-        prev.map((c) =>
-          c.id === brainstormCardId
-            ? { ...c, brainstorm_entries: (c.brainstorm_entries || []).filter((en) => en.id !== entryId) }
-            : c
-        )
-      );
+      await deleteBrainstormBoard(id);
+      setBrainstormBoards((prev) => prev.filter((b) => b.id !== id));
     } catch (err) {
       setBrainstormError(err.message);
     }
@@ -668,9 +608,9 @@ export default function CardDetailPage() {
             <div style={sectionCardHeader}>
               <h2 style={sectionCardTitle}>
                 Brainstorm
-                {brainstormCards.length > 0 && (
+                {brainstormBoards.length > 0 && (
                   <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: workspaceBoard.textMuted }}>
-                    {brainstormCards.length} topic{brainstormCards.length !== 1 ? "s" : ""}
+                    {brainstormBoards.length} board{brainstormBoards.length !== 1 ? "s" : ""}
                   </span>
                 )}
               </h2>
@@ -679,119 +619,63 @@ export default function CardDetailPage() {
             <div style={{ padding: "14px 16px" }}>
               {brainstormError && <p style={panelErrorText}>{brainstormError}</p>}
 
-              {/* New topic form */}
-              <form onSubmit={handleAddBrainstormCard} style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+              <form onSubmit={handleAddBrainstormBoard} style={{ display: "flex", gap: 8, marginBottom: 14 }}>
                 <input
                   type="text"
-                  placeholder="New brainstorm topic…"
+                  placeholder="New board name…"
                   value={brainstormNewTitle}
                   onChange={(e) => setBrainstormNewTitle(e.target.value)}
                   style={{ ...panelInputStyle, flex: 1 }}
                 />
                 <button
                   type="submit"
-                  disabled={brainstormAddingCard || !brainstormNewTitle.trim()}
-                  style={{ ...panelGreenBtn, opacity: brainstormAddingCard || !brainstormNewTitle.trim() ? 0.5 : 1, cursor: brainstormAddingCard || !brainstormNewTitle.trim() ? "not-allowed" : "pointer" }}
+                  disabled={brainstormAddingBoard || !brainstormNewTitle.trim()}
+                  style={{
+                    ...panelGreenBtn,
+                    opacity: brainstormAddingBoard || !brainstormNewTitle.trim() ? 0.5 : 1,
+                    cursor: brainstormAddingBoard || !brainstormNewTitle.trim() ? "not-allowed" : "pointer",
+                  }}
                 >
-                  Add Topic
+                  Add Board
                 </button>
               </form>
 
-              {/* Topic cards */}
-              {brainstormCards.length === 0 ? (
+              {brainstormBoards.length === 0 ? (
                 <BrandEmptyState
                   variant="panel"
-                  title="No brainstorm topics yet"
-                  description="Add a topic above, then capture ideas underneath and score what feels strongest."
+                  title="No brainstorm boards yet"
+                  description="Create a board to start capturing ideas. Each board is its own focused brainstorm."
                 />
               ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {brainstormCards.map((bCard) => (
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {brainstormBoards.map((board) => (
                     <div
-                      key={bCard.id}
-                      style={{ border: "1px solid rgba(183,165,134,0.25)", borderRadius: 10, background: workspaceBoard.card, overflow: "hidden" }}
+                      key={board.id}
+                      style={{
+                        display: "flex", alignItems: "center",
+                        padding: "9px 12px",
+                        border: "1px solid rgba(183,165,134,0.22)",
+                        borderRadius: 8,
+                        background: workspaceBoard.card,
+                      }}
                     >
-                      {/* Topic header */}
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 12px", borderBottom: "1px solid rgba(183,165,134,0.2)" }}>
-                        <span style={{ fontSize: 13, fontWeight: 700, color: workspaceBoard.text }}>{bCard.title}</span>
-                        <button onClick={() => handleDeleteBrainstormCard(bCard.id)} title="Delete topic" style={panelIconBtn}>×</button>
-                      </div>
-
-                      {/* Entries area */}
-                      <div style={{ padding: "9px 12px" }}>
-                        <form
-                          onSubmit={(e) => handleAddBrainstormEntry(e, bCard.id)}
-                          style={{ display: "flex", gap: 8, marginBottom: 8 }}
-                        >
-                          <input
-                            type="text"
-                            placeholder="Add an idea…"
-                            value={brainstormEntryInputs[bCard.id] || ""}
-                            onChange={(e) =>
-                              setBrainstormEntryInputs((prev) => ({ ...prev, [bCard.id]: e.target.value }))
-                            }
-                            style={{ ...panelInputStyle, fontSize: 12 }}
-                          />
-                          <button
-                            type="submit"
-                            disabled={!(brainstormEntryInputs[bCard.id] || "").trim()}
-                            style={{ ...panelGreenBtn, fontSize: 12, padding: "5px 11px", opacity: !(brainstormEntryInputs[bCard.id] || "").trim() ? 0.5 : 1, cursor: !(brainstormEntryInputs[bCard.id] || "").trim() ? "not-allowed" : "pointer" }}
-                          >
-                            Add
-                          </button>
-                        </form>
-
-                        {(!bCard.brainstorm_entries || bCard.brainstorm_entries.length === 0) ? (
-                          <BrandEmptyState
-                            variant="panel"
-                            title="No ideas in this topic yet"
-                            description="Use the field above to add a rough thought — you can score or delete it later."
-                          />
-                        ) : (
-                          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                            {bCard.brainstorm_entries.map((entry) => (
-                              <div
-                                key={entry.id}
-                                style={{
-                                  display: "flex", alignItems: "center", gap: 8,
-                                  padding: "6px 10px",
-                                  border: "1px solid rgba(183,165,134,0.2)",
-                                  borderRadius: 6,
-                                  background: workspaceBoard.nestedLine,
-                                }}
-                              >
-                                <span style={{ flex: 1, fontSize: 12, color: workspaceBoard.text, lineHeight: 1.4 }}>
-                                  {entry.text}
-                                </span>
-                                <select
-                                  value={entry.score ?? ""}
-                                  onChange={(e) => handleBrainstormEntryScore(entry, e.target.value)}
-                                  title="Score 1–10"
-                                  style={{
-                                    background: workspaceBoard.card,
-                                    border: "1px solid rgba(183,165,134,0.3)",
-                                    borderRadius: 4,
-                                    color: entry.score ? workspaceBoard.text : workspaceBoard.textMuted,
-                                    fontSize: 11, padding: "2px 4px", cursor: "pointer", flexShrink: 0,
-                                  }}
-                                >
-                                  <option value="">—</option>
-                                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                                    <option key={n} value={n}>{n}</option>
-                                  ))}
-                                </select>
-                                <button
-                                  onClick={() => handleDeleteBrainstormEntry(bCard.id, entry.id)}
-                                  title="Delete"
-                                  style={{ ...panelIconBtn, fontSize: 14 }}
-                                >
-                                  ×
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                      <Link
+                        to={`/card/${cardId}/brainstorm/${board.id}`}
+                        style={{
+                          flex: 1, fontSize: 13, fontWeight: 600,
+                          color: workspaceBoard.text, textDecoration: "none",
+                          overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                        }}
+                      >
+                        {board.title}
+                      </Link>
+                      <button
+                        onClick={() => handleDeleteBrainstormBoard(board.id)}
+                        title="Delete board"
+                        style={panelIconBtn}
+                      >
+                        ×
+                      </button>
                     </div>
                   ))}
                 </div>

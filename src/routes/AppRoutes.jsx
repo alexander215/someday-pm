@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import CardDetailPage from "../pages/CardDetailPage";
 import ChildCardDetailPage from "../pages/ChildCardDetailPage";
+import BrainstormBoardPage from "../pages/BrainstormBoardPage";
 import BetaPage from "../pages/BetaPage";
 import AdminPage from "../pages/AdminPage";
 import ProfileSettingsPage from "../pages/ProfileSettingsPage";
@@ -83,6 +84,16 @@ export const router = createBrowserRouter([
       <RequireAuth>
         <AppShell>
           <ChildCardDetailPage />
+        </AppShell>
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/card/:cardId/brainstorm/:boardId",
+    element: (
+      <RequireAuth>
+        <AppShell>
+          <BrainstormBoardPage />
         </AppShell>
       </RequireAuth>
     ),
