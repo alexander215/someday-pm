@@ -6,6 +6,7 @@ import HowToUseModal from "./HowToUseModal";
 import FeedbackModal from "../features/feedback/FeedbackModal";
 import useAuth from "../features/auth/useAuth";
 import useIsAdmin from "../features/admin/useIsAdmin";
+import { getAppShellPageTitle } from "../lib/appShellTitle";
 
 // CSS variable overrides scoped to the logged-in shell.
 // All child pages use --color-* vars; overriding them here
@@ -26,7 +27,7 @@ export default function AppShell({ children }) {
   const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const pageTitle = pathname.startsWith("/profile") ? "Profile" : "Projects";
+  const pageTitle = getAppShellPageTitle(pathname);
   const [showProfile, setShowProfile] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -47,11 +48,7 @@ export default function AppShell({ children }) {
       }}
     >
       {/* ── Sidebar ── */}
-      <Sidebar
-        onOpenProfile={() => setShowProfile(true)}
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* ── Right column: topbar + main ── */}
       <div

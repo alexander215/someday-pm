@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../features/auth/useAuth";
 import LoginModal from "../features/auth/LoginModal";
 import AppShell from "../components/AppShell";
+import PublicSiteNav from "../components/layout/PublicSiteNav";
 import { getRootCards, createRootCard, ROOT_CATEGORIES } from "../lib/cards";
 
 export default function HomePage() {
@@ -95,45 +96,7 @@ function MarketingPage({ onSignIn }) {
         minHeight: "100vh",
       }}
     >
-      {/* ── Nav — dark forest glass, anchors brand across all scroll positions ── */}
-      <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "18px 40px",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-          background: "rgba(20,34,22,0.88)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 800,
-            fontSize: "18px",
-            color: "#f3e7cf",
-            letterSpacing: "-0.3px",
-          }}
-        >
-          SomedayPM
-        </span>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <button
-            onClick={onSignIn}
-            style={{ ...btnGhostDark, fontSize: "14px", padding: "7px 16px" }}
-          >
-            Sign in
-          </button>
-          <Link to="/beta" style={btnPrimary}>
-            Request beta access
-          </Link>
-        </div>
-      </nav>
+      <PublicSiteNav onSignIn={onSignIn} />
 
       {/* ── Hero — deep forest green, brand-defining ── */}
       <section
@@ -971,34 +934,6 @@ const btnPrimary = {
   border: "none",
   cursor: "pointer",
   letterSpacing: "0.1px",
-};
-
-const btnGhost = {
-  display: "inline-block",
-  padding: "8px 18px",
-  background: "transparent",
-  color: "#6b6454",
-  fontFamily: "var(--font-body)",
-  fontSize: "14px",
-  fontWeight: 500,
-  borderRadius: "8px",
-  border: "1px solid rgba(24,24,15,0.18)",
-  cursor: "pointer",
-  textDecoration: "none",
-};
-
-const btnGhostDark = {
-  display: "inline-block",
-  padding: "8px 18px",
-  background: "transparent",
-  color: "rgba(243,231,207,0.75)",
-  fontFamily: "var(--font-body)",
-  fontSize: "14px",
-  fontWeight: 500,
-  borderRadius: "8px",
-  border: "1px solid rgba(243,231,207,0.2)",
-  cursor: "pointer",
-  textDecoration: "none",
 };
 
 function FirstRunGuide({ onCreateProject }) {

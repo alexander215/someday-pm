@@ -56,6 +56,10 @@ VITE_SUPABASE_PUBLISHABLE_KEY=
 npm run dev
 ```
 
+## Blog (MVP)
+
+Posts live in `content/blog/*.mdx`. The build globs those files and renders the body with **Markdown only** (`react-markdown`). The `.mdx` filename is for convention and future use; **embedded MDX / JSX in posts is not supported** until you add an MDX compiler — see the comment at the top of `src/lib/blog.js`.
+
 ## Notes
 
 - `.env` should not be committed.

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export default function Sidebar({ onOpenProfile, isOpen = false, onClose }) {
+export default function Sidebar({ isOpen = false, onClose }) {
   const { pathname } = useLocation();
 
   // Close drawer on route change (e.g. after tapping a nav link on mobile)
@@ -149,6 +149,35 @@ export default function Sidebar({ onOpenProfile, isOpen = false, onClose }) {
           <Link to="/profile/settings" style={navItemStyle("/profile/settings")}>
             <NavIcon d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z" />
             Profile
+          </Link>
+
+          <div
+            style={{
+              fontSize: 10,
+              fontWeight: 600,
+              color: "var(--brand-text-muted)",
+              padding: "0 6px",
+              marginTop: 16,
+              marginBottom: 6,
+              letterSpacing: "0.8px",
+              textTransform: "uppercase",
+              opacity: 0.7,
+            }}
+          >
+            Site
+          </div>
+
+          <Link to="/about" style={navItemStyle("/about")}>
+            <NavIcon d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+            About
+          </Link>
+          <Link to="/blog" style={navItemStyle("/blog")}>
+            <NavIcon d="M4 6h16M4 12h16M4 18h10" />
+            Blog
+          </Link>
+          <Link to="/contact" style={navItemStyle("/contact")}>
+            <NavIcon d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+            Contact
           </Link>
         </nav>
 
