@@ -211,7 +211,7 @@ export default function Sidebar({ isOpen = false, onClose }) {
                 opacity: 0.8,
               }}
             />
-            Personal
+            Closed beta
           </span>
         </div>
       </aside>

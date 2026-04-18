@@ -4,10 +4,9 @@ import { C, publicFooterStyle } from "../../lib/brandTokens";
 /**
  * @param {object} props
  * @param {import('react').ReactNode} props.children
- * @param {() => void} [props.onSignIn]
- * @param {boolean} [props.showSignIn=true]
+ * @param {boolean} [props.showMemberLogin=true]
  */
-export default function PublicSiteLayout({ children, onSignIn, showSignIn = true }) {
+export default function PublicSiteLayout({ children, showMemberLogin = true }) {
   return (
     <div
       style={{
@@ -19,7 +18,7 @@ export default function PublicSiteLayout({ children, onSignIn, showSignIn = true
         flexDirection: "column",
       }}
     >
-      <PublicSiteNav onSignIn={onSignIn} showSignIn={showSignIn} />
+      <PublicSiteNav showMemberLogin={showMemberLogin} />
       <div style={{ flex: 1 }}>{children}</div>
       <footer style={publicFooterStyle}>
         <span

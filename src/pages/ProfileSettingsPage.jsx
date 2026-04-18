@@ -8,6 +8,7 @@ import {
   getMyCardPublicMeta,
   upsertCardPublicMeta,
 } from "../lib/profiles";
+import BrandEmptyState from "../components/BrandEmptyState";
 
 const HANDLE_RE = /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/;
 
@@ -104,7 +105,13 @@ function ProfileSection({ user, onSaved }) {
         </div>
         <div style={fieldStyle()}>
           <label style={labelStyle()}>Display name</label>
-          <input value={form.display_name} onChange={(e) => setForm((f) => ({ ...f, display_name: e.target.value }))} placeholder="Your name" style={inputStyle()} />
+          <input
+            id="profile-display-name"
+            value={form.display_name}
+            onChange={(e) => setForm((f) => ({ ...f, display_name: e.target.value }))}
+            placeholder="Your name"
+            style={inputStyle()}
+          />
         </div>
       </div>
 
@@ -344,11 +351,17 @@ export default function ProfileSettingsPage() {
   const [cards, setCards] = useState([]);
   const [metaMap, setMetaMap] = useState({});
   const [loading, setLoading] = useState(true);
+  const [savedProfile, setSavedProfile] = useState(undefined);
 
   useEffect(() => {
     async function load() {
-      const [cardList, metaList] = await Promise.all([getRootCards(), getMyCardPublicMeta()]);
+      const [cardList, metaList, profileRow] = await Promise.all([
+        getRootCards(),
+        getMyCardPublicMeta(),
+        getMyProfile(),
+      ]);
       setCards(cardList);
+      setSavedProfile(profileRow);
       const map = {};
       for (const m of metaList) map[m.card_id] = m;
       setMetaMap(map);
@@ -377,7 +390,24 @@ export default function ProfileSettingsPage() {
         Control your public profile and which projects appear on it.
       </p>
 
-      <ProfileSection user={user} />
+      {savedProfile !== undefined &&
+        (savedProfile === null || !String(savedProfile.display_name || "").trim()) && (
+          <div style={{ marginBottom: 24 }}>
+            <BrandEmptyState
+              variant="compact"
+              kicker="Finish your profile"
+              title="Add a display name"
+              description="So your public page shows how you’d like to be introduced — you can add a bio and links next."
+              primaryAction={{
+                label: "Jump to display name",
+                onClick: () =>
+                  document.getElementById("profile-display-name")?.scrollIntoView({ behavior: "smooth", block: "center" }),
+              }}
+            />
+          </div>
+        )}
+
+      <ProfileSection user={user} onSaved={(saved) => setSavedProfile(saved)} />
 
       <h2 style={{ margin: "40px 0 16px", fontSize: 16, fontWeight: 700, color: "var(--color-text)", fontFamily: "var(--font-display)" }}>
         Projects
@@ -389,7 +419,15 @@ export default function ProfileSettingsPage() {
       {loading ? (
         <p style={{ color: "var(--color-text-muted)", fontSize: 14 }}>Loading…</p>
       ) : cards.length === 0 ? (
-        <p style={{ color: "var(--color-text-muted)", fontSize: 14 }}>No projects yet.</p>
+        <BrandEmptyState
+          variant="hero"
+          icon="◇"
+          kicker="Public projects"
+          title="No projects to show yet"
+          description="Create a project from your dashboard, then come back here to choose what appears on your public profile."
+          primaryAction={{ label: "Go to projects", to: "/" }}
+          secondaryAction={{ label: "Read about sharing", to: "/about" }}
+        />
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {cards.map((card) => (

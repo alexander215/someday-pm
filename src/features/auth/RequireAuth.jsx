@@ -1,14 +1,18 @@
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 import useAuth from './useAuth'
+import SitePageLoading from '../../components/SitePageLoading'
 
 export default function RequireAuth({ children }) {
   const { session, loading } = useAuth()
+  const location = useLocation()
 
-  // Don't render anything while the initial session resolves.
-  // This prevents a flash-redirect to "/" on a hard refresh of a protected route.
-  if (loading) return null
+  if (loading) {
+    return <SitePageLoading />
+  }
 
-  if (!session) return <Navigate to="/" replace />
+  if (!session) {
+    return <Navigate to="/login" replace state={{ from: location }} />
+  }
 
   return children
 }

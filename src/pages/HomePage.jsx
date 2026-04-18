@@ -1,36 +1,21 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../features/auth/useAuth";
-import LoginModal from "../features/auth/LoginModal";
 import AppShell from "../components/AppShell";
 import PublicSiteNav from "../components/layout/PublicSiteNav";
 import { getRootCards, createRootCard, ROOT_CATEGORIES } from "../lib/cards";
+import SitePageLoading from "../components/SitePageLoading";
+import BrandEmptyState from "../components/BrandEmptyState";
 
 export default function HomePage() {
   const { user, loading } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
 
   if (loading) {
-    return (
-      <div
-        style={{
-          padding: "48px 32px",
-          color: "var(--color-text-muted)",
-          fontSize: "14px",
-        }}
-      >
-        Loading…
-      </div>
-    );
+    return <SitePageLoading />;
   }
 
   if (!user) {
-    return (
-      <>
-        <MarketingPage onSignIn={() => setShowLogin(true)} />
-        {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
-      </>
-    );
+    return <MarketingPage />;
   }
 
   return (
@@ -44,7 +29,7 @@ export default function HomePage() {
 // Logged-out marketing homepage
 // ─────────────────────────────────────────────
 
-function MarketingPage({ onSignIn }) {
+function MarketingPage() {
   function scrollToVibe(e) {
     e.preventDefault();
     document.getElementById("vibe")?.scrollIntoView({ behavior: "smooth" });
@@ -96,7 +81,41 @@ function MarketingPage({ onSignIn }) {
         minHeight: "100vh",
       }}
     >
-      <PublicSiteNav onSignIn={onSignIn} />
+      <PublicSiteNav />
+
+      {/* Closed-beta strip — sets expectations before any CTA */}
+      <div
+        style={{
+          background: "rgba(28,45,32,0.92)",
+          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          padding: "10px 40px",
+          textAlign: "center",
+          fontSize: 13,
+          color: "rgba(243,231,207,0.78)",
+        }}
+      >
+        <span style={{ fontWeight: 600, color: C.yellow }}>Invite-only beta</span>
+        {" · "}
+        No public signup.{" "}
+        <Link
+          to="/login"
+          style={{
+            color: "rgba(243,231,207,0.95)",
+            fontWeight: 600,
+            textDecoration: "underline",
+            textUnderlineOffset: "3px",
+          }}
+        >
+          Member log in
+        </Link>
+        {" · "}
+        <Link
+          to="/beta"
+          style={{ color: "rgba(243,231,207,0.65)", fontWeight: 500 }}
+        >
+          Request access
+        </Link>
+      </div>
 
       {/* ── Hero — deep forest green, brand-defining ── */}
       <section
@@ -937,139 +956,16 @@ const btnPrimary = {
 };
 
 function FirstRunGuide({ onCreateProject }) {
-  const steps = [
-    {
-      n: "1",
-      title: "Create your first project",
-      body: "Give it a name and a type. That's all it takes to get started.",
-      done: false,
-    },
-    {
-      n: "2",
-      title: "Add to-dos and tasks",
-      body: "Break the project into steps. Check things off as you go.",
-      done: false,
-    },
-    {
-      n: "3",
-      title: "Attach notes and files",
-      body: "Keep everything in one place — context, links, and references.",
-      done: false,
-    },
-  ];
-
   return (
-    <div
-      style={{
-        border: "1.5px dashed rgba(243,231,207,0.18)",
-        borderRadius: "16px",
-        padding: "36px 32px",
-        display: "flex",
-        flexDirection: "column",
-        gap: "28px",
-      }}
-    >
-      <div>
-        <p
-          style={{
-            fontSize: "13px",
-            fontWeight: 600,
-            letterSpacing: "0.6px",
-            textTransform: "uppercase",
-            color: "var(--brand-accent-yellow)",
-            marginBottom: "10px",
-          }}
-        >
-          Getting started
-        </p>
-        <h3
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.4rem, 3vw, 2rem)",
-            letterSpacing: "-0.04em",
-            lineHeight: 1.05,
-            color: "var(--brand-text)",
-            margin: 0,
-          }}
-        >
-          Your first project
-          <br />
-          is one click away.
-        </h3>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-        {steps.map(({ n, title, body }) => (
-          <div
-            key={n}
-            style={{
-              display: "flex",
-              gap: "16px",
-              alignItems: "flex-start",
-            }}
-          >
-            <div
-              style={{
-                width: "26px",
-                height: "26px",
-                borderRadius: "50%",
-                border: "1.5px solid rgba(242,231,156,0.4)",
-                flexShrink: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "11px",
-                fontWeight: 700,
-                color: "var(--brand-accent-yellow)",
-                marginTop: "1px",
-              }}
-            >
-              {n}
-            </div>
-            <div>
-              <p
-                style={{
-                  fontSize: "14px",
-                  fontWeight: 600,
-                  color: "var(--brand-text)",
-                  margin: "0 0 3px",
-                }}
-              >
-                {title}
-              </p>
-              <p
-                style={{
-                  fontSize: "13px",
-                  color: "rgba(243,231,207,0.6)",
-                  margin: 0,
-                  lineHeight: 1.6,
-                }}
-              >
-                {body}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <button
-          onClick={onCreateProject}
-          style={{
-            padding: "10px 22px",
-            background: "var(--brand-accent-yellow)",
-            border: "none",
-            borderRadius: "10px",
-            color: "var(--brand-dark)",
-            fontSize: "14px",
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-        >
-          + Create your first project
-        </button>
-      </div>
-    </div>
+    <BrandEmptyState
+      variant="hero"
+      icon="✦"
+      kicker="Getting started"
+      title="Your first project is one click away"
+      description="Name it, pick a category, then add tasks and notes when you’re ready. No templates, no pressure — just a calm place for the idea you care about."
+      primaryAction={{ label: "+ Create your first project", onClick: onCreateProject }}
+      secondaryAction={{ label: "How SomedayPM works", to: "/about" }}
+    />
   );
 }
 

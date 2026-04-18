@@ -10,6 +10,7 @@ import {
   formatBytes,
 } from '../lib/files'
 import { getTodosForCard, createTodo, toggleTodo, deleteTodo } from '../lib/todos'
+import BrandEmptyState from '../components/BrandEmptyState'
 
 export default function ChildCardDetailPage() {
   const { cardId, childCardId } = useParams()
@@ -366,7 +367,11 @@ export default function ChildCardDetailPage() {
               </button>
             </form>
             {todos.length === 0 ? (
-              <div style={panelEmptyState}>No to-dos yet.</div>
+              <BrandEmptyState
+                variant="panel"
+                title="No to-dos yet"
+                description="Use the field above for quick checklist items for this task."
+              />
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {todos.map(todo => (
@@ -436,7 +441,12 @@ export default function ChildCardDetailPage() {
           <div style={{ padding: '14px 16px' }}>
             {fileError && <p style={panelErrorText}>{fileError}</p>}
             {files.length === 0 ? (
-              <div style={panelEmptyState}>No attachments yet.</div>
+              <BrandEmptyState
+                variant="panel"
+                title="No attachments yet"
+                description="Keep references next to this task."
+                primaryAction={{ label: '+ Attach files', onClick: () => fileInputRef.current?.click() }}
+              />
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                 {files.map(file => (
@@ -569,15 +579,6 @@ const taskItemRow = {
   border: '1px solid rgba(183,165,134,0.22)',
   borderRadius: 8,
   background: 'var(--brand-surface)',
-}
-
-const panelEmptyState = {
-  padding: '16px 12px',
-  border: '1px dashed rgba(183,165,134,0.3)',
-  borderRadius: 8,
-  color: 'var(--brand-text-dark-muted)',
-  fontSize: 13,
-  textAlign: 'center',
 }
 
 const panelErrorText = {

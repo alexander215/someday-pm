@@ -1,16 +1,12 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import PublicSiteLayout from "../components/layout/PublicSiteLayout";
-import LoginModal from "../features/auth/LoginModal";
 import { C } from "../lib/brandTokens";
 import { LINKEDIN_PROFILE_URL } from "../lib/siteConfig";
 
 export default function BetaPage() {
-  const [showLogin, setShowLogin] = useState(false);
-
   return (
     <>
-      <PublicSiteLayout onSignIn={() => setShowLogin(true)}>
+      <PublicSiteLayout>
         <div
           style={{
             flex: 1,
@@ -64,8 +60,15 @@ export default function BetaPage() {
             <p style={{ fontSize: "16px", color: C.muted, lineHeight: 1.85, marginBottom: "16px" }}>
               SomedayPM is currently in private beta — a small, focused group while we shape the experience around real side-project workflows.
             </p>
-            <p style={{ fontSize: "16px", color: C.muted, lineHeight: 1.85, marginBottom: "40px" }}>
+            <p style={{ fontSize: "16px", color: C.muted, lineHeight: 1.85, marginBottom: "16px" }}>
               If you&apos;d like early access, send me a message on LinkedIn. Tell me a bit about how you manage your side projects today — what&apos;s working, what&apos;s frustrating, and what you&apos;re building.
+            </p>
+            <p style={{ fontSize: "15px", color: C.soft, lineHeight: 1.75, marginBottom: "40px" }}>
+              Already have an invite?{" "}
+              <Link to="/login" style={{ color: C.forest, fontWeight: 700 }}>
+                Sign in with your invited email
+              </Link>{" "}
+              — we&apos;ll email you a one-time code (no password, no public signup).
             </p>
 
             <a
@@ -112,7 +115,6 @@ export default function BetaPage() {
           </div>
         </div>
       </PublicSiteLayout>
-      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
     </>
   );
 }
