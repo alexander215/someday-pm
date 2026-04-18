@@ -6,6 +6,7 @@ import PublicSiteNav from "../components/layout/PublicSiteNav";
 import { getRootCards, createRootCard, ROOT_CATEGORIES } from "../lib/cards";
 import SitePageLoading from "../components/SitePageLoading";
 import BrandEmptyState from "../components/BrandEmptyState";
+import { workspaceBoard } from "../lib/brandTokens";
 
 export default function HomePage() {
   const { user, loading } = useAuth();
@@ -1080,9 +1081,9 @@ function Dashboard({ user }) {
           onSubmit={handleCreate}
           style={{
             padding: "20px",
-            border: "1px solid var(--brand-border-light)",
+            border: "1px solid rgba(183,165,134,0.28)",
             borderRadius: "12px",
-            background: "var(--brand-surface-soft)",
+            background: workspaceBoard.canvas,
             display: "flex",
             flexDirection: "column",
             gap: "12px",
@@ -1094,7 +1095,7 @@ function Dashboard({ user }) {
             style={{
               fontSize: "12px",
               fontWeight: 600,
-              color: "var(--brand-text-dark-muted)",
+              color: workspaceBoard.textMuted,
               textTransform: "uppercase",
               letterSpacing: "0.5px",
             }}
@@ -1150,7 +1151,7 @@ function Dashboard({ user }) {
                 background: "transparent",
                 border: "1px solid var(--brand-border-light)",
                 borderRadius: "7px",
-                color: "var(--brand-text-dark-muted)",
+                color: workspaceBoard.textMuted,
                 fontSize: "13px",
                 cursor: "pointer",
               }}
@@ -1197,7 +1198,7 @@ function Dashboard({ user }) {
               fontSize: ".84rem",
               letterSpacing: ".1em",
               textTransform: "uppercase",
-              color: "rgba(244,234,214,.62)",
+              color: workspaceBoard.textMuted,
             }}
           >
             Current focus
@@ -1206,7 +1207,7 @@ function Dashboard({ user }) {
             {cards.slice(0, 2).map((card) => (
               <div key={card.id} className="mini-row">
                 <span>{card.title}</span>
-                <span style={{ color: "rgba(244,234,214,.5)", fontSize: ".82rem" }}>
+                <span style={{ color: workspaceBoard.textMuted, fontSize: ".82rem" }}>
                   Open →
                 </span>
               </div>
@@ -1226,18 +1227,18 @@ function Dashboard({ user }) {
               fontSize: ".84rem",
               letterSpacing: ".1em",
               textTransform: "uppercase",
-              color: "rgba(244,234,214,.62)",
+              color: workspaceBoard.textMuted,
             }}
           >
             Quick capture
           </h4>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div className="mini-row">
-              <span style={{ color: "rgba(244,234,214,.5)" }}>New idea...</span>
+              <span style={{ color: workspaceBoard.textMuted }}>New idea...</span>
               <span>+</span>
             </div>
             <div className="mini-row">
-              <span style={{ color: "rgba(244,234,214,.5)" }}>New task...</span>
+              <span style={{ color: workspaceBoard.textMuted }}>New task...</span>
               <span>+</span>
             </div>
           </div>
@@ -1279,7 +1280,7 @@ function ProjectCard({ card }) {
             lineHeight: 0.92,
             letterSpacing: "-.05em",
             margin: 0,
-            color: "#202733",
+            color: "var(--brand-text-on-inset)",
             maxWidth: "11ch",
           }}
         >
@@ -1298,7 +1299,7 @@ function ProjectCard({ card }) {
           alignItems: "flex-end",
         }}
       >
-        <span style={{ color: "#202733", fontWeight: 800, fontSize: ".9rem" }}>
+        <span style={{ color: "var(--brand-text-on-inset)", fontWeight: 800, fontSize: ".9rem" }}>
           Open →
         </span>
       </div>
@@ -1308,10 +1309,10 @@ function ProjectCard({ card }) {
 
 const inputStyle = {
   padding: "8px 12px",
-  background: "var(--brand-surface)",
-  border: "1px solid var(--brand-border-light)",
+  background: workspaceBoard.card,
+  border: "1px solid rgba(183,165,134,0.28)",
   borderRadius: "6px",
-  color: "var(--brand-dark)",
+  color: workspaceBoard.text,
   fontSize: "14px",
   outline: "none",
   width: "100%",

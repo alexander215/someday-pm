@@ -35,7 +35,7 @@ export default function BrandEmptyState({
     borderRadius: isPanel || isCompact ? 10 : isMarketing ? 16 : 16,
     padding: isCompact ? "14px 16px" : isPanel ? "18px 16px" : isMarketing ? "28px 24px" : "36px 32px",
     background: isPanel
-      ? "rgba(243,231,207,0.04)"
+      ? "rgba(237, 229, 210, 0.4)"
       : isCompact
         ? "transparent"
         : isMarketing
@@ -53,14 +53,14 @@ export default function BrandEmptyState({
     fontSize: isCompact ? 14 : isPanel ? 15 : isMarketing ? 18 : "clamp(1.25rem, 2.5vw, 1.75rem)",
     fontWeight: 700,
     letterSpacing: "-0.03em",
-    color: isPanel ? "var(--brand-dark)" : isMarketing ? C.ink : "var(--brand-text)",
+    color: isPanel ? "var(--brand-text-on-inset)" : isMarketing ? C.ink : "var(--brand-text)",
     margin: 0,
     lineHeight: 1.2,
   };
 
   const descStyle = {
     fontSize: isCompact ? 12 : isPanel ? 13 : isMarketing ? 14 : 14,
-    color: isPanel ? "var(--brand-text-dark-muted)" : isMarketing ? C.muted : "rgba(243,231,207,0.62)",
+    color: isPanel ? "var(--brand-text-on-inset-muted)" : isMarketing ? C.muted : "rgba(243,231,207,0.62)",
     margin: 0,
     lineHeight: 1.65,
     maxWidth: isPanel ? "none" : isCompact ? 520 : isMarketing ? 480 : 420,

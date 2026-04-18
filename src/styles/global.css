@@ -36,6 +36,14 @@
   --brand-border: rgba(243, 231, 207, 0.12);
   --brand-border-light: rgba(243, 231, 207, 0.18);
 
+  /* Workspace board (brandTokens: C.canvas, C.inset) — dashboard grids & panels only */
+  --brand-board-canvas: #f7f5f0;
+  --brand-board-inset: #ede5d2;
+  /** Readable dark text on canvas + cream/inset (workspace); primary aligns with headings */
+  --brand-text-on-inset: var(--brand-dark);
+  /** Labels, meta, hints on canvas/inset — warmer & darker than --brand-text-dark-muted for contrast on cream */
+  --brand-text-on-inset-muted: #40392f;
+
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
@@ -64,8 +72,8 @@ button {
 
 /* ─── Project card (dashboard grid) ─── */
 .project-card {
-  background: linear-gradient(180deg, #f4ead6 0%, #eee1ca 100%);
-  color: #202733;
+  background: var(--brand-board-inset);
+  color: var(--brand-text-on-inset);
   border-radius: 26px;
   padding: 18px;
   min-height: 220px;
@@ -181,22 +189,23 @@ button {
   }
 }
 
-/* ─── Lower panels (dashboard) ─── */
+/* ─── Lower panels (dashboard) — canvas shell, inset rows (see workspaceBoard) ─── */
 .lower-panel {
   border-radius: 22px;
   padding: 18px;
-  background: rgba(244, 234, 214, 0.06);
-  border: 1px solid rgba(244, 234, 214, 0.08);
-  color: var(--brand-text);
+  background: var(--brand-board-canvas);
+  border: 1px solid rgba(183, 165, 134, 0.22);
+  color: var(--brand-text-on-inset);
 }
 
 .mini-row {
-  background: rgba(244, 234, 214, 0.05);
-  border: 1px solid rgba(244, 234, 214, 0.06);
+  background: var(--brand-board-inset);
+  border: 1px solid rgba(183, 165, 134, 0.22);
   border-radius: 14px;
   padding: 11px 13px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 0.9rem;
+  color: var(--brand-text-on-inset);
 }

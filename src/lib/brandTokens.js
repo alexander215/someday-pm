@@ -16,6 +16,22 @@ export const C = {
   mustard: "#c49b28",
 };
 
+/**
+ * Logged-in workspace “board” hierarchy: pale canvas behind cream interactive surfaces.
+ * Synced with `--brand-board-canvas` / `--brand-board-inset` in global.css for pure CSS (e.g. .project-card).
+ */
+export const workspaceBoard = {
+  canvas: C.canvas,
+  /** Cards, rows, inputs that should read as tappable on a canvas panel */
+  card: C.inset,
+  /** Nested line inside an inset card (e.g. brainstorm idea row) */
+  nestedLine: C.white,
+  /** Primary copy on canvas/inset — matches --brand-text-on-inset / --brand-dark (warm charcoal, not black) */
+  text: "var(--brand-text-on-inset)",
+  /** Secondary labels, hints, counts on canvas/inset — softer than primary, higher contrast than global muted-on-cream */
+  textMuted: "var(--brand-text-on-inset-muted)",
+};
+
 export const btnPrimary = {
   display: "inline-block",
   padding: "10px 22px",

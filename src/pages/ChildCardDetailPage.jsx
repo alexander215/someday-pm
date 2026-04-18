@@ -11,6 +11,7 @@ import {
 } from '../lib/files'
 import { getTodosForCard, createTodo, toggleTodo, deleteTodo } from '../lib/todos'
 import BrandEmptyState from '../components/BrandEmptyState'
+import { workspaceBoard } from '../lib/brandTokens'
 
 export default function ChildCardDetailPage() {
   const { cardId, childCardId } = useParams()
@@ -223,7 +224,7 @@ export default function ChildCardDetailPage() {
       >
         <div
           style={{
-            background: 'var(--brand-surface-soft)',
+            background: workspaceBoard.canvas,
             border: '1px solid rgba(183,165,134,0.35)',
             borderRadius: 12,
             padding: '28px 30px',
@@ -232,10 +233,10 @@ export default function ChildCardDetailPage() {
             boxShadow: '0 20px 60px rgba(27,35,27,0.35)',
           }}
         >
-          <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--brand-dark)', marginBottom: 10, fontFamily: 'var(--font-display)' }}>
+          <h2 style={{ fontSize: 16, fontWeight: 700, color: workspaceBoard.text, marginBottom: 10, fontFamily: 'var(--font-display)' }}>
             Unsaved changes
           </h2>
-          <p style={{ fontSize: 14, color: 'var(--brand-text-dark-muted)', marginBottom: 24, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 14, color: workspaceBoard.textMuted, marginBottom: 24, lineHeight: 1.5 }}>
             You have unsaved edits. Leave without saving?
           </p>
           <div style={{ display: 'flex', gap: 10 }}>
@@ -267,15 +268,15 @@ export default function ChildCardDetailPage() {
           <div style={sectionCardHeader}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <h1 style={{ ...sectionCardTitle, fontSize: 16 }}>{child.title}</h1>
-              <span style={{ fontSize: 10, padding: '2px 8px', border: '1px solid rgba(183,165,134,0.28)', borderRadius: 99, color: 'var(--brand-text-dark-muted)', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: 10, padding: '2px 8px', border: '1px solid rgba(183,165,134,0.28)', borderRadius: 99, color: workspaceBoard.textMuted, whiteSpace: 'nowrap' }}>
                 {child.category}
               </span>
             </div>
             {isDirty && !saving && (
-              <span style={{ fontSize: 11, color: 'var(--brand-text-dark-muted)' }}>Unsaved</span>
+              <span style={{ fontSize: 11, color: workspaceBoard.textMuted }}>Unsaved</span>
             )}
             {saveSuccess && (
-              <span style={{ fontSize: 11, color: 'var(--brand-text-dark-muted)' }}>Saved.</span>
+              <span style={{ fontSize: 11, color: workspaceBoard.textMuted }}>Saved.</span>
             )}
           </div>
 
@@ -342,7 +343,7 @@ export default function ChildCardDetailPage() {
             <h2 style={sectionCardTitle}>
               To‑Do
               {todos.length > 0 && (
-                <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: 'var(--brand-text-dark-muted)' }}>
+                <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 500, color: workspaceBoard.textMuted }}>
                   {todos.filter(t => t.completed).length}/{todos.length}
                 </span>
               )}
@@ -382,7 +383,7 @@ export default function ChildCardDetailPage() {
                       padding: '8px 10px',
                       border: '1px solid rgba(183,165,134,0.2)',
                       borderRadius: 7,
-                      background: todo.completed ? 'transparent' : 'rgba(243,231,207,0.35)',
+                      background: todo.completed ? 'transparent' : workspaceBoard.card,
                       opacity: todo.completed ? 0.6 : 1,
                     }}
                   >
@@ -400,7 +401,7 @@ export default function ChildCardDetailPage() {
                     >
                       {todo.completed ? '✓' : ''}
                     </button>
-                    <span style={{ flex: 1, fontSize: 13, color: 'var(--brand-dark)', textDecoration: todo.completed ? 'line-through' : 'none', lineHeight: 1.4 }}>
+                    <span style={{ flex: 1, fontSize: 13, color: workspaceBoard.text, textDecoration: todo.completed ? 'line-through' : 'none', lineHeight: 1.4 }}>
                       {todo.text}
                     </span>
                     <button onClick={() => handleDeleteTodo(todo.id)} title="Delete" style={panelIconBtn}>×</button>
@@ -418,10 +419,10 @@ export default function ChildCardDetailPage() {
             <label
               style={{
                 padding: '5px 12px',
-                background: uploading ? 'transparent' : 'var(--brand-surface)',
+                background: uploading ? 'transparent' : workspaceBoard.card,
                 border: '1px solid rgba(183,165,134,0.3)',
                 borderRadius: 7,
-                color: uploading ? 'var(--brand-text-dark-muted)' : 'var(--brand-dark)',
+                color: uploading ? workspaceBoard.textMuted : workspaceBoard.text,
                 fontSize: 12, fontWeight: 500,
                 cursor: uploading ? 'not-allowed' : 'pointer',
               }}
@@ -463,7 +464,7 @@ export default function ChildCardDetailPage() {
                       >
                         {file.file_name}
                       </button>
-                      <span style={{ fontSize: 11, color: 'var(--brand-text-dark-muted)' }}>
+                      <span style={{ fontSize: 11, color: workspaceBoard.textMuted }}>
                         {formatBytes(file.file_size)}
                       </span>
                     </div>
@@ -502,7 +503,7 @@ const backLinkStyle = {
 }
 
 const sectionCard = {
-  background: 'var(--brand-surface-soft)',
+  background: workspaceBoard.canvas,
   border: '1px solid rgba(183,165,134,0.28)',
   borderRadius: 14,
   boxShadow: '0 4px 20px rgba(27,35,27,0.18)',
@@ -520,17 +521,17 @@ const sectionCardHeader = {
 const sectionCardTitle = {
   fontSize: 14,
   fontWeight: 700,
-  color: 'var(--brand-dark)',
+  color: workspaceBoard.text,
   fontFamily: 'var(--font-display)',
   margin: 0,
 }
 
 const panelInputStyle = {
   padding: '7px 10px',
-  background: 'var(--brand-surface)',
+  background: workspaceBoard.card,
   border: '1px solid rgba(183,165,134,0.28)',
   borderRadius: 7,
-  color: 'var(--brand-dark)',
+  color: workspaceBoard.text,
   fontSize: 13,
   outline: 'none',
   width: '100%',
@@ -555,7 +556,7 @@ const panelCancelBtn = {
   background: 'transparent',
   border: '1px solid rgba(183,165,134,0.3)',
   borderRadius: 7,
-  color: 'var(--brand-text-dark-muted)',
+  color: workspaceBoard.textMuted,
   fontSize: 12,
   cursor: 'pointer',
 }
@@ -563,7 +564,7 @@ const panelCancelBtn = {
 const panelIconBtn = {
   background: 'none',
   border: 'none',
-  color: 'rgba(100,80,60,0.4)',
+  color: 'rgba(64, 52, 38, 0.55)',
   cursor: 'pointer',
   fontSize: 16,
   lineHeight: 1,
@@ -578,7 +579,7 @@ const taskItemRow = {
   padding: '9px 12px',
   border: '1px solid rgba(183,165,134,0.22)',
   borderRadius: 8,
-  background: 'var(--brand-surface)',
+  background: workspaceBoard.card,
 }
 
 const panelErrorText = {
