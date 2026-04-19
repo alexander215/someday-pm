@@ -168,6 +168,7 @@ export default function AppShell({ children }) {
             />
 
             <button
+              onClick={() => navigate('/new-project')}
               style={{
                 padding: "7px 14px",
                 borderRadius: 7,
