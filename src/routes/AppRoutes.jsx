@@ -14,6 +14,7 @@ import BlogPostPage from "../pages/BlogPostPage";
 import LoginPage from "../pages/LoginPage";
 import RequireAuth from "../features/auth/RequireAuth";
 import AppShell from "../components/AppShell";
+import DevSmokeTestPage from "../pages/DevSmokeTestPage";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +25,9 @@ export const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
+  ...(import.meta.env.DEV
+    ? [{ path: "/dev/smoke-test", element: <RequireAuth><DevSmokeTestPage /></RequireAuth> }]
+    : []),
   {
     path: "/beta",
     element: <BetaPage />,

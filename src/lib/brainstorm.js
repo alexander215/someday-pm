@@ -19,10 +19,26 @@ export async function getBrainstormBoardsForCard(cardId) {
   return data;
 }
 
-export async function createBrainstormBoard({ cardId, title }) {
+// New project-based equivalents. Boards are scoped to a project + module_key
+// so different modules (e.g. naming_brainstorm) can have their own board lists.
+export async function getBrainstormBoardsForProject(projectId, moduleKey) {
   const { data, error } = await supabase
     .from("brainstorm_boards")
-    .insert({ card_id: cardId, title: title.trim() })
+    .select("*")
+    .eq("project_id", projectId)
+    .eq("module_key", moduleKey)
+    .order("created_at", { ascending: true });
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function createBrainstormBoard({ cardId, projectId, moduleKey, title }) {
+  const insert = cardId
+    ? { card_id: cardId, title: title.trim() }
+    : { project_id: projectId, module_key: moduleKey, title: title.trim() };
+  const { data, error } = await supabase
+    .from("brainstorm_boards")
+    .insert(insert)
     .select()
     .single();
   if (error) throw new Error(error.message);
