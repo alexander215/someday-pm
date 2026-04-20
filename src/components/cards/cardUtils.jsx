@@ -95,9 +95,15 @@ export function CheckboxBtn({ checked, onClick, size = 18 }) {
 }
 
 // ─── Delete button ────────────────────────────────────────────
+// visibility: "hover" (default) — hidden until hover, used by board / detail / other modules
+// visibility: "persistent" — always visible baseline opacity; hover strengthens (Starting list rows)
 
-export function DeleteBtn({ onClick, label = 'Delete' }) {
+export function DeleteBtn({ onClick, label = 'Delete', visibility = 'hover' }) {
   const [hover, setHover] = useState(false)
+  const persistent = visibility === 'persistent'
+  const opacity = persistent
+    ? (hover ? 0.88 : 0.5)
+    : (hover ? 0.6 : 0)
   return (
     <button
       type="button"
@@ -110,7 +116,7 @@ export function DeleteBtn({ onClick, label = 'Delete' }) {
         border: 'none',
         cursor: 'pointer',
         color: 'var(--brand-text-on-inset-muted)',
-        opacity: hover ? 0.6 : 0,
+        opacity,
         fontSize: 18,
         lineHeight: 1,
         padding: '0 2px',

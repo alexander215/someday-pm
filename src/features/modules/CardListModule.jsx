@@ -89,17 +89,28 @@ export default function CardListModule({ project, stageKey, moduleConfig }) {
       )}
 
       {ordered.length > 0 && (
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {ordered.map((card, i) => {
+        <ul
+          style={{
+            listStyle: 'none',
+            padding: '10px 12px 12px',
+            margin: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 10,
+          }}
+        >
+          {ordered.map((card) => {
             const isDone = card.status === 'done'
             const isExpanded = expandedId === card.id
             return (
               <li
                 key={card.id}
                 style={{
-                  borderBottom: i < ordered.length - 1
-                    ? '1px solid rgba(183,165,134,0.14)'
-                    : 'none',
+                  background: '#ffffff',
+                  borderRadius: 10,
+                  border: '1px solid rgba(183, 165, 134, 0.28)',
+                  boxShadow: '0 1px 3px rgba(32, 39, 51, 0.06)',
+                  overflow: 'hidden',
                 }}
               >
                 {/* ── Row ── */}
@@ -108,7 +119,7 @@ export default function CardListModule({ project, stageKey, moduleConfig }) {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 10,
-                    padding: '10px 16px',
+                    padding: '12px 14px',
                     cursor: 'pointer',
                   }}
                   onClick={() => setExpandedId(isExpanded ? null : card.id)}
@@ -122,23 +133,25 @@ export default function CardListModule({ project, stageKey, moduleConfig }) {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <span style={{
                       fontSize: 14,
+                      fontWeight: isDone ? 500 : 600,
                       color: isDone
                         ? 'var(--brand-text-on-inset-muted)'
                         : 'var(--brand-text-on-inset)',
                       textDecoration: isDone ? 'line-through' : 'none',
                       opacity: isDone ? 0.55 : 1,
                       display: 'block',
-                      lineHeight: 1.4,
+                      lineHeight: 1.45,
+                      letterSpacing: '-0.01em',
                     }}>
                       {card.title}
                     </span>
                     {!isExpanded && card.body && (
                       <span style={{
-                        fontSize: 12,
-                        color: 'var(--brand-text-muted)',
-                        opacity: 0.7,
+                        fontSize: 12.5,
+                        color: 'var(--brand-text-on-inset-muted)',
                         display: 'block',
-                        marginTop: 1,
+                        marginTop: 4,
+                        lineHeight: 1.45,
                       }}>
                         {card.body.length > 80 ? card.body.slice(0, 80) + '…' : card.body}
                       </span>
@@ -153,10 +166,11 @@ export default function CardListModule({ project, stageKey, moduleConfig }) {
                   )}
 
                   <div style={{ display: 'flex', gap: 4, alignItems: 'center', flexShrink: 0 }}>
-                    <span style={{ fontSize: 13, color: 'var(--brand-text-muted)', opacity: 0.35, lineHeight: 1 }}>
+                    <span style={{ fontSize: 13, color: 'var(--brand-text-on-inset-muted)', opacity: 0.55, lineHeight: 1 }}>
                       {isExpanded ? '▲' : '▾'}
                     </span>
                     <DeleteBtn
+                      visibility="persistent"
                       onClick={e => { e.stopPropagation(); handleDelete(card.id) }}
                       label="Delete card"
                     />

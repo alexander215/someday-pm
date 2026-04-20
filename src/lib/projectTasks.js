@@ -16,18 +16,6 @@ export async function getTasksForModule(projectId, moduleKey) {
   return data
 }
 
-// Returns all tasks for a project grouped by status (for board views).
-export async function getTasksGroupedByStatus(projectId, moduleKey) {
-  const { data, error } = await supabase
-    .from('project_tasks')
-    .select('*')
-    .eq('project_id', projectId)
-    .eq('module_key', moduleKey)
-    .order('sort_order', { ascending: true })
-  if (error) throw error
-  return data
-}
-
 // ------------------------------------------------------------
 // Mutations
 // ------------------------------------------------------------
@@ -62,18 +50,5 @@ export async function deleteTask(taskId) {
     .from('project_tasks')
     .delete()
     .eq('id', taskId)
-  if (error) throw error
-}
-
-export async function reorderTasks(projectId, moduleKey, orderedIds) {
-  const updates = orderedIds.map((id, index) => ({
-    id,
-    sort_order: index,
-    project_id: projectId,
-    module_key: moduleKey,
-  }))
-  const { error } = await supabase
-    .from('project_tasks')
-    .upsert(updates, { onConflict: 'id' })
   if (error) throw error
 }
