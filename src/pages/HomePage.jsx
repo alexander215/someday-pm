@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../features/auth/useAuth";
 import AppShell from "../components/AppShell";
 import PublicSiteNav from "../components/layout/PublicSiteNav";
-import { getRootCards, createRootCard, ROOT_CATEGORIES } from "../lib/cards";
+import { getProjects } from "../lib/projects";
 import SitePageLoading from "../components/SitePageLoading";
 import BrandEmptyState from "../components/BrandEmptyState";
 import { workspaceBoard } from "../lib/brandTokens";
@@ -971,41 +971,17 @@ function FirstRunGuide({ onCreateProject }) {
 }
 
 function Dashboard({ user }) {
-  const [cards, setCards] = useState([]);
-  const [cardsLoading, setCardsLoading] = useState(true);
-  const [showCreate, setShowCreate] = useState(false);
-  const [newTitle, setNewTitle] = useState("");
-  const [newCategory, setNewCategory] = useState(ROOT_CATEGORIES[0]);
-  const [creating, setCreating] = useState(false);
+  const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getRootCards()
-      .then(setCards)
+    getProjects()
+      .then(setProjects)
       .catch((err) => setError(err.message))
-      .finally(() => setCardsLoading(false));
+      .finally(() => setProjectsLoading(false));
   }, []);
-
-  async function handleCreate(e) {
-    e.preventDefault();
-    if (!newTitle.trim()) return;
-    setCreating(true);
-    setError(null);
-    try {
-      const card = await createRootCard({
-        title: newTitle.trim(),
-        category: newCategory,
-      });
-      setCards((prev) => [card, ...prev]);
-      setNewTitle("");
-      setNewCategory(ROOT_CATEGORIES[0]);
-      setShowCreate(false);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setCreating(false);
-    }
-  }
 
   return (
     <div
@@ -1050,24 +1026,22 @@ function Dashboard({ user }) {
           </p>
         </div>
 
-        {!showCreate && (
-          <button
-            onClick={() => setShowCreate(true)}
-            style={{
-              padding: "12px 16px",
-              background: "var(--brand-accent-yellow)",
-              border: "none",
-              borderRadius: "12px",
-              color: "var(--brand-dark)",
-              fontSize: ".92rem",
-              fontWeight: 700,
-              cursor: "pointer",
-              flexShrink: 0,
-            }}
-          >
-            + New project
-          </button>
-        )}
+        <button
+          onClick={() => navigate('/new-project')}
+          style={{
+            padding: "12px 16px",
+            background: "var(--brand-accent-yellow)",
+            border: "none",
+            borderRadius: "12px",
+            color: "var(--brand-dark)",
+            fontSize: ".92rem",
+            fontWeight: 700,
+            cursor: "pointer",
+            flexShrink: 0,
+          }}
+        >
+          + New project
+        </button>
       </div>
 
       {/* Error */}
@@ -1075,100 +1049,13 @@ function Dashboard({ user }) {
         <p style={{ color: "#b45309", fontSize: "13px" }}>{error}</p>
       )}
 
-      {/* Inline create form */}
-      {showCreate && (
-        <form
-          onSubmit={handleCreate}
-          style={{
-            padding: "20px",
-            border: "1px solid rgba(183,165,134,0.28)",
-            borderRadius: "12px",
-            background: workspaceBoard.canvas,
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.32)",
-            maxWidth: "420px",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "12px",
-              fontWeight: 600,
-              color: workspaceBoard.textMuted,
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-            }}
-          >
-            New project
-          </div>
-          <input
-            autoFocus
-            type="text"
-            placeholder="Project title"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            style={inputStyle}
-          />
-          <select
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-            style={inputStyle}
-          >
-            {ROOT_CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-          <div style={{ display: "flex", gap: "8px" }}>
-            <button
-              type="submit"
-              disabled={creating || !newTitle.trim()}
-              style={{
-                padding: "7px 18px",
-                background: "var(--brand-bg)",
-                border: "none",
-                borderRadius: "7px",
-                color: "var(--brand-surface-soft)",
-                fontSize: "13px",
-                fontWeight: 600,
-                cursor: creating ? "not-allowed" : "pointer",
-                opacity: creating || !newTitle.trim() ? 0.6 : 1,
-              }}
-            >
-              {creating ? "Creating…" : "Create"}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setShowCreate(false);
-                setNewTitle("");
-                setNewCategory(ROOT_CATEGORIES[0]);
-              }}
-              style={{
-                padding: "7px 14px",
-                background: "transparent",
-                border: "1px solid var(--brand-border-light)",
-                borderRadius: "7px",
-                color: workspaceBoard.textMuted,
-                fontSize: "13px",
-                cursor: "pointer",
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      )}
-
-      {/* Cards grid */}
-      {cardsLoading ? (
+      {/* Projects grid */}
+      {projectsLoading ? (
         <p style={{ color: "rgba(244,234,214,.7)", fontSize: "14px" }}>
           Loading projects…
         </p>
-      ) : cards.length === 0 ? (
-        <FirstRunGuide onCreateProject={() => setShowCreate(true)} />
+      ) : projects.length === 0 ? (
+        <FirstRunGuide onCreateProject={() => navigate('/new-project')} />
       ) : (
         <div
           style={{
@@ -1177,8 +1064,8 @@ function Dashboard({ user }) {
             gap: "18px",
           }}
         >
-          {cards.map((card) => (
-            <ProjectCard key={card.id} card={card} />
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       )}
@@ -1204,15 +1091,20 @@ function Dashboard({ user }) {
             Current focus
           </h4>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {cards.slice(0, 2).map((card) => (
-              <div key={card.id} className="mini-row">
-                <span>{card.title}</span>
+            {projects.slice(0, 2).map((project) => (
+              <Link
+                key={project.id}
+                to={`/project/${project.id}/planning`}
+                className="mini-row"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <span>{project.title}</span>
                 <span style={{ color: workspaceBoard.textMuted, fontSize: ".82rem" }}>
                   Open →
                 </span>
-              </div>
+              </Link>
             ))}
-            {!cardsLoading && cards.length === 0 && (
+            {!projectsLoading && projects.length === 0 && (
               <div className="mini-row">
                 <span style={{ opacity: 0.5 }}>No projects yet</span>
               </div>
@@ -1248,10 +1140,15 @@ function Dashboard({ user }) {
   );
 }
 
-function ProjectCard({ card }) {
+const TEMPLATE_LABELS = {
+  general: "General",
+  build_an_app: "Build an app",
+};
+
+function ProjectCard({ project }) {
   return (
     <Link
-      to={`/card/${card.id}`}
+      to={`/project/${project.id}/planning`}
       className="project-card"
       style={{ display: "flex", flexDirection: "column" }}
     >
@@ -1267,7 +1164,7 @@ function ProjectCard({ card }) {
       >
         <div className="card-category">
           <span className="status-dot" />
-          {card.category}
+          {TEMPLATE_LABELS[project.template_key] ?? project.template_key}
         </div>
       </div>
 
@@ -1284,7 +1181,7 @@ function ProjectCard({ card }) {
             maxWidth: "11ch",
           }}
         >
-          {card.title}
+          {project.title}
         </h3>
       </div>
 
@@ -1306,15 +1203,3 @@ function ProjectCard({ card }) {
     </Link>
   );
 }
-
-const inputStyle = {
-  padding: "8px 12px",
-  background: workspaceBoard.card,
-  border: "1px solid rgba(183,165,134,0.28)",
-  borderRadius: "6px",
-  color: workspaceBoard.text,
-  fontSize: "14px",
-  outline: "none",
-  width: "100%",
-  boxSizing: "border-box",
-};

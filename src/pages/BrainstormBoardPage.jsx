@@ -22,6 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { getCardById } from "../lib/cards";
+import { getProjectById } from "../lib/projects";
 import {
   getBrainstormBoard,
   createBrainstormIdea,
@@ -62,7 +63,8 @@ function fmtDate(iso) {
 }
 
 export default function BrainstormBoardPage() {
-  const { cardId, boardId } = useParams();
+  const { cardId, projectId, stageKey, boardId } = useParams();
+  const isProjectMode = Boolean(projectId);
 
   const [card, setCard] = useState(null);
   const [board, setBoard] = useState(null);
@@ -85,16 +87,22 @@ export default function BrainstormBoardPage() {
   );
 
   useEffect(() => {
-    Promise.all([getCardById(cardId), getBrainstormBoard(boardId)])
-      .then(([cardData, boardData]) => {
-        if (boardData.card_id !== cardId) throw new Error("Board not found in this project.");
-        setCard(cardData);
+    const parentFetch = isProjectMode
+      ? getProjectById(projectId)
+      : getCardById(cardId);
+
+    Promise.all([parentFetch, getBrainstormBoard(boardId)])
+      .then(([parentData, boardData]) => {
+        if (!isProjectMode && boardData.card_id !== cardId) {
+          throw new Error("Board not found in this project.");
+        }
+        setCard(parentData);
         setBoard({ id: boardData.id, title: boardData.title, use_custom_order: boardData.use_custom_order });
         setIdeas(boardData.ideas);
       })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, [cardId, boardId]);
+  }, [cardId, projectId, boardId, isProjectMode]);
 
   async function handleAddIdea(e) {
     e.preventDefault();
@@ -224,10 +232,14 @@ export default function BrainstormBoardPage() {
     return <div style={{ padding: "48px 32px", color: "var(--color-text-muted)", fontSize: 14 }}>Loading…</div>;
   }
 
+  const backTo = isProjectMode
+    ? `/project/${projectId}/${stageKey}`
+    : `/card/${cardId}`;
+
   if (error && !board) {
     return (
       <div style={{ padding: "48px 32px" }}>
-        <Link to={`/card/${cardId}`} style={backLinkStyle}>← Back</Link>
+        <Link to={backTo} style={backLinkStyle}>← Back</Link>
         <p style={{ color: "#f87171", fontSize: 13 }}>{error}</p>
       </div>
     );
@@ -237,7 +249,7 @@ export default function BrainstormBoardPage() {
     <div style={{ padding: "32px 28px 56px" }}>
       <div style={{ maxWidth: 1120, margin: "0 auto" }}>
 
-        <Link to={`/card/${cardId}`} style={backLinkStyle}>
+        <Link to={backTo} style={backLinkStyle}>
           ← {card?.title ?? "Project"}
         </Link>
 
