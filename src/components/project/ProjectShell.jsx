@@ -4,6 +4,7 @@ import { getProjectById, updateActiveStage } from "../../lib/projects";
 import { getTemplateConfig } from "../../lib/templates/index";
 import ProjectTopBar from "./ProjectTopBar";
 import StageNav from "./StageNav";
+import StageView from "./StageView";
 
 export default function ProjectShell() {
   const { projectId, stageKey } = useParams();
@@ -87,45 +88,7 @@ export default function ProjectShell() {
         }}
       >
         <ProjectTopBar project={project} />
-
-        <div style={{ padding: "28px 28px 56px" }}>
-          <div style={{ marginBottom: 32, maxWidth: 560 }}>
-            <h2
-              style={{
-                fontSize: "1.1rem",
-                fontWeight: 700,
-                color: "var(--brand-text)",
-                letterSpacing: "-0.02em",
-                marginBottom: 6,
-              }}
-            >
-              {activeStageConfig.label}
-            </h2>
-            <p
-              style={{
-                fontSize: 13,
-                color: "var(--brand-text-muted)",
-                lineHeight: 1.6,
-              }}
-            >
-              {activeStageConfig.description}
-            </p>
-          </div>
-
-          <div
-            style={{
-              padding: "28px 20px",
-              borderRadius: 10,
-              border: "1px dashed rgba(243,231,207,0.15)",
-              color: "var(--brand-text-muted)",
-              fontSize: 13,
-              textAlign: "center",
-              opacity: 0.5,
-            }}
-          >
-            Modules coming in Phase 5
-          </div>
-        </div>
+        <StageView project={project} stageConfig={activeStageConfig} />
       </div>
     </div>
   );

@@ -51,11 +51,12 @@ export const generalTemplate = {
       modules: [
         {
           moduleKey: 'tasks',
-          component: 'TaskListModule',
+          component: 'CardListModule',
           label: 'Tasks',
           description: 'What needs to happen to get this started.',
+          labels: ['research', 'design', 'writing', 'dev', 'admin'],
           emptyState: {
-            title: 'No tasks yet',
+            title: 'No cards yet',
             description: 'Add the first things you need to do.',
             icon: '📋',
           },
@@ -90,7 +91,7 @@ export const generalTemplate = {
       modules: [
         {
           moduleKey: 'board',
-          component: 'BoardModule',
+          component: 'CardBoardModule',
           label: 'Task board',
           description: 'Issues, requests, and ongoing tasks.',
           columns: [
@@ -115,7 +116,7 @@ export const generalTemplate = {
       modules: [
         {
           moduleKey: 'initiatives',
-          component: 'InitiativeCardsModule',
+          component: 'CardInitiativesModule',
           label: 'Initiatives',
           description: 'Cluster future improvements into named initiatives.',
           emptyState: {

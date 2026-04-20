@@ -84,11 +84,12 @@ export const buildAnAppTemplate = {
       modules: [
         {
           moduleKey: 'tasks',
-          component: 'TaskListModule',
+          component: 'CardListModule',
           label: 'Tasks',
           description: 'Everything that needs to happen to launch.',
+          labels: ['design', 'dev', 'content', 'infra', 'ops'],
           emptyState: {
-            title: 'No tasks yet',
+            title: 'No cards yet',
             description: 'Add the things you need to do to get this off the ground.',
             icon: '📋',
           },
@@ -128,7 +129,7 @@ export const buildAnAppTemplate = {
       modules: [
         {
           moduleKey: 'board',
-          component: 'BoardModule',
+          component: 'CardBoardModule',
           label: 'Issue board',
           description: 'Track bugs, customer requests, and operational tasks.',
           columns: [
@@ -153,7 +154,7 @@ export const buildAnAppTemplate = {
       modules: [
         {
           moduleKey: 'initiatives',
-          component: 'InitiativeCardsModule',
+          component: 'CardInitiativesModule',
           label: 'Initiatives',
           description: 'Group related improvements into initiatives with checklists.',
           emptyState: {

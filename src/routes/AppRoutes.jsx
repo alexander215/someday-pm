@@ -124,4 +124,14 @@ export const router = createBrowserRouter([
       </RequireAuth>
     ),
   },
+  {
+    path: "/project/:projectId/:stageKey/brainstorm/:boardId",
+    element: (
+      <RequireAuth>
+        <AppShell>
+          <BrainstormBoardPage />
+        </AppShell>
+      </RequireAuth>
+    ),
+  },
 ]);
